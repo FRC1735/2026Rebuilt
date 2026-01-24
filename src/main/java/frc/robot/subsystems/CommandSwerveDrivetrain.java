@@ -256,11 +256,20 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         }
         */
 
-        if (LimelightHelpers.getTV("limelight-rear")) {
+        
 
+        //LimelightHelpers.SetRobotOrientation("limelight-front", getPigeon2().getYaw().getValueAsDouble(), getPigeon2().getAngularVelocityZWorld().getValueAsDouble(), 0, 0, 0, 0);
+
+        if (LimelightHelpers.getTV("limelight-rear")) {
             PoseEstimate rear_botPoseEstimate_wpiRed = LimelightHelpers.getBotPoseEstimate_wpiRed("limelight-rear");
             addVisionMeasurement(rear_botPoseEstimate_wpiRed.pose, rear_botPoseEstimate_wpiRed.timestampSeconds);
             m_field.setRobotPose(rear_botPoseEstimate_wpiRed.pose);
+        }
+
+        if (LimelightHelpers.getTV("limelight-front")) {
+            PoseEstimate front_botPoseEstimate_wpiRed = LimelightHelpers.getBotPoseEstimate_wpiRed("limelight-front");
+            addVisionMeasurement(front_botPoseEstimate_wpiRed.pose, front_botPoseEstimate_wpiRed.timestampSeconds);
+            m_field.setRobotPose(front_botPoseEstimate_wpiRed.pose);
         }
     }
 
