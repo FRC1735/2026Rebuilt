@@ -106,6 +106,7 @@ public class RobotContainer {
 */
 
         /* Run the path selected from the auto chooser */
-        return autoChooser.getSelected();
+        //return autoChooser.getSelected();
+        return  drivetrain.followPathCommand("Go Around Hub");
     }
 }
