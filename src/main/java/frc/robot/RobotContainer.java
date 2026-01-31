@@ -8,8 +8,12 @@ import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -35,8 +39,12 @@ public class RobotContainer {
     private final CommandXboxController joystick = new CommandXboxController(0);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-
+   
+    private final SendableChooser<Command> autoChooser;
     public RobotContainer() {
+           autoChooser = AutoBuilder.buildAutoChooser("Tests");
+        SmartDashboard.putData("Auto Mode", autoChooser);
+
         configureBindings();
     }
 
@@ -78,6 +86,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
+/* 
         // Simple drive forward auton
         final var idle = new SwerveRequest.Idle();
         return Commands.sequence(
@@ -86,13 +95,17 @@ public class RobotContainer {
             drivetrain.runOnce(() -> drivetrain.seedFieldCentric(Rotation2d.kZero)),
             // Then slowly drive forward (away from us) for 5 seconds.
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(0.5)
+                drive.withVelocityX(-.75)
                     .withVelocityY(0)
                     .withRotationalRate(0)
             )
-            .withTimeout(5.0),
+            .withTimeout(2.0),XX
             // Finally idle for the rest of auton
             drivetrain.applyRequest(() -> idle)
         );
+*/
+
+        /* Run the path selected from the auto chooser */
+        return autoChooser.getSelected();
     }
 }
