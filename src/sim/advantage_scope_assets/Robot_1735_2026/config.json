@@ -1,0 +1,11 @@
+{
+    "name": "1735 2026",
+    "rotations": [
+        {"axis": "x", "degrees": 90}
+    ],
+    "position": [
+        0,
+        0,
+        0.1268
+    ]
+}
