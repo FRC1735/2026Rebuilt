@@ -41,6 +41,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.Constants.Mode;
+import frc.robot.elastic.OperatorToggles;
 import frc.robot.generated.TunerConstants;
 import frc.robot.limelight.LimelightHelpers;
 import frc.robot.util.LocalADStarAK;
@@ -206,18 +207,20 @@ public class Drive extends SubsystemBase {
     }
 
     // Add vision measurements
-    var rearEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-rear");
-    if (LimelightHelpers.getTV("limelight-rear")
-        && rearEstimate.tagCount >= 2
-        // NOTE: Saw suggested online to not record vision when the robot is spinning fast.
-        && Math.abs(getChassisSpeeds().omegaRadiansPerSecond) < 2.0) {
-      poseEstimator.addVisionMeasurement(rearEstimate.pose, rearEstimate.timestampSeconds);
-    }
-    var frontEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front");
-    if (LimelightHelpers.getTV("limelight-front")
-        && frontEstimate.tagCount >= 2
-        && Math.abs(getChassisSpeeds().omegaRadiansPerSecond) < 2.0) {
-      poseEstimator.addVisionMeasurement(frontEstimate.pose, frontEstimate.timestampSeconds);
+    if (OperatorToggles.isVisionEnabled()) {
+      var rearEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-rear");
+      if (LimelightHelpers.getTV("limelight-rear")
+          && rearEstimate.tagCount >= 2
+          // NOTE: Saw suggested online to not record vision when the robot is spinning fast.
+          && Math.abs(getChassisSpeeds().omegaRadiansPerSecond) < 2.0) {
+        poseEstimator.addVisionMeasurement(rearEstimate.pose, rearEstimate.timestampSeconds);
+      }
+      var frontEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front");
+      if (LimelightHelpers.getTV("limelight-front")
+          && frontEstimate.tagCount >= 2
+          && Math.abs(getChassisSpeeds().omegaRadiansPerSecond) < 2.0) {
+        poseEstimator.addVisionMeasurement(frontEstimate.pose, frontEstimate.timestampSeconds);
+      }
     }
 
     // Update gyro alert
