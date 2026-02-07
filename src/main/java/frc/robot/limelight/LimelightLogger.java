@@ -50,8 +50,6 @@ public class LimelightLogger {
     SmartDashboard.putNumber(name + "/Average Pitch", averages[4]);
     SmartDashboard.putNumber(name + "/Average Yaw", averages[5]);
 
-
-
     // Push to SmartDashboard (easy CSV export)
     SmartDashboard.putNumber(name + "/Timestamp", timestamp);
     SmartDashboard.putNumber(name + "/TX", tx);

@@ -10,6 +10,10 @@ public class OperatorToggles {
           .getBooleanTopic("EnableVision")
           .getEntry(false);
 
+  public static void init() {
+    enableVision.set(true);
+  }
+
   public static boolean isVisionEnabled() {
     return enableVision.get();
   }

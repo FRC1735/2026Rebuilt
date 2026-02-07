@@ -171,11 +171,15 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    controller
-        .y()
-        .onTrue(
-            Commands.runOnce(() -> drive.setPose(new Pose2d(0, 0, Rotation2d.kZero)), drive)
-                .ignoringDisable(true));
+    // Set robot pose to 0, 0 which is the origin position on the Field 3D map.
+    // Useful for determining robot model config offsets.
+    if (Constants.DEBUG) {
+      controller
+          .y()
+          .onTrue(
+              Commands.runOnce(() -> drive.setPose(new Pose2d(0, 0, Rotation2d.kZero)), drive)
+                  .ignoringDisable(true));
+    }
   }
 
   /**
