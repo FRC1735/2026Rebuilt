@@ -25,8 +25,6 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
-import frc.robot.subsystems.shooter.Shooter;
-import frc.robot.subsystems.shooter.ShooterIOSparkFlex;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -38,7 +36,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
-  private final Shooter shooter;
+  //   private final Shooter shooter;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -54,10 +52,10 @@ public class RobotContainer {
   public RobotContainer() {
 
     // TODO - provide simlulated subsystems as well
-    shooter =
-        new Shooter(
-            // TODO - set IDs
-            new ShooterIOSparkFlex(0, 0));
+    // shooter =
+    //     new Shooter(
+    //         // TODO - set IDs
+    //         new ShooterIOSparkFlex(0, 0));
 
     switch (Constants.currentMode) {
       case REAL:
@@ -193,12 +191,12 @@ public class RobotContainer {
     }
 
     // shooter shooter
-    controller
-        .rightTrigger()
-        .onTrue(
-            // set both voltages to same value!
-            Commands.runOnce(() -> shooter.setVoltage(0, 0), shooter))
-        .onFalse(Commands.runOnce(shooter::stop, shooter));
+    // controller
+    //     .rightTrigger()
+    //     .onTrue(
+    //         // set both voltages to same value!
+    //         Commands.runOnce(() -> shooter.setVoltage(0, 0), shooter))
+    //     .onFalse(Commands.runOnce(shooter::stop, shooter));
   }
 
   /**

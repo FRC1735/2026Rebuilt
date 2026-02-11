@@ -36,11 +36,13 @@ import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.Constants.Mode;
+import frc.robot.elastic.OperatorToggles;
 import frc.robot.generated.TunerConstants;
 import frc.robot.limelight.LimelightHelpers;
 import frc.robot.util.LocalADStarAK;
@@ -205,26 +207,13 @@ public class Drive extends SubsystemBase {
       poseEstimator.updateWithTime(sampleTimestamps[i], rawGyroRotation, modulePositions);
     }
 
-    // Add vision measurements
-    // if (OperatorToggles.isVisionEnabled()) {
-    boolean isFlipped =
-        DriverStation.getAlliance().isPresent()
-            && DriverStation.getAlliance().get() == Alliance.Red;
-    if (isFlipped) {
-      var rearEstimate = LimelightHelpers.getBotPoseEstimate_wpiRed_MegaTag2("limelight-rear");
-      if (LimelightHelpers.getTV("limelight-rear")
-          && rearEstimate.tagCount >= 2
-          // NOTE: Saw suggested online to not record vision when the robot is spinning fast.
-          && Math.abs(getChassisSpeeds().omegaRadiansPerSecond) < 2.0) {
-        poseEstimator.addVisionMeasurement(rearEstimate.pose, rearEstimate.timestampSeconds);
-      }
-      var frontEstimate = LimelightHelpers.getBotPoseEstimate_wpiRed_MegaTag2("limelight-front");
-      if (LimelightHelpers.getTV("limelight-front")
-          && frontEstimate.tagCount >= 2
-          && Math.abs(getChassisSpeeds().omegaRadiansPerSecond) < 2.0) {
-        poseEstimator.addVisionMeasurement(frontEstimate.pose, frontEstimate.timestampSeconds);
-      }
-    } else {
+    if (OperatorToggles.isVisionEnabled()) {
+      SmartDashboard.putNumber("jared", gyroInputs.yawPosition.getDegrees());
+      LimelightHelpers.SetRobotOrientation(
+          "limelight-front", gyroInputs.yawPosition.getDegrees(), 0, 0, 0, 0, 0);
+      LimelightHelpers.SetRobotOrientation(
+          "limelight-rear", gyroInputs.yawPosition.getDegrees() + 180, 0, 0, 0, 0, 0);
+
       var rearEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-rear");
       if (LimelightHelpers.getTV("limelight-rear")
           && rearEstimate.tagCount >= 2
@@ -239,6 +228,42 @@ public class Drive extends SubsystemBase {
         poseEstimator.addVisionMeasurement(frontEstimate.pose, frontEstimate.timestampSeconds);
       }
     }
+
+    // Add vision measurements
+    // if (OperatorToggles.isVisionEnabled()) {
+    // boolean isFlipped =
+    //     DriverStation.getAlliance().isPresent()
+    //         && DriverStation.getAlliance().get() == Alliance.Red;
+    // if (isFlipped) {
+    //   var rearEstimate = LimelightHelpers.getBotPoseEstimate_wpiRed_MegaTag2("limelight-rear");
+    //   if (LimelightHelpers.getTV("limelight-rear")
+    //       && rearEstimate.tagCount >= 2
+    //       // NOTE: Saw suggested online to not record vision when the robot is spinning fast.
+    //       && Math.abs(getChassisSpeeds().omegaRadiansPerSecond) < 2.0) {
+    //     poseEstimator.addVisionMeasurement(rearEstimate.pose, rearEstimate.timestampSeconds);
+    //   }
+    //   var frontEstimate = LimelightHelpers.getBotPoseEstimate_wpiRed_MegaTag2("limelight-front");
+    //   if (LimelightHelpers.getTV("limelight-front")
+    //       && frontEstimate.tagCount >= 2
+    //       && Math.abs(getChassisSpeeds().omegaRadiansPerSecond) < 2.0) {
+    //     poseEstimator.addVisionMeasurement(frontEstimate.pose, frontEstimate.timestampSeconds);
+    //   }
+    // } else {
+    //   var rearEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-rear");
+    //   if (LimelightHelpers.getTV("limelight-rear")
+    //       && rearEstimate.tagCount >= 2
+    //       // NOTE: Saw suggested online to not record vision when the robot is spinning fast.
+    //       && Math.abs(getChassisSpeeds().omegaRadiansPerSecond) < 2.0) {
+    //     poseEstimator.addVisionMeasurement(rearEstimate.pose, rearEstimate.timestampSeconds);
+    //   }
+    //   var frontEstimate =
+    // LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front");
+    //   if (LimelightHelpers.getTV("limelight-front")
+    //       && frontEstimate.tagCount >= 2
+    //       && Math.abs(getChassisSpeeds().omegaRadiansPerSecond) < 2.0) {
+    //     poseEstimator.addVisionMeasurement(frontEstimate.pose, frontEstimate.timestampSeconds);
+    //   }
+    // }
     // }
 
     // Update gyro alert
