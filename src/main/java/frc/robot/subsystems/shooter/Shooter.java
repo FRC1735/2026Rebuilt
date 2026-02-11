@@ -7,6 +7,9 @@ public class Shooter extends SubsystemBase {
   private final ShooterIO io;
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
 
+  private final int SHOOT_HIGH_VOLTAGE = 12;
+  private final int SHOOT_LOW_VOLTAGE = 10;
+
   public Shooter(ShooterIO io) {
     this.io = io;
   }
@@ -19,6 +22,14 @@ public class Shooter extends SubsystemBase {
 
   public void setVoltage(double leftVolts, double rightVolts) {
     io.setVoltage(leftVolts, rightVolts);
+  }
+
+  public void shootHigh() {
+    io.setVoltage(SHOOT_HIGH_VOLTAGE, SHOOT_HIGH_VOLTAGE);
+  }
+
+  public void shootLow() {
+    io.setVoltage(SHOOT_LOW_VOLTAGE, SHOOT_LOW_VOLTAGE);
   }
 
   public void stop() {

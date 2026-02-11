@@ -25,6 +25,10 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.ShooterIO;
+import frc.robot.subsystems.shooter.ShooterIOSim;
+import frc.robot.subsystems.shooter.ShooterIOSparkFlex;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -36,7 +40,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
-  //   private final Shooter shooter;
+  private final Shooter shooter;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -50,12 +54,6 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-
-    // TODO - provide simlulated subsystems as well
-    // shooter =
-    //     new Shooter(
-    //         // TODO - set IDs
-    //         new ShooterIOSparkFlex(0, 0));
 
     switch (Constants.currentMode) {
       case REAL:
@@ -87,6 +85,12 @@ public class RobotContainer {
         // new ModuleIOTalonFXS(TunerConstants.FrontRight),
         // new ModuleIOTalonFXS(TunerConstants.BackLeft),
         // new ModuleIOTalonFXS(TunerConstants.BackRight));
+
+        shooter =
+            new Shooter(
+                new ShooterIOSparkFlex(
+                    Constants.SHOOTER_LEFT_CAN_ID, Constants.SHOOTER_RIGHT_CAN_ID));
+
         break;
 
       case SIM:
@@ -99,6 +103,8 @@ public class RobotContainer {
                 new ModuleIOSim(TunerConstants.BackLeft),
                 new ModuleIOSim(TunerConstants.BackRight));
 
+        shooter = new Shooter(new ShooterIOSim());
+
         break;
 
       default:
@@ -110,6 +116,9 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 new ModuleIO() {});
+
+        shooter = new Shooter(new ShooterIO() {});
+
         break;
     }
 
@@ -190,13 +199,17 @@ public class RobotContainer {
                   .ignoringDisable(true));
     }
 
-    // shooter shooter
-    // controller
-    //     .rightTrigger()
-    //     .onTrue(
-    //         // set both voltages to same value!
-    //         Commands.runOnce(() -> shooter.setVoltage(0, 0), shooter))
-    //     .onFalse(Commands.runOnce(shooter::stop, shooter));
+    // Shoot Shooter - High Speed
+    controller
+        .rightTrigger()
+        .onTrue(Commands.runOnce(shooter::shootHigh, shooter))
+        .onFalse(Commands.runOnce(shooter::stop, shooter));
+
+    // Shoot Shooter - Low Speed
+    controller
+        .leftTrigger()
+        .onTrue(Commands.runOnce(shooter::shootLow, shooter))
+        .onFalse(Commands.runOnce(shooter::stop, shooter));
   }
 
   /**

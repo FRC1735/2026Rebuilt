@@ -30,4 +30,8 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
+
+  // CAN IDs
+  public static final int SHOOTER_LEFT_CAN_ID = 1;
+  public static final int SHOOTER_RIGHT_CAN_ID = 2;
 }
