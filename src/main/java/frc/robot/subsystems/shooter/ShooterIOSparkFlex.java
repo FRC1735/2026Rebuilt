@@ -33,7 +33,7 @@ public class ShooterIOSparkFlex implements ShooterIO {
 
     leaderConfig.inverted(false).voltageCompensation(12.0).smartCurrentLimit(80);
 
-    followerConfig.follow(leader, false).voltageCompensation(12.0).smartCurrentLimit(80);
+    followerConfig.follow(leader, true).voltageCompensation(12.0).smartCurrentLimit(80);
 
     leader.configure(leaderConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
