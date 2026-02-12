@@ -31,7 +31,11 @@ public final class Constants {
     REPLAY
   }
 
-  // CAN IDs
+  /* CAN IDs */
+  // SHOOTER
   public static final int SHOOTER_LEFT_CAN_ID = 1;
   public static final int SHOOTER_RIGHT_CAN_ID = 2;
+
+  // SHOOTER HOOD
+  public static final int SHOOTER_HOOD_CAN_ID = 3;
 }

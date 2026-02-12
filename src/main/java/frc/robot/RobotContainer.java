@@ -19,6 +19,10 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.limelight.LimelightLogger;
+import frc.robot.subsystems.ShooterHood.ShooterHood;
+import frc.robot.subsystems.ShooterHood.ShooterHoodIO;
+import frc.robot.subsystems.ShooterHood.ShooterHoodIOSim;
+import frc.robot.subsystems.ShooterHood.ShooterHoodIOSparkFlex;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -41,6 +45,7 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
   private final Shooter shooter;
+  private final ShooterHood shooterHood;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -91,6 +96,8 @@ public class RobotContainer {
                 new ShooterIOSparkFlex(
                     Constants.SHOOTER_LEFT_CAN_ID, Constants.SHOOTER_RIGHT_CAN_ID));
 
+        shooterHood = new ShooterHood(new ShooterHoodIOSparkFlex(Constants.SHOOTER_HOOD_CAN_ID));
+
         break;
 
       case SIM:
@@ -105,6 +112,8 @@ public class RobotContainer {
 
         shooter = new Shooter(new ShooterIOSim());
 
+        shooterHood = new ShooterHood(new ShooterHoodIOSim());
+
         break;
 
       default:
@@ -118,6 +127,8 @@ public class RobotContainer {
                 new ModuleIO() {});
 
         shooter = new Shooter(new ShooterIO() {});
+
+        shooterHood = new ShooterHood(new ShooterHoodIO() {});
 
         break;
     }
@@ -210,6 +221,16 @@ public class RobotContainer {
         .leftTrigger()
         .onTrue(Commands.runOnce(shooter::shootLow, shooter))
         .onFalse(Commands.runOnce(shooter::stop, shooter));
+
+    // Shooter Hood - Position A
+    controller
+        .povUp()
+        .onTrue(Commands.runOnce(() -> shooterHood.setPositionRotations(0), shooterHood));
+
+    // Shooter Hood - Position B
+    controller
+        .povDown()
+        .onTrue(Commands.runOnce(() -> shooterHood.setPositionRotations(1), shooterHood));
   }
 
   /**
