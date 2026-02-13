@@ -109,7 +109,7 @@ public class ShooterIOSparkFlex implements ShooterIO {
   @Override
   public void setVoltage(double volts, double ignored) {
     leader.setVoltage(volts);
-    pid.reset();
+    // pid.reset();
   }
 
   @Override

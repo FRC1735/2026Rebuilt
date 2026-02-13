@@ -212,25 +212,25 @@ public class RobotContainer {
 
     // Shoot Shooter - High Speed
     controller
-        .rightTrigger()
-        .onTrue(Commands.runOnce(shooter::shootHigh, shooter))
+        .rightBumper()
+        .whileTrue(Commands.run(shooter::shootHigh, shooter))
         .onFalse(Commands.runOnce(shooter::stop, shooter));
 
     // Shoot Shooter - Low Speed
     controller
-        .leftTrigger()
-        .onTrue(Commands.runOnce(shooter::shootLow, shooter))
+        .leftBumper()
+        .whileTrue(Commands.run(shooter::shootLow, shooter))
         .onFalse(Commands.runOnce(shooter::stop, shooter));
 
     // Shooter Hood - Position A
     controller
         .povUp()
-        .onTrue(Commands.runOnce(() -> shooterHood.setPositionRotations(0), shooterHood));
+        .onTrue(Commands.runOnce(() -> shooterHood.setPositionRotations(0.4), shooterHood));
 
     // Shooter Hood - Position B
     controller
         .povDown()
-        .onTrue(Commands.runOnce(() -> shooterHood.setPositionRotations(1), shooterHood));
+        .onTrue(Commands.runOnce(() -> shooterHood.setPositionRotations(0.1), shooterHood));
   }
 
   /**

@@ -78,7 +78,13 @@ public class ShooterHoodIOSparkFlex implements ShooterHoodIO {
         .velocityConversionFactor(1.0)
         .inverted(false);
 
-    config.closedLoop.feedbackSensor(FeedbackSensor.kAbsoluteEncoder).p(kP).i(kI).d(kD);
+    config
+        .closedLoop
+        .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
+        .outputRange(-1, 1)
+        .p(kP)
+        .i(kI)
+        .d(kD);
 
     var motionConfig = new MAXMotionConfig();
 

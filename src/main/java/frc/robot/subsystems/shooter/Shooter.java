@@ -7,8 +7,8 @@ public class Shooter extends SubsystemBase {
   private final ShooterIO io;
   private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
 
-  private final int SHOOT_HIGH_VOLTAGE = 12;
-  private final int SHOOT_LOW_VOLTAGE = 10;
+  private final int SHOOT_HIGH_VOLTAGE = -12;
+  private final int SHOOT_LOW_VOLTAGE = -2;
 
   public Shooter(ShooterIO io) {
     this.io = io;

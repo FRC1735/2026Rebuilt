@@ -33,9 +33,9 @@ public final class Constants {
 
   /* CAN IDs */
   // SHOOTER
-  public static final int SHOOTER_LEFT_CAN_ID = 1;
-  public static final int SHOOTER_RIGHT_CAN_ID = 2;
+  public static final int SHOOTER_LEFT_CAN_ID = 10;
+  public static final int SHOOTER_RIGHT_CAN_ID = 15; // tdb
 
   // SHOOTER HOOD
-  public static final int SHOOTER_HOOD_CAN_ID = 3;
+  public static final int SHOOTER_HOOD_CAN_ID = 7;
 }
