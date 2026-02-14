@@ -25,11 +25,11 @@ public class ShooterHoodIOSparkFlex implements ShooterHoodIO {
   private final double REVERSE_LIMIT = 0.3;
 
   // Tunables
-  private double kP = 3.0;
+  private double kP = 4.0;
   private double kI = 0.0;
-  private double kD = 0.1;
-  private double cruiseVelocity = 2.0;
-  private double acceleration = 4.0;
+  private double kD = 5.0;
+  private double cruiseVelocity = 500.0;
+  private double acceleration = 200.0;
   private double allowedProfileError = 0.01;
 
   private double lastP, lastI, lastD;
