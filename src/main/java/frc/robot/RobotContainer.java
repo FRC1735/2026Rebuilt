@@ -19,10 +19,6 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.limelight.LimelightLogger;
-import frc.robot.subsystems.ShooterHood.ShooterHood;
-import frc.robot.subsystems.ShooterHood.ShooterHoodIO;
-import frc.robot.subsystems.ShooterHood.ShooterHoodIOSim;
-import frc.robot.subsystems.ShooterHood.ShooterHoodIOSparkFlex;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -33,6 +29,10 @@ import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIO;
 import frc.robot.subsystems.shooter.ShooterIOSim;
 import frc.robot.subsystems.shooter.ShooterIOSparkFlex;
+import frc.robot.subsystems.shooterhood.ShooterHood;
+import frc.robot.subsystems.shooterhood.ShooterHoodIO;
+import frc.robot.subsystems.shooterhood.ShooterHoodIOSim;
+import frc.robot.subsystems.shooterhood.ShooterHoodIOSparkFlex;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**

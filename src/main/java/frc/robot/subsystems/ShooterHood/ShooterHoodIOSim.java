@@ -1,4 +1,4 @@
-package frc.robot.subsystems.ShooterHood;
+package frc.robot.subsystems.shooterhood;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Timer;

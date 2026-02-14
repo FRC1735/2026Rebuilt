@@ -1,28 +1,18 @@
-package frc.robot.subsystems.shooterhood;
+package frc.robot.subsystems.shooterintake;
 
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
-import com.revrobotics.spark.FeedbackSensor;
-import com.revrobotics.spark.SparkBase;
-import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.MAXMotionConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
-import edu.wpi.first.networktables.*;
+import edu.wpi.first.networktables.DoubleEntry;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
-public class ShooterHoodIOSparkFlex implements ShooterHoodIO {
+public class ShooterIntakeIOSparkFlex implements ShooterIntakeIO {
 
   private final SparkFlex spark;
-  private final SparkClosedLoopController controller;
-  private final AbsoluteEncoder encoder;
-
-  private double targetRotations = 0.0;
-
-  private final double FORWARD_LIMIT = 0.9;
-  private final double REVERSE_LIMIT = 0.3;
 
   // Tunables
   private double kP = 4.0;
@@ -42,11 +32,9 @@ public class ShooterHoodIOSparkFlex implements ShooterHoodIO {
   private final DoubleEntry accelEntry;
   private final DoubleEntry errorEntry;
 
-  public ShooterHoodIOSparkFlex(int canId) {
+  public ShooterIntakeIOSparkFlex(int canId) {
 
     spark = new SparkFlex(canId, MotorType.kBrushless);
-    controller = spark.getClosedLoopController();
-    encoder = spark.getAbsoluteEncoder();
 
     NetworkTable table =
         NetworkTableInstance.getDefault().getTable("Elastic").getSubTable("ShooterHood");
@@ -72,38 +60,10 @@ public class ShooterHoodIOSparkFlex implements ShooterHoodIO {
 
     var config = new SparkFlexConfig();
 
-    config.idleMode(IdleMode.kBrake);
+    config.idleMode(IdleMode.kCoast);
     config.smartCurrentLimit(30);
 
-    config
-        .softLimit
-        .forwardSoftLimit(FORWARD_LIMIT)
-        .forwardSoftLimitEnabled(true)
-        .reverseSoftLimit(REVERSE_LIMIT)
-        .reverseSoftLimitEnabled(true);
-
-    config
-        .absoluteEncoder
-        .positionConversionFactor(1.0)
-        .velocityConversionFactor(1.0)
-        .inverted(false);
-
-    config
-        .closedLoop
-        .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-        .outputRange(-1, 1)
-        .p(kP)
-        .i(kI)
-        .d(kD);
-
-    var motionConfig = new MAXMotionConfig();
-
-    motionConfig
-        .cruiseVelocity(cruiseVelocity)
-        .maxAcceleration(acceleration)
-        .allowedProfileError(allowedProfileError);
-
-    config.closedLoop.apply(motionConfig);
+    config.closedLoop.outputRange(-1, 1).p(kP).i(kI).d(kD);
 
     spark.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
 
@@ -136,31 +96,18 @@ public class ShooterHoodIOSparkFlex implements ShooterHoodIO {
   }
 
   @Override
-  public void updateInputs(ShooterHoodIOInputs inputs) {
+  public void updateInputs(ShooterIntakeIOInputs inputs) {
 
     checkForChanges();
 
-    inputs.positionRotations = encoder.getPosition();
-    inputs.velocityRPM = encoder.getVelocity();
+    inputs.velocity = spark.getEncoder().getVelocity();
     inputs.appliedVolts = spark.getAppliedOutput() * spark.getBusVoltage();
     inputs.currentAmps = spark.getOutputCurrent();
-
-    inputs.targetRotations = targetRotations;
-    inputs.atTarget = Math.abs(inputs.positionRotations - targetRotations) < allowedProfileError;
-
-    inputs.kP = kP;
-    inputs.kI = kI;
-    inputs.kD = kD;
-    inputs.cruiseVelocity = cruiseVelocity;
-    inputs.acceleration = acceleration;
-    inputs.allowedProfileError = allowedProfileError;
   }
 
   @Override
-  public void setPositionRotations(double rotations) {
-    targetRotations = rotations;
-
-    controller.setSetpoint(rotations, SparkBase.ControlType.kMAXMotionPositionControl);
+  public void setVoltage(double volts) {
+    spark.setVoltage(volts);
   }
 
   @Override

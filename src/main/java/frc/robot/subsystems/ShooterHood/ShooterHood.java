@@ -1,4 +1,4 @@
-package frc.robot.subsystems.ShooterHood;
+package frc.robot.subsystems.shooterhood;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
