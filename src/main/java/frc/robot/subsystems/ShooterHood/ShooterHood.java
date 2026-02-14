@@ -8,8 +8,8 @@ public class ShooterHood extends SubsystemBase {
   private final ShooterHoodIO io;
   private final ShooterHoodIOInputsAutoLogged inputs = new ShooterHoodIOInputsAutoLogged();
 
-  private static final double MIN_ROT = 0.05; // TODO
-  private static final double MAX_ROT = 0.45; // TODO
+  private static final double MIN_ROT = 0; // TODO
+  private static final double MAX_ROT = 1; // TODO
 
   public ShooterHood(ShooterHoodIO io) {
     this.io = io;

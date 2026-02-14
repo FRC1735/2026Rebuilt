@@ -225,12 +225,25 @@ public class RobotContainer {
     // Shooter Hood - Position A
     controller
         .povUp()
-        .onTrue(Commands.runOnce(() -> shooterHood.setPositionRotations(0.4), shooterHood));
+        .onTrue(Commands.runOnce(() -> shooterHood.setPositionRotations(0.8), shooterHood));
 
     // Shooter Hood - Position B
     controller
         .povDown()
-        .onTrue(Commands.runOnce(() -> shooterHood.setPositionRotations(0.1), shooterHood));
+        .onTrue(Commands.runOnce(() -> shooterHood.setPositionRotations(0.4), shooterHood));
+
+    // DEBUG - tell hood to go outside of position range
+    controller
+        .povLeft()
+        .onTrue(
+            Commands.runOnce(
+                () -> {
+                  shooterHood.setPositionRotations(0.99);
+                },
+                shooterHood));
+    controller
+        .povRight()
+        .onTrue(Commands.runOnce(() -> shooterHood.setPositionRotations(0.22), shooterHood));
   }
 
   /**

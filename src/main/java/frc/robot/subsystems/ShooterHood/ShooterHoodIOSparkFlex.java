@@ -21,6 +21,9 @@ public class ShooterHoodIOSparkFlex implements ShooterHoodIO {
 
   private double targetRotations = 0.0;
 
+  private final double FORWARD_LIMIT = 0.9;
+  private final double REVERSE_LIMIT = 0.3;
+
   // Tunables
   private double kP = 3.0;
   private double kI = 0.0;
@@ -71,6 +74,13 @@ public class ShooterHoodIOSparkFlex implements ShooterHoodIO {
 
     config.idleMode(IdleMode.kBrake);
     config.smartCurrentLimit(30);
+
+    config
+        .softLimit
+        .forwardSoftLimit(FORWARD_LIMIT)
+        .forwardSoftLimitEnabled(true)
+        .reverseSoftLimit(REVERSE_LIMIT)
+        .reverseSoftLimitEnabled(true);
 
     config
         .absoluteEncoder
