@@ -31,6 +31,17 @@ public final class Constants {
     REPLAY
   }
 
+  // For debugging
+  public static final boolean SHOOTER_ENABLED = false;
+  public static final boolean SHOOTER_HOOD_ENABLED = false;
+  public static final boolean SHOOTER_INTAKE_ENABLED = false;
+  public static final boolean LEFT_COLLECTOR_DEPLOYER_ENABLED = false;
+  public static final boolean LEFT_COLLECTOR_ROLLER_EXTERIOR_ENABLED = false;
+  public static final boolean LEFT_COLLECTOR_ROLLER_INTERIOR_ENABLED = false;
+  public static final boolean RIGHT_COLLECTOR_DEPLOYER_ENABLED = false;
+  public static final boolean RIGHT_COLLECTOR_ROLLER_EXTERIOR_ENABLED = false;
+  public static final boolean RIGHT_COLLECTOR_ROLLER_INTERIOR_ENABLED = false;
+
   /* CAN IDs */
   // SHOOTER
   public static final int SHOOTER_LEFT_CAN_ID = 10; // TODO

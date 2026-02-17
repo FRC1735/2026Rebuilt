@@ -25,10 +25,10 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
-import frc.robot.subsystems.rollerintake.RollerIntake;
-import frc.robot.subsystems.rollerintake.RollerIntakeIO;
-import frc.robot.subsystems.rollerintake.RollerIntakeIOSim;
-import frc.robot.subsystems.rollerintake.RollerIntakeIOSparkFlex;
+import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.ShooterIO;
+import frc.robot.subsystems.shooter.ShooterIOSim;
+import frc.robot.subsystems.shooter.ShooterIOSparkFlex;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -40,12 +40,12 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
-  // private final Shooter shooter;
+  private final Shooter shooter;
   // private final ShooterHood shooterHood;
   // private final ShooterIntake shooterIntake;
   // private final CollectorDeployer collectorDeployer;
-  private final RollerIntake collectorExteriorRight;
-  private final RollerIntake collectorExteriorLeft;
+  // private final RollerIntake collectorExteriorRight;
+  // private final RollerIntake collectorExteriorLeft;
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
 
@@ -90,12 +90,14 @@ public class RobotContainer {
         // new ModuleIOTalonFXS(TunerConstants.BackLeft),
         // new ModuleIOTalonFXS(TunerConstants.BackRight));
 
-        /*
         shooter =
             new Shooter(
-                new ShooterIOSparkFlex(
-                    Constants.SHOOTER_LEFT_CAN_ID, Constants.SHOOTER_RIGHT_CAN_ID));
+                Constants.SHOOTER_ENABLED
+                    ? new ShooterIOSparkFlex(
+                        Constants.SHOOTER_LEFT_CAN_ID, Constants.SHOOTER_RIGHT_CAN_ID)
+                    : new ShooterIO() {});
 
+        /*
         shooterHood = new ShooterHood(new ShooterHoodIOSparkFlex(Constants.SHOOTER_HOOD_CAN_ID));
 
         shooterIntake =
@@ -107,7 +109,7 @@ public class RobotContainer {
                 new CollectorDeployerIOSparkFlex(
                     Constants.COLLECTOR_DEPLOYER_CAN_ID,
                     Constants.COLLECTOR_DEPLOYER_DETACHED_ENCODER_CAN_ID));
-        */
+
         collectorExteriorRight =
             new RollerIntake(
                 new RollerIntakeIOSparkFlex(
@@ -118,6 +120,7 @@ public class RobotContainer {
                 new RollerIntakeIOSparkFlex(
                     Constants.COLLECTOR_EXTERIOR_LEFT_CAN_ID, "CollectorExteriorLeft", false),
                 "CollectorExteriorLeft");
+                */
         break;
 
       case SIM:
@@ -130,19 +133,19 @@ public class RobotContainer {
                 new ModuleIOSim(TunerConstants.BackLeft),
                 new ModuleIOSim(TunerConstants.BackRight));
 
-        /*
         shooter = new Shooter(new ShooterIOSim());
-
+        /*
         shooterHood = new ShooterHood(new ShooterHoodIOSim());
 
         shooterIntake = new ShooterIntake(new ShooterIntakeIOSim());
 
 
         collectorDeployer = new CollectorDeployer(new CollectorDeployerIOSim());
-        */
+
         collectorExteriorRight =
             new RollerIntake(new RollerIntakeIOSim(), "CollectorExteriorRight");
         collectorExteriorLeft = new RollerIntake(new RollerIntakeIOSim(), "CollectorExteriorLeft");
+        */
         break;
 
       default:
@@ -155,21 +158,21 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
 
-        /*
         shooter = new Shooter(new ShooterIO() {});
-
+        /*
         shooterHood = new ShooterHood(new ShooterHoodIO() {});
 
         shooterIntake = new ShooterIntake(new ShooterIntakeIO() {});
 
 
         collectorDeployer = new CollectorDeployer(new CollectorDeployerIO() {});
-        */
+
         collectorExteriorRight =
             new RollerIntake(new RollerIntakeIO() {}, "CollectorExteriorRight");
 
         collectorExteriorLeft = new RollerIntake(new RollerIntakeIO() {}, "CollectorExteriorLeft");
         break;
+        */
     }
 
     // Set up auto routines
@@ -285,6 +288,7 @@ public class RobotContainer {
         .povRight()
         .onTrue(Commands.runOnce(() -> shooterHood.setPositionRotations(0.22), shooterHood));
         */
+    /*
     controller
         .leftBumper()
         .onTrue(
@@ -322,6 +326,7 @@ public class RobotContainer {
                 },
                 collectorExteriorRight,
                 collectorExteriorLeft));
+                */
   }
 
   /**
