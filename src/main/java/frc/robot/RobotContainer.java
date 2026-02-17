@@ -33,6 +33,10 @@ import frc.robot.subsystems.shooterhood.ShooterHood;
 import frc.robot.subsystems.shooterhood.ShooterHoodIO;
 import frc.robot.subsystems.shooterhood.ShooterHoodIOSim;
 import frc.robot.subsystems.shooterhood.ShooterHoodIOSparkFlex;
+import frc.robot.subsystems.shooterintake.ShooterIntake;
+import frc.robot.subsystems.shooterintake.ShooterIntakeIO;
+import frc.robot.subsystems.shooterintake.ShooterIntakeIOSim;
+import frc.robot.subsystems.shooterintake.ShooterIntakeIOSparkFlex;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -46,6 +50,7 @@ public class RobotContainer {
   private final Drive drive;
   private final Shooter shooter;
   private final ShooterHood shooterHood;
+  private final ShooterIntake shooterIntake;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -98,6 +103,9 @@ public class RobotContainer {
 
         shooterHood = new ShooterHood(new ShooterHoodIOSparkFlex(Constants.SHOOTER_HOOD_CAN_ID));
 
+        shooterIntake =
+            new ShooterIntake(new ShooterIntakeIOSparkFlex(Constants.SHOOTER_INTAKE_CAN_8));
+
         break;
 
       case SIM:
@@ -114,6 +122,8 @@ public class RobotContainer {
 
         shooterHood = new ShooterHood(new ShooterHoodIOSim());
 
+        shooterIntake = new ShooterIntake(new ShooterIntakeIOSim());
+
         break;
 
       default:
@@ -129,6 +139,8 @@ public class RobotContainer {
         shooter = new Shooter(new ShooterIO() {});
 
         shooterHood = new ShooterHood(new ShooterHoodIO() {});
+
+        shooterIntake = new ShooterIntake(new ShooterIntakeIO() {});
 
         break;
     }

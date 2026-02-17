@@ -38,4 +38,7 @@ public final class Constants {
 
   // SHOOTER HOOD
   public static final int SHOOTER_HOOD_CAN_ID = 7;
+
+  // SHOOTER INTAKE
+  public static final int SHOOTER_INTAKE_CAN_8 = 8;
 }
