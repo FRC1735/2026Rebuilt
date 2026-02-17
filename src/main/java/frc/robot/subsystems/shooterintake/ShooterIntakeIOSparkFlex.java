@@ -37,7 +37,7 @@ public class ShooterIntakeIOSparkFlex implements ShooterIntakeIO {
     spark = new SparkFlex(canId, MotorType.kBrushless);
 
     NetworkTable table =
-        NetworkTableInstance.getDefault().getTable("Elastic").getSubTable("ShooterHood");
+        NetworkTableInstance.getDefault().getTable("Elastic").getSubTable("ShooterIntake");
 
     kPEntry = table.getDoubleTopic("kP").getEntry(kP);
     kIEntry = table.getDoubleTopic("kI").getEntry(kI);
