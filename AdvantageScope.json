@@ -9,16 +9,16 @@
         "sidebar": {
           "width": 300,
           "expanded": [
-            "/Drive",
             "/RealOutputs/Odometry/Robot",
             "/RealOutputs/SwerveStates",
             "/Shooter",
             "/RealOutputs",
-            "/Collector Deployer"
+            "/Collector Deployer",
+            "/Collector Exterior"
           ]
         },
         "tabs": {
-          "selected": 6,
+          "selected": 7,
           "tabs": [
             {
               "type": 0,
@@ -238,6 +238,41 @@
                 "rightFilter": 0
               },
               "controllerUUID": "j0fm5sq2385a11xj9ufje1se5hcjtu1z",
+              "renderer": null,
+              "controlsHeight": 200
+            },
+            {
+              "type": 1,
+              "title": "Collector Exterior",
+              "controller": {
+                "leftSources": [
+                  {
+                    "type": "stepped",
+                    "logKey": "/Collector Exterior/AppliedVolts",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#2b66a2",
+                      "size": "normal"
+                    }
+                  }
+                ],
+                "rightSources": [],
+                "discreteSources": [],
+                "leftLockedRange": null,
+                "rightLockedRange": null,
+                "leftUnitConversion": {
+                  "autoTarget": null,
+                  "preset": null
+                },
+                "rightUnitConversion": {
+                  "autoTarget": null,
+                  "preset": null
+                },
+                "leftFilter": 0,
+                "rightFilter": 0
+              },
+              "controllerUUID": "w2pkcy98nk8y5j4uxuyanlaqxss3wk1w",
               "renderer": null,
               "controlsHeight": 200
             }

@@ -19,10 +19,10 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.limelight.LimelightLogger;
-import frc.robot.subsystems.collectordeployer.CollectorDeployer;
-import frc.robot.subsystems.collectordeployer.CollectorDeployerIO;
-import frc.robot.subsystems.collectordeployer.CollectorDeployerIOSim;
-import frc.robot.subsystems.collectordeployer.CollectorDeployerIOSparkFlex;
+import frc.robot.subsystems.collectorexterior.CollectorExterior;
+import frc.robot.subsystems.collectorexterior.CollectorExteriorIO;
+import frc.robot.subsystems.collectorexterior.CollectorExteriorIOSim;
+import frc.robot.subsystems.collectorexterior.CollectorExteriorIOSparkFlex;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -43,7 +43,8 @@ public class RobotContainer {
   // private final Shooter shooter;
   // private final ShooterHood shooterHood;
   // private final ShooterIntake shooterIntake;
-  private final CollectorDeployer collectorDeployer;
+  // private final CollectorDeployer collectorDeployer;
+  private final CollectorExterior collectorExterior;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -99,14 +100,17 @@ public class RobotContainer {
 
         shooterIntake =
             new ShooterIntake(new ShooterIntakeIOSparkFlex(Constants.SHOOTER_INTAKE_CAN_ID));
-            */
+
 
         collectorDeployer =
             new CollectorDeployer(
                 new CollectorDeployerIOSparkFlex(
                     Constants.COLLECTOR_DEPLOYER_CAN_ID,
                     Constants.COLLECTOR_DEPLOYER_DETACHED_ENCODER_CAN_ID));
-
+        */
+        collectorExterior =
+            new CollectorExterior(
+                new CollectorExteriorIOSparkFlex(Constants.COLLECTOR_EXTERIOR_CAN_ID));
         break;
 
       case SIM:
@@ -125,10 +129,11 @@ public class RobotContainer {
         shooterHood = new ShooterHood(new ShooterHoodIOSim());
 
         shooterIntake = new ShooterIntake(new ShooterIntakeIOSim());
-        */
+
 
         collectorDeployer = new CollectorDeployer(new CollectorDeployerIOSim());
-
+        */
+        collectorExterior = new CollectorExterior(new CollectorExteriorIOSim());
         break;
 
       default:
@@ -147,10 +152,11 @@ public class RobotContainer {
         shooterHood = new ShooterHood(new ShooterHoodIO() {});
 
         shooterIntake = new ShooterIntake(new ShooterIntakeIO() {});
-        */
+
 
         collectorDeployer = new CollectorDeployer(new CollectorDeployerIO() {});
-
+        */
+        collectorExterior = new CollectorExterior(new CollectorExteriorIO() {});
         break;
     }
 
@@ -272,18 +278,30 @@ public class RobotContainer {
         .onTrue(
             Commands.runOnce(
                 () -> {
-                  collectorDeployer.decrementTargetPosition();
+                  collectorExterior.setVoltage(-9);
                 },
-                collectorDeployer));
+                collectorExterior))
+        .onFalse(
+            Commands.runOnce(
+                () -> {
+                  collectorExterior.stop();
+                },
+                collectorExterior));
 
     controller
         .rightBumper()
         .onTrue(
             Commands.runOnce(
                 () -> {
-                  collectorDeployer.incrementTargetPosition();
+                  collectorExterior.setVoltage(9);
                 },
-                collectorDeployer));
+                collectorExterior))
+        .onFalse(
+            Commands.runOnce(
+                () -> {
+                  collectorExterior.stop();
+                },
+                collectorExterior));
   }
 
   /**
