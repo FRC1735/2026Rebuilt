@@ -1,21 +1,22 @@
-package frc.robot.subsystems.collectorexterior;
+package frc.robot.subsystems.rollerintake;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
-public class CollectorExterior extends SubsystemBase {
-  private final CollectorExteriorIO io;
-  private final CollectorExteriorIOInputsAutoLogged inputs =
-      new CollectorExteriorIOInputsAutoLogged();
+public class RollerIntake extends SubsystemBase {
+  private final RollerIntakeIO io;
+  private final RollerIntakeIOInputsAutoLogged inputs = new RollerIntakeIOInputsAutoLogged();
+  private final String name;
 
-  public CollectorExterior(CollectorExteriorIO io) {
+  public RollerIntake(RollerIntakeIO io, String name) {
     this.io = io;
+    this.name = name;
   }
 
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    Logger.processInputs("Collector Exterior", inputs);
+    Logger.processInputs(name, inputs);
   }
 
   public void setVoltage(double volts) {

@@ -1,10 +1,10 @@
-package frc.robot.subsystems.collectorexterior;
+package frc.robot.subsystems.rollerintake;
 
 import org.littletonrobotics.junction.AutoLog;
 
-public interface CollectorExteriorIO {
+public interface RollerIntakeIO {
   @AutoLog
-  class CollectorExteriorIOInputs {
+  class RollerIntakeIOInputs {
     public double velocity = 0.0;
 
     public double appliedVolts = 0.0;
@@ -14,7 +14,7 @@ public interface CollectorExteriorIO {
     public boolean connected = true;
   }
 
-  default void updateInputs(CollectorExteriorIOInputs inputs) {}
+  default void updateInputs(RollerIntakeIOInputs inputs) {}
 
   default void setVoltage(double volts) {}
 

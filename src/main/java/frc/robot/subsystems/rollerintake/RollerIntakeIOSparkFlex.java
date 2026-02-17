@@ -1,4 +1,4 @@
-package frc.robot.subsystems.collectorexterior;
+package frc.robot.subsystems.rollerintake;
 
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
@@ -10,7 +10,7 @@ import edu.wpi.first.networktables.DoubleEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
-public class CollectorExteriorIOSparkFlex implements CollectorExteriorIO {
+public class RollerIntakeIOSparkFlex implements RollerIntakeIO {
   private final SparkFlex spark;
 
   // Tunables
@@ -31,12 +31,11 @@ public class CollectorExteriorIOSparkFlex implements CollectorExteriorIO {
   private final DoubleEntry accelEntry;
   private final DoubleEntry errorEntry;
 
-  public CollectorExteriorIOSparkFlex(int canId) {
+  public RollerIntakeIOSparkFlex(int canId, String name) {
 
     spark = new SparkFlex(canId, MotorType.kBrushless);
 
-    NetworkTable table =
-        NetworkTableInstance.getDefault().getTable("Elastic").getSubTable("CollectorExterior");
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("Elastic").getSubTable(name);
 
     kPEntry = table.getDoubleTopic("kP").getEntry(kP);
     kIEntry = table.getDoubleTopic("kI").getEntry(kI);
@@ -95,7 +94,7 @@ public class CollectorExteriorIOSparkFlex implements CollectorExteriorIO {
   }
 
   @Override
-  public void updateInputs(CollectorExteriorIOInputs inputs) {
+  public void updateInputs(RollerIntakeIOInputs inputs) {
 
     checkForChanges();
 

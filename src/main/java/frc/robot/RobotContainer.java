@@ -19,16 +19,16 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.limelight.LimelightLogger;
-import frc.robot.subsystems.collectorexterior.CollectorExterior;
-import frc.robot.subsystems.collectorexterior.CollectorExteriorIO;
-import frc.robot.subsystems.collectorexterior.CollectorExteriorIOSim;
-import frc.robot.subsystems.collectorexterior.CollectorExteriorIOSparkFlex;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.rollerintake.RollerIntake;
+import frc.robot.subsystems.rollerintake.RollerIntakeIO;
+import frc.robot.subsystems.rollerintake.RollerIntakeIOSim;
+import frc.robot.subsystems.rollerintake.RollerIntakeIOSparkFlex;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -44,7 +44,7 @@ public class RobotContainer {
   // private final ShooterHood shooterHood;
   // private final ShooterIntake shooterIntake;
   // private final CollectorDeployer collectorDeployer;
-  private final CollectorExterior collectorExterior;
+  private final RollerIntake collectorExterior;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -109,8 +109,10 @@ public class RobotContainer {
                     Constants.COLLECTOR_DEPLOYER_DETACHED_ENCODER_CAN_ID));
         */
         collectorExterior =
-            new CollectorExterior(
-                new CollectorExteriorIOSparkFlex(Constants.COLLECTOR_EXTERIOR_CAN_ID));
+            new RollerIntake(
+                new RollerIntakeIOSparkFlex(
+                    Constants.COLLECTOR_EXTERIOR_CAN_ID, "CollectorExterior"),
+                "CollectorExterior");
         break;
 
       case SIM:
@@ -133,7 +135,7 @@ public class RobotContainer {
 
         collectorDeployer = new CollectorDeployer(new CollectorDeployerIOSim());
         */
-        collectorExterior = new CollectorExterior(new CollectorExteriorIOSim());
+        collectorExterior = new RollerIntake(new RollerIntakeIOSim(), "CollectorExterior");
         break;
 
       default:
@@ -156,7 +158,7 @@ public class RobotContainer {
 
         collectorDeployer = new CollectorDeployer(new CollectorDeployerIO() {});
         */
-        collectorExterior = new CollectorExterior(new CollectorExteriorIO() {});
+        collectorExterior = new RollerIntake(new RollerIntakeIO() {}, "CollectorExterior");
         break;
     }
 
