@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import static frc.robot.subsystems.SubsystemFactory.*;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -17,18 +19,11 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
-import frc.robot.generated.TunerConstants;
 import frc.robot.limelight.LimelightLogger;
 import frc.robot.subsystems.drive.Drive;
-import frc.robot.subsystems.drive.GyroIO;
-import frc.robot.subsystems.drive.GyroIOPigeon2;
-import frc.robot.subsystems.drive.ModuleIO;
-import frc.robot.subsystems.drive.ModuleIOSim;
-import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.shooter.Shooter;
-import frc.robot.subsystems.shooter.ShooterIO;
-import frc.robot.subsystems.shooter.ShooterIOSim;
-import frc.robot.subsystems.shooter.ShooterIOSparkFlex;
+import frc.robot.subsystems.shooterhood.ShooterHood;
+import frc.robot.subsystems.shooterintake.ShooterIntake;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -41,8 +36,8 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
   private final Shooter shooter;
-  // private final ShooterHood shooterHood;
-  // private final ShooterIntake shooterIntake;
+  private final ShooterHood shooterHood;
+  private final ShooterIntake shooterIntake;
   // private final CollectorDeployer collectorDeployer;
   // private final RollerIntake collectorExteriorRight;
   // private final RollerIntake collectorExteriorLeft;
@@ -61,48 +56,12 @@ public class RobotContainer {
 
     switch (Constants.currentMode) {
       case REAL:
-        // Real robot, instantiate hardware IO implementations
-        // ModuleIOTalonFX is intended for modules with TalonFX drive, TalonFX turn, and
-        // a CANcoder
-        drive =
-            new Drive(
-                new GyroIOPigeon2(),
-                new ModuleIOTalonFX(TunerConstants.FrontLeft),
-                new ModuleIOTalonFX(TunerConstants.FrontRight),
-                new ModuleIOTalonFX(TunerConstants.BackLeft),
-                new ModuleIOTalonFX(TunerConstants.BackRight));
-
-        // The ModuleIOTalonFXS implementation provides an example implementation for
-        // TalonFXS controller connected to a CANdi with a PWM encoder. The
-        // implementations
-        // of ModuleIOTalonFX, ModuleIOTalonFXS, and ModuleIOSpark (from the Spark
-        // swerve
-        // template) can be freely intermixed to support alternative hardware
-        // arrangements.
-        // Please see the AdvantageKit template documentation for more information:
-        // https://docs.advantagekit.org/getting-started/template-projects/talonfx-swerve-template#custom-module-implementations
-        //
-        // drive =
-        // new Drive(
-        // new GyroIOPigeon2(),
-        // new ModuleIOTalonFXS(TunerConstants.FrontLeft),
-        // new ModuleIOTalonFXS(TunerConstants.FrontRight),
-        // new ModuleIOTalonFXS(TunerConstants.BackLeft),
-        // new ModuleIOTalonFXS(TunerConstants.BackRight));
-
-        shooter =
-            new Shooter(
-                Constants.SHOOTER_ENABLED
-                    ? new ShooterIOSparkFlex(
-                        Constants.SHOOTER_LEFT_CAN_ID, Constants.SHOOTER_RIGHT_CAN_ID)
-                    : new ShooterIO() {});
+        drive = createRealDrive();
+        shooter = createRealShooter();
+        shooterHood = createRealShooterHood();
+        shooterIntake = createRealShooterIntake();
 
         /*
-        shooterHood = new ShooterHood(new ShooterHoodIOSparkFlex(Constants.SHOOTER_HOOD_CAN_ID));
-
-        shooterIntake =
-            new ShooterIntake(new ShooterIntakeIOSparkFlex(Constants.SHOOTER_INTAKE_CAN_ID));
-
 
         collectorDeployer =
             new CollectorDeployer(
@@ -125,21 +84,12 @@ public class RobotContainer {
 
       case SIM:
         // Sim robot, instantiate physics sim IO implementations
-        drive =
-            new Drive(
-                new GyroIO() {},
-                new ModuleIOSim(TunerConstants.FrontLeft),
-                new ModuleIOSim(TunerConstants.FrontRight),
-                new ModuleIOSim(TunerConstants.BackLeft),
-                new ModuleIOSim(TunerConstants.BackRight));
+        drive = createSimulatedDrive();
+        shooter = createSimulatedShooter();
+        shooterHood = createSimulatedShooterHood();
+        shooterIntake = createSimulatedShooterIntake();
 
-        shooter = new Shooter(new ShooterIOSim());
         /*
-        shooterHood = new ShooterHood(new ShooterHoodIOSim());
-
-        shooterIntake = new ShooterIntake(new ShooterIntakeIOSim());
-
-
         collectorDeployer = new CollectorDeployer(new CollectorDeployerIOSim());
 
         collectorExteriorRight =
@@ -150,21 +100,12 @@ public class RobotContainer {
 
       default:
         // Replayed robot, disable IO implementations
-        drive =
-            new Drive(
-                new GyroIO() {},
-                new ModuleIO() {},
-                new ModuleIO() {},
-                new ModuleIO() {},
-                new ModuleIO() {});
+        drive = createReplayDrive();
+        shooter = createReplayShooter();
+        shooterHood = createReplayShooterHood();
+        shooterIntake = createReplayShooterIntake();
 
-        shooter = new Shooter(new ShooterIO() {});
         /*
-        shooterHood = new ShooterHood(new ShooterHoodIO() {});
-
-        shooterIntake = new ShooterIntake(new ShooterIntakeIO() {});
-
-
         collectorDeployer = new CollectorDeployer(new CollectorDeployerIO() {});
 
         collectorExteriorRight =
