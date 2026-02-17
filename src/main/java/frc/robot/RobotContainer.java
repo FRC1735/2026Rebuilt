@@ -7,7 +7,9 @@
 
 package frc.robot;
 
-import static frc.robot.subsystems.SubsystemFactory.*;
+import static frc.robot.subsystems.RealSubsystemFactory.*;
+import static frc.robot.subsystems.ReplaySubsystemFactory.*;
+import static frc.robot.subsystems.SimulatedSubsystemFactory.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -20,27 +22,29 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.limelight.LimelightLogger;
+import frc.robot.subsystems.collectordeployer.CollectorDeployer;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.rollerintake.RollerIntake;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooterhood.ShooterHood;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and button mappings) should be declared here.
- */
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+  /// Shooter
   private final Shooter shooter;
   private final ShooterHood shooterHood;
   private final RollerIntake shooterIntake;
-  // private final CollectorDeployer collectorDeployer;
-  // private final RollerIntake collectorExteriorRight;
-  // private final RollerIntake collectorExteriorLeft;
+  /// Left Collector
+  private final CollectorDeployer leftCollectorDeployer;
+  private final RollerIntake leftCollectorExteriorRoller;
+  private final RollerIntake leftCollectorInteriorRoller;
+  /// Right Collector
+  private final CollectorDeployer rightCollectorDeployer;
+  private final RollerIntake rightCollectorExteriorRoller;
+  private final RollerIntake rightCollectorInteriorRoller;
+
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
 
@@ -60,26 +64,12 @@ public class RobotContainer {
         shooter = createRealShooter();
         shooterHood = createRealShooterHood();
         shooterIntake = createRealShooterIntake();
-
-        /*
-
-        collectorDeployer =
-            new CollectorDeployer(
-                new CollectorDeployerIOSparkFlex(
-                    Constants.COLLECTOR_DEPLOYER_CAN_ID,
-                    Constants.COLLECTOR_DEPLOYER_DETACHED_ENCODER_CAN_ID));
-
-        collectorExteriorRight =
-            new RollerIntake(
-                new RollerIntakeIOSparkFlex(
-                    Constants.COLLECTOR_EXTERIOR_RIGHT_CAN_ID, "CollectorExteriorRight", true),
-                "CollectorExteriorRight");
-        collectorExteriorLeft =
-            new RollerIntake(
-                new RollerIntakeIOSparkFlex(
-                    Constants.COLLECTOR_EXTERIOR_LEFT_CAN_ID, "CollectorExteriorLeft", false),
-                "CollectorExteriorLeft");
-                */
+        leftCollectorDeployer = createRealLeftCollectorDeployer();
+        leftCollectorExteriorRoller = createRealLeftCollectorExteriorRoller();
+        leftCollectorInteriorRoller = createRealLeftCollectorInteriorRoller();
+        rightCollectorDeployer = createRealRightCollectorDeployer();
+        rightCollectorExteriorRoller = createRealRightCollectorExteriorRoller();
+        rightCollectorInteriorRoller = createRealRightCollectorInteriorRoller();
         break;
 
       case SIM:
@@ -88,14 +78,13 @@ public class RobotContainer {
         shooter = createSimulatedShooter();
         shooterHood = createSimulatedShooterHood();
         shooterIntake = createSimulatedShooterIntake();
+        leftCollectorDeployer = createSimulatedLeftCollectorDeployer();
+        leftCollectorExteriorRoller = createSimulatedLeftCollectorExteriorRoller();
+        leftCollectorInteriorRoller = createSimulatedLeftCollectorInteriorRoller();
+        rightCollectorDeployer = createSimulatedRightCollectorDeployer();
+        rightCollectorExteriorRoller = createSimulatedRightCollectorExteriorRoller();
+        rightCollectorInteriorRoller = createSimulatedRightCollectorInteriorRoller();
 
-        /*
-        collectorDeployer = new CollectorDeployer(new CollectorDeployerIOSim());
-
-        collectorExteriorRight =
-            new RollerIntake(new RollerIntakeIOSim(), "CollectorExteriorRight");
-        collectorExteriorLeft = new RollerIntake(new RollerIntakeIOSim(), "CollectorExteriorLeft");
-        */
         break;
 
       default:
@@ -104,16 +93,13 @@ public class RobotContainer {
         shooter = createReplayShooter();
         shooterHood = createReplayShooterHood();
         shooterIntake = createReplayShooterIntake();
-
-        /*
-        collectorDeployer = new CollectorDeployer(new CollectorDeployerIO() {});
-
-        collectorExteriorRight =
-            new RollerIntake(new RollerIntakeIO() {}, "CollectorExteriorRight");
-
-        collectorExteriorLeft = new RollerIntake(new RollerIntakeIO() {}, "CollectorExteriorLeft");
+        leftCollectorDeployer = createRealLeftCollectorDeployer();
+        leftCollectorExteriorRoller = createRealLeftCollectorExteriorRoller();
+        leftCollectorInteriorRoller = createRealLeftCollectorInteriorRoller();
+        rightCollectorDeployer = createRealRightCollectorDeployer();
+        rightCollectorExteriorRoller = createRealRightCollectorExteriorRoller();
+        rightCollectorInteriorRoller = createRealRightCollectorInteriorRoller();
         break;
-        */
     }
 
     // Set up auto routines

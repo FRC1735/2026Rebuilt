@@ -21,43 +21,39 @@ public final class Constants {
   public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
 
   public static enum Mode {
-    /** Running on a real robot. */
     REAL,
-
-    /** Running a physics simulator. */
     SIM,
-
-    /** Replaying from a log file. */
     REPLAY
   }
 
-  // For debugging
+  // Enable / Disable Subsystems
+  /// Shooter
   public static final boolean SHOOTER_ENABLED = false;
   public static final boolean SHOOTER_HOOD_ENABLED = false;
   public static final boolean SHOOTER_INTAKE_ENABLED = false;
+  /// Left Collector
   public static final boolean LEFT_COLLECTOR_DEPLOYER_ENABLED = false;
   public static final boolean LEFT_COLLECTOR_ROLLER_EXTERIOR_ENABLED = false;
-  public static final boolean LEFT_COLLECTOR_ROLLER_INTERIOR_ENABLED = false;
+  public static final boolean LEFT_COLLECTOR_ROLLER_INTERIOR_ENABLED = false; // TODO
+  /// Right Collector
   public static final boolean RIGHT_COLLECTOR_DEPLOYER_ENABLED = false;
   public static final boolean RIGHT_COLLECTOR_ROLLER_EXTERIOR_ENABLED = false;
   public static final boolean RIGHT_COLLECTOR_ROLLER_INTERIOR_ENABLED = false;
 
-  /* CAN IDs */
-  // SHOOTER
+  // CAN ID's
+  /// Shooter
   public static final int SHOOTER_LEFT_CAN_ID = 10; // TODO
   public static final int SHOOTER_RIGHT_CAN_ID = 15; // TODO
-
-  // SHOOTER HOOD
   public static final int SHOOTER_HOOD_CAN_ID = 8; // TODO
-
-  // SHOOTER INTAKE
   public static final int SHOOTER_INTAKE_CAN_ID = 9; // TODO
-
-  // COLLECTOR DEPLOYER
-  public static final int COLLECTOR_DEPLOYER_CAN_ID = 99; // TODO
-  public static final int COLLECTOR_DEPLOYER_DETACHED_ENCODER_CAN_ID = 18; // TODO
-
-  // COLLECTOR EXTERIOR
-  public static final int COLLECTOR_EXTERIOR_RIGHT_CAN_ID = 7; // TODO
-  public static final int COLLECTOR_EXTERIOR_LEFT_CAN_ID = 6; // TODO
+  /// LEFT COLLECTOR
+  public static final int LEFT_COLLECTOR_DEPLOYER_CAN_ID = 99; // TODO
+  public static final int LEFT_COLLECTOR_DEPLOYER_ENCODER_CAN_ID = 98; // TODO
+  public static final int LEFT_COLLECTOR_ROLLER_EXTERIOR_CAN_ID = 97; // TODO
+  public static final int LEFT_COLLECTOR_ROLLER_INTERIOR_CAN_ID = 96; // TODO
+  /// RIGHT COLLECTOR
+  public static final int RIGHT_COLLECTOR_DEPLOYER_CAN_ID = 95; // TODO
+  public static final int RIGHT_COLLECTOR_DEPLOYER_ENCODER_CAN_ID = 94; // TODO
+  public static final int RIGHT_COLLECTOR_ROLLER_EXTERIOR_CAN_ID = 93; // TODO
+  public static final int RIGHT_COLLECTOR_ROLLER_INTERIOR_CAN_ID = 92; // TODO
 }
