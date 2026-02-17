@@ -24,6 +24,8 @@ public class RollerIntakeIOSparkFlex implements RollerIntakeIO {
   private double lastP, lastI, lastD;
   private double lastCruise, lastAccel, lastError;
 
+  private boolean inverted;
+
   private final DoubleEntry kPEntry;
   private final DoubleEntry kIEntry;
   private final DoubleEntry kDEntry;
@@ -31,7 +33,7 @@ public class RollerIntakeIOSparkFlex implements RollerIntakeIO {
   private final DoubleEntry accelEntry;
   private final DoubleEntry errorEntry;
 
-  public RollerIntakeIOSparkFlex(int canId, String name) {
+  public RollerIntakeIOSparkFlex(int canId, String name, boolean inverted) {
 
     spark = new SparkFlex(canId, MotorType.kBrushless);
 
@@ -51,13 +53,15 @@ public class RollerIntakeIOSparkFlex implements RollerIntakeIO {
     accelEntry.set(acceleration);
     errorEntry.set(allowedProfileError);
 
+    this.inverted = inverted;
+
     configureSpark();
   }
 
   private void configureSpark() {
 
     var config = new SparkFlexConfig();
-
+    config.inverted(inverted);
     config.idleMode(IdleMode.kCoast);
     config.smartCurrentLimit(30);
 

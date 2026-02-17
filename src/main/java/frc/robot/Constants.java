@@ -47,5 +47,6 @@ public final class Constants {
   public static final int COLLECTOR_DEPLOYER_DETACHED_ENCODER_CAN_ID = 18; // TODO
 
   // COLLECTOR EXTERIOR
-  public static final int COLLECTOR_EXTERIOR_CAN_ID = 7; // TODO
+  public static final int COLLECTOR_EXTERIOR_RIGHT_CAN_ID = 7; // TODO
+  public static final int COLLECTOR_EXTERIOR_LEFT_CAN_ID = 6; // TODO
 }

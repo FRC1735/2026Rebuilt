@@ -44,8 +44,8 @@ public class RobotContainer {
   // private final ShooterHood shooterHood;
   // private final ShooterIntake shooterIntake;
   // private final CollectorDeployer collectorDeployer;
-  private final RollerIntake collectorExterior;
-
+  private final RollerIntake collectorExteriorRight;
+  private final RollerIntake collectorExteriorLeft;
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
 
@@ -108,11 +108,16 @@ public class RobotContainer {
                     Constants.COLLECTOR_DEPLOYER_CAN_ID,
                     Constants.COLLECTOR_DEPLOYER_DETACHED_ENCODER_CAN_ID));
         */
-        collectorExterior =
+        collectorExteriorRight =
             new RollerIntake(
                 new RollerIntakeIOSparkFlex(
-                    Constants.COLLECTOR_EXTERIOR_CAN_ID, "CollectorExterior"),
-                "CollectorExterior");
+                    Constants.COLLECTOR_EXTERIOR_RIGHT_CAN_ID, "CollectorExteriorRight", true),
+                "CollectorExteriorRight");
+        collectorExteriorLeft =
+            new RollerIntake(
+                new RollerIntakeIOSparkFlex(
+                    Constants.COLLECTOR_EXTERIOR_LEFT_CAN_ID, "CollectorExteriorLeft", false),
+                "CollectorExteriorLeft");
         break;
 
       case SIM:
@@ -135,7 +140,9 @@ public class RobotContainer {
 
         collectorDeployer = new CollectorDeployer(new CollectorDeployerIOSim());
         */
-        collectorExterior = new RollerIntake(new RollerIntakeIOSim(), "CollectorExterior");
+        collectorExteriorRight =
+            new RollerIntake(new RollerIntakeIOSim(), "CollectorExteriorRight");
+        collectorExteriorLeft = new RollerIntake(new RollerIntakeIOSim(), "CollectorExteriorLeft");
         break;
 
       default:
@@ -158,7 +165,10 @@ public class RobotContainer {
 
         collectorDeployer = new CollectorDeployer(new CollectorDeployerIO() {});
         */
-        collectorExterior = new RollerIntake(new RollerIntakeIO() {}, "CollectorExterior");
+        collectorExteriorRight =
+            new RollerIntake(new RollerIntakeIO() {}, "CollectorExteriorRight");
+
+        collectorExteriorLeft = new RollerIntake(new RollerIntakeIO() {}, "CollectorExteriorLeft");
         break;
     }
 
@@ -280,30 +290,38 @@ public class RobotContainer {
         .onTrue(
             Commands.runOnce(
                 () -> {
-                  collectorExterior.setVoltage(-9);
+                  collectorExteriorRight.setVoltage(-9);
+                  collectorExteriorLeft.setVoltage(-9);
                 },
-                collectorExterior))
+                collectorExteriorRight,
+                collectorExteriorLeft))
         .onFalse(
             Commands.runOnce(
                 () -> {
-                  collectorExterior.stop();
+                  collectorExteriorRight.stop();
+                  collectorExteriorLeft.stop();
                 },
-                collectorExterior));
+                collectorExteriorRight,
+                collectorExteriorLeft));
 
     controller
         .rightBumper()
         .onTrue(
             Commands.runOnce(
                 () -> {
-                  collectorExterior.setVoltage(9);
+                  collectorExteriorRight.setVoltage(9);
+                  collectorExteriorLeft.setVoltage(9);
                 },
-                collectorExterior))
+                collectorExteriorRight,
+                collectorExteriorLeft))
         .onFalse(
             Commands.runOnce(
                 () -> {
-                  collectorExterior.stop();
+                  collectorExteriorRight.stop();
+                  collectorExteriorLeft.stop();
                 },
-                collectorExterior));
+                collectorExteriorRight,
+                collectorExteriorLeft));
   }
 
   /**
