@@ -3,6 +3,10 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.drive.*;
+import frc.robot.subsystems.rollerintake.RollerIntake;
+import frc.robot.subsystems.rollerintake.RollerIntakeIO;
+import frc.robot.subsystems.rollerintake.RollerIntakeIOSim;
+import frc.robot.subsystems.rollerintake.RollerIntakeIOSparkFlex;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIO;
 import frc.robot.subsystems.shooter.ShooterIOSim;
@@ -11,10 +15,6 @@ import frc.robot.subsystems.shooterhood.ShooterHood;
 import frc.robot.subsystems.shooterhood.ShooterHoodIO;
 import frc.robot.subsystems.shooterhood.ShooterHoodIOSim;
 import frc.robot.subsystems.shooterhood.ShooterHoodIOSparkFlex;
-import frc.robot.subsystems.shooterintake.ShooterIntake;
-import frc.robot.subsystems.shooterintake.ShooterIntakeIO;
-import frc.robot.subsystems.shooterintake.ShooterIntakeIOSim;
-import frc.robot.subsystems.shooterintake.ShooterIntakeIOSparkFlex;
 
 public class SubsystemFactory {
   // Real Subsystems
@@ -36,16 +36,16 @@ public class SubsystemFactory {
 
   public static ShooterHood createRealShooterHood() {
     return new ShooterHood(
-        Constants.SHOOTER_ENABLED
+        Constants.SHOOTER_HOOD_ENABLED
             ? new ShooterHoodIOSparkFlex(Constants.SHOOTER_HOOD_CAN_ID)
             : new ShooterHoodIO() {});
   }
 
-  public static ShooterIntake createRealShooterIntake() {
-    return new ShooterIntake(
+  public static RollerIntake createRealShooterIntake() {
+    return new RollerIntake(
         Constants.SHOOTER_INTAKE_ENABLED
-            ? new ShooterIntakeIOSparkFlex(Constants.SHOOTER_INTAKE_CAN_ID)
-            : new ShooterIntakeIO() {});
+            ? new RollerIntakeIOSparkFlex(Constants.SHOOTER_INTAKE_CAN_ID, "Shooter Intake", false)
+            : new RollerIntakeIO() {}, "Shooter Intake");
   }
 
   // Simulated Subsystems
@@ -66,8 +66,8 @@ public class SubsystemFactory {
     return new ShooterHood(new ShooterHoodIOSim());
   }
 
-  public static ShooterIntake createSimulatedShooterIntake() {
-    return new ShooterIntake(new ShooterIntakeIOSim());
+  public static RollerIntake createSimulatedShooterIntake() {
+    return new RollerIntake(new RollerIntakeIOSim(), "Shooter Intake");
   }
 
   // Replay Subsystems
@@ -88,7 +88,7 @@ public class SubsystemFactory {
     return new ShooterHood(new ShooterHoodIO() {});
   }
 
-  public static ShooterIntake createReplayShooterIntake() {
-    return new ShooterIntake(new ShooterIntakeIO() {});
+  public static RollerIntake createReplayShooterIntake() {
+    return new RollerIntake(new RollerIntakeIO() {}, "Shooter Intake");
   }
 }

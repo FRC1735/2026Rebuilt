@@ -21,9 +21,9 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.limelight.LimelightLogger;
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.rollerintake.RollerIntake;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooterhood.ShooterHood;
-import frc.robot.subsystems.shooterintake.ShooterIntake;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -37,7 +37,7 @@ public class RobotContainer {
   private final Drive drive;
   private final Shooter shooter;
   private final ShooterHood shooterHood;
-  private final ShooterIntake shooterIntake;
+  private final RollerIntake shooterIntake;
   // private final CollectorDeployer collectorDeployer;
   // private final RollerIntake collectorExteriorRight;
   // private final RollerIntake collectorExteriorLeft;
