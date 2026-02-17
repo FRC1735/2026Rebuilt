@@ -33,12 +33,16 @@ public final class Constants {
 
   /* CAN IDs */
   // SHOOTER
-  public static final int SHOOTER_LEFT_CAN_ID = 10;
-  public static final int SHOOTER_RIGHT_CAN_ID = 15; // tdb
+  public static final int SHOOTER_LEFT_CAN_ID = 10; // TODO
+  public static final int SHOOTER_RIGHT_CAN_ID = 15; // TODO
 
   // SHOOTER HOOD
-  public static final int SHOOTER_HOOD_CAN_ID = 7;
+  public static final int SHOOTER_HOOD_CAN_ID = 8; // TODO
 
   // SHOOTER INTAKE
-  public static final int SHOOTER_INTAKE_CAN_8 = 8;
+  public static final int SHOOTER_INTAKE_CAN_ID = 9; // TODO
+
+  // COLLECTOR DEPLOYER
+  public static final int COLLECTOR_DEPLOYER_CAN_ID = 7; // TODO
+  public static final int COLLECTOR_DEPLOYER_DETACHED_ENCODER_CAN_ID = 18; // TODO
 }

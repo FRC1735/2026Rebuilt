@@ -19,24 +19,16 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.limelight.LimelightLogger;
+import frc.robot.subsystems.collectordeployer.CollectorDeployer;
+import frc.robot.subsystems.collectordeployer.CollectorDeployerIO;
+import frc.robot.subsystems.collectordeployer.CollectorDeployerIOSim;
+import frc.robot.subsystems.collectordeployer.CollectorDeployerIOSparkFlex;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
-import frc.robot.subsystems.shooter.Shooter;
-import frc.robot.subsystems.shooter.ShooterIO;
-import frc.robot.subsystems.shooter.ShooterIOSim;
-import frc.robot.subsystems.shooter.ShooterIOSparkFlex;
-import frc.robot.subsystems.shooterhood.ShooterHood;
-import frc.robot.subsystems.shooterhood.ShooterHoodIO;
-import frc.robot.subsystems.shooterhood.ShooterHoodIOSim;
-import frc.robot.subsystems.shooterhood.ShooterHoodIOSparkFlex;
-import frc.robot.subsystems.shooterintake.ShooterIntake;
-import frc.robot.subsystems.shooterintake.ShooterIntakeIO;
-import frc.robot.subsystems.shooterintake.ShooterIntakeIOSim;
-import frc.robot.subsystems.shooterintake.ShooterIntakeIOSparkFlex;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -48,9 +40,10 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
-  private final Shooter shooter;
-  private final ShooterHood shooterHood;
-  private final ShooterIntake shooterIntake;
+  // private final Shooter shooter;
+  // private final ShooterHood shooterHood;
+  // private final ShooterIntake shooterIntake;
+  private final CollectorDeployer collectorDeployer;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -96,6 +89,7 @@ public class RobotContainer {
         // new ModuleIOTalonFXS(TunerConstants.BackLeft),
         // new ModuleIOTalonFXS(TunerConstants.BackRight));
 
+        /*
         shooter =
             new Shooter(
                 new ShooterIOSparkFlex(
@@ -104,7 +98,14 @@ public class RobotContainer {
         shooterHood = new ShooterHood(new ShooterHoodIOSparkFlex(Constants.SHOOTER_HOOD_CAN_ID));
 
         shooterIntake =
-            new ShooterIntake(new ShooterIntakeIOSparkFlex(Constants.SHOOTER_INTAKE_CAN_8));
+            new ShooterIntake(new ShooterIntakeIOSparkFlex(Constants.SHOOTER_INTAKE_CAN_ID));
+            */
+
+        collectorDeployer =
+            new CollectorDeployer(
+                new CollectorDeployerIOSparkFlex(
+                    Constants.COLLECTOR_DEPLOYER_CAN_ID,
+                    Constants.COLLECTOR_DEPLOYER_DETACHED_ENCODER_CAN_ID));
 
         break;
 
@@ -118,11 +119,15 @@ public class RobotContainer {
                 new ModuleIOSim(TunerConstants.BackLeft),
                 new ModuleIOSim(TunerConstants.BackRight));
 
+        /*
         shooter = new Shooter(new ShooterIOSim());
 
         shooterHood = new ShooterHood(new ShooterHoodIOSim());
 
         shooterIntake = new ShooterIntake(new ShooterIntakeIOSim());
+        */
+
+        collectorDeployer = new CollectorDeployer(new CollectorDeployerIOSim());
 
         break;
 
@@ -136,11 +141,15 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
 
+        /*
         shooter = new Shooter(new ShooterIO() {});
 
         shooterHood = new ShooterHood(new ShooterHoodIO() {});
 
         shooterIntake = new ShooterIntake(new ShooterIntakeIO() {});
+        */
+
+        collectorDeployer = new CollectorDeployer(new CollectorDeployerIO() {});
 
         break;
     }
@@ -222,6 +231,7 @@ public class RobotContainer {
                   .ignoringDisable(true));
     }
 
+    /*
     // Shoot Shooter - High Speed
     controller
         .rightBumper()
@@ -256,6 +266,24 @@ public class RobotContainer {
     controller
         .povRight()
         .onTrue(Commands.runOnce(() -> shooterHood.setPositionRotations(0.22), shooterHood));
+        */
+    controller
+        .leftBumper()
+        .onTrue(
+            Commands.runOnce(
+                () -> {
+                  collectorDeployer.decrementTargetPosition();
+                },
+                collectorDeployer));
+
+    controller
+        .rightBumper()
+        .onTrue(
+            Commands.runOnce(
+                () -> {
+                  collectorDeployer.incrementTargetPosition();
+                },
+                collectorDeployer));
   }
 
   /**

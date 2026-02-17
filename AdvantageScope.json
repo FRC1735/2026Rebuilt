@@ -1,24 +1,24 @@
 {
   "hubs": [
     {
-      "x": 4,
-      "y": 12,
-      "width": 1438,
-      "height": 612,
+      "x": -7,
+      "y": -7,
+      "width": 1440,
+      "height": 936,
       "state": {
         "sidebar": {
           "width": 300,
           "expanded": [
-            "/RealOutputs",
             "/Drive",
-            "/RealOutputs/Odometry",
             "/RealOutputs/Odometry/Robot",
             "/RealOutputs/SwerveStates",
-            "/Shooter"
+            "/Shooter",
+            "/RealOutputs",
+            "/Collector Deployer"
           ]
         },
         "tabs": {
-          "selected": 5,
+          "selected": 6,
           "tabs": [
             {
               "type": 0,
@@ -183,6 +183,61 @@
                 "rightFilter": 0
               },
               "controllerUUID": "5730mb5re9yado8hjuo1alp75rphrsu2",
+              "renderer": null,
+              "controlsHeight": 200
+            },
+            {
+              "type": 1,
+              "title": "Collector Deployer",
+              "controller": {
+                "leftSources": [
+                  {
+                    "type": "stepped",
+                    "logKey": "/Collector Deployer/PositionRotations",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#e5b31b",
+                      "size": "normal"
+                    }
+                  },
+                  {
+                    "type": "stepped",
+                    "logKey": "/Collector Deployer/TargetRotations",
+                    "logType": "Number",
+                    "visible": true,
+                    "options": {
+                      "color": "#af2437",
+                      "size": "normal"
+                    }
+                  }
+                ],
+                "rightSources": [],
+                "discreteSources": [
+                  {
+                    "type": "stripes",
+                    "logKey": "/Collector Deployer/AtTarget",
+                    "logType": "Boolean",
+                    "visible": true,
+                    "options": {
+                      "color": "#2b66a2"
+                    }
+                  }
+                ],
+                "leftLockedRange": null,
+                "rightLockedRange": null,
+                "leftUnitConversion": {
+                  "autoTarget": null,
+                  "preset": null
+                },
+                "rightUnitConversion": {
+                  "autoTarget": null,
+                  "preset": null
+                },
+                "leftFilter": 0,
+                "rightFilter": 0
+              },
+              "controllerUUID": "j0fm5sq2385a11xj9ufje1se5hcjtu1z",
               "renderer": null,
               "controlsHeight": 200
             }
