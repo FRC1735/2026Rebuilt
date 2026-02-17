@@ -6,7 +6,7 @@ public interface ShooterHoodIO {
 
   @AutoLog
   class ShooterHoodIOInputs {
-    public double positionRotations = 0.0;
+    public double encoderPosition = 0.0;
     public double velocityRPM = 0.0;
 
     public double appliedVolts = 0.0;
@@ -26,7 +26,7 @@ public interface ShooterHoodIO {
 
   default void updateInputs(ShooterHoodIOInputs inputs) {}
 
-  default void setPositionRotations(double rotations) {}
+  default void setTarget(double target) {}
 
   default void stop() {}
 }

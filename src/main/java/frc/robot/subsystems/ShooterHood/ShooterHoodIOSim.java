@@ -36,7 +36,7 @@ public class ShooterHoodIOSim implements ShooterHoodIO {
       velocity = 0.0;
     }
 
-    inputs.positionRotations = position;
+    inputs.encoderPosition = position;
     inputs.velocityRPM = velocity * 60.0;
     inputs.appliedVolts = MathUtil.clamp(error * 6.0, -12, 12);
     inputs.currentAmps = Math.abs(inputs.appliedVolts) * 2.0;
@@ -50,7 +50,7 @@ public class ShooterHoodIOSim implements ShooterHoodIO {
   }
 
   @Override
-  public void setPositionRotations(double rotations) {
+  public void setTarget(double rotations) {
     target = rotations;
   }
 

@@ -140,13 +140,13 @@ public class ShooterHoodIOSparkFlex implements ShooterHoodIO {
 
     checkForChanges();
 
-    inputs.positionRotations = encoder.getPosition();
+    inputs.encoderPosition = encoder.getPosition();
     inputs.velocityRPM = encoder.getVelocity();
     inputs.appliedVolts = spark.getAppliedOutput() * spark.getBusVoltage();
     inputs.currentAmps = spark.getOutputCurrent();
 
     inputs.targetRotations = targetRotations;
-    inputs.atTarget = Math.abs(inputs.positionRotations - targetRotations) < allowedProfileError;
+    inputs.atTarget = Math.abs(inputs.encoderPosition - targetRotations) < allowedProfileError;
 
     inputs.kP = kP;
     inputs.kI = kI;
@@ -157,10 +157,10 @@ public class ShooterHoodIOSparkFlex implements ShooterHoodIO {
   }
 
   @Override
-  public void setPositionRotations(double rotations) {
-    targetRotations = rotations;
+  public void setTarget(double target) {
+    targetRotations = target;
 
-    controller.setSetpoint(rotations, SparkBase.ControlType.kMAXMotionPositionControl);
+    controller.setSetpoint(target, SparkBase.ControlType.kMAXMotionPositionControl);
   }
 
   @Override

@@ -23,7 +23,7 @@ public class ShooterHood extends SubsystemBase {
 
   public void setPositionRotations(double rotations) {
     double clamped = Math.max(MIN_ROT, Math.min(MAX_ROT, rotations));
-    io.setPositionRotations(clamped);
+    io.setTarget(clamped);
   }
 
   public void stop() {
@@ -35,6 +35,6 @@ public class ShooterHood extends SubsystemBase {
   }
 
   public double getPosition() {
-    return inputs.positionRotations;
+    return inputs.encoderPosition;
   }
 }
