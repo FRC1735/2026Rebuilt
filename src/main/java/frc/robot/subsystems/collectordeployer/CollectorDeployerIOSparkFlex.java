@@ -151,13 +151,13 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
     checkForChanges();
 
-    inputs.positionRotations = encoder.getAngle();
+    inputs.encoderPosition = encoder.getAngle();
     inputs.velocityRPM = encoder.getVelocity();
     inputs.appliedVolts = spark.getAppliedOutput() * spark.getBusVoltage();
     inputs.currentAmps = spark.getOutputCurrent();
 
     inputs.targetRotations = targetRotations;
-    inputs.atTarget = Math.abs(inputs.positionRotations - targetRotations) < allowedProfileError;
+    inputs.atTarget = Math.abs(inputs.encoderPosition - targetRotations) < allowedProfileError;
 
     inputs.kP = kP;
     inputs.kI = kI;
@@ -168,7 +168,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
   }
 
   @Override
-  public void setPositionRotations(double rotations) {
+  public void setTarget(double rotations) {
     targetRotations = rotations;
 
     controller.setSetpoint(rotations, SparkBase.ControlType.kMAXMotionPositionControl);

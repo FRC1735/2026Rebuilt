@@ -22,9 +22,9 @@ public class CollectorDeployer extends SubsystemBase {
     Logger.processInputs("Collector Deployer", inputs);
   }
 
-  public void setPositionRotations(double rotations) {
+  public void setTarget(double rotations) {
     double clamped = Math.max(MIN_ROT, Math.min(MAX_ROT, rotations));
-    io.setPositionRotations(clamped);
+    io.setTarget(clamped);
   }
 
   public void stop() {
@@ -36,26 +36,24 @@ public class CollectorDeployer extends SubsystemBase {
   }
 
   public double getPosition() {
-    return inputs.positionRotations;
+    return inputs.encoderPosition;
   }
 
-  // incrementPossition by 0.01
   public void incrementTargetPosition() {
     double position = inputs.targetRotations;
     double incremented = position + 0.01;
     if (incremented > 1) {
-      incremented = 0;
+      incremented = 1;
     }
-    setPositionRotations(incremented);
+    setTarget(incremented);
   }
 
-  // decrementPosition by -0.01
   public void decrementTargetPosition() {
     double position = inputs.targetRotations;
     double decremented = position - 0.01;
     if (decremented < 0) {
-      decremented = 1;
+      decremented = 0;
     }
-    setPositionRotations(decremented);
+    setTarget(decremented);
   }
 }

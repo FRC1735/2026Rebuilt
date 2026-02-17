@@ -119,9 +119,8 @@ public class RobotContainer {
     autoChooser.addOption(
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
-
     configureDriverBindings();
-    //configureDeveloperBindings();
+    // configureDeveloperBindings();
   }
 
   public void logLimelights() {
@@ -174,7 +173,7 @@ public class RobotContainer {
   }
 
   private void configureDeveloperBindings() {
-        /*
+    /*
     // Shoot Shooter - High Speed
     controller
         .rightBumper()

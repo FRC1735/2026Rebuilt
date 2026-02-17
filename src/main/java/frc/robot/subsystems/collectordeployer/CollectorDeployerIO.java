@@ -6,7 +6,7 @@ public interface CollectorDeployerIO {
 
   @AutoLog
   class CollectorDeployerIOInputs {
-    public double positionRotations = 0.0;
+    public double encoderPosition = 0.0;
     public double velocityRPM = 0.0;
 
     public double appliedVolts = 0.0;
@@ -26,7 +26,7 @@ public interface CollectorDeployerIO {
 
   default void updateInputs(CollectorDeployerIOInputs inputs) {}
 
-  default void setPositionRotations(double rotations) {}
+  default void setTarget(double target) {}
 
   default void stop() {}
 }
