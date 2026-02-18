@@ -10,6 +10,7 @@ package frc.robot.subsystems.drive;
 import static frc.robot.util.PhoenixUtil.*;
 
 import com.ctre.phoenix6.BaseStatusSignal;
+import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -99,13 +100,6 @@ public class ModuleIOTalonFX implements ModuleIO {
     turnTalon = new TalonFX(constants.SteerMotorId, TunerConstants.kCANBus);
     cancoder = new CANcoder(constants.EncoderId, TunerConstants.kCANBus);
 
-    // Play Song
-    // Orchestra orchestra = new Orchestra();
-    // orchestra.addInstrument(driveTalon);
-    // orchestra.addInstrument(turnTalon);
-
-    // orchestra.loadMusic("sid.chrp");
-    // orchestra.play();
     // Configure drive motor
     var driveConfig = constants.DriveMotorInitialConfigs;
     driveConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
@@ -267,5 +261,16 @@ public class ModuleIOTalonFX implements ModuleIO {
           case TorqueCurrentFOC -> positionTorqueCurrentRequest.withPosition(
               rotation.getRotations());
         });
+  }
+
+  public void playSong() {
+    // Play Song
+    Orchestra orchestra = new Orchestra();
+    orchestra.addInstrument(driveTalon);
+    orchestra.addInstrument(turnTalon);
+
+    orchestra.loadMusic("sid.chrp");
+    orchestra.play();
+    orchestra.close();
   }
 }
