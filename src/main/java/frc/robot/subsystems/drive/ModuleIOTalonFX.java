@@ -99,6 +99,13 @@ public class ModuleIOTalonFX implements ModuleIO {
     turnTalon = new TalonFX(constants.SteerMotorId, TunerConstants.kCANBus);
     cancoder = new CANcoder(constants.EncoderId, TunerConstants.kCANBus);
 
+    // Play Song
+    // Orchestra orchestra = new Orchestra();
+    // orchestra.addInstrument(driveTalon);
+    // orchestra.addInstrument(turnTalon);
+
+    // orchestra.loadMusic("sid.chrp");
+    // orchestra.play();
     // Configure drive motor
     var driveConfig = constants.DriveMotorInitialConfigs;
     driveConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
