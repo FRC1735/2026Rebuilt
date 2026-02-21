@@ -25,6 +25,7 @@ import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.rollerintake.RollerIntake;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooterhood.ShooterHood;
+import frc.robot.util.KeyboardController;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 public class RobotContainer {
@@ -44,7 +45,8 @@ public class RobotContainer {
   private final RollerIntake rightCollectorInteriorRoller;
 
   // Controller
-  private final CommandXboxController controller = new CommandXboxController(0);
+  private final CommandXboxController driverController = new CommandXboxController(0);
+  private final KeyboardController operatorController = new KeyboardController(0);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -120,6 +122,7 @@ public class RobotContainer {
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     configureDriverBindings();
+    configureOperatorBindings();
     // configureDeveloperBindings();
   }
 
@@ -133,25 +136,25 @@ public class RobotContainer {
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             drive,
-            () -> -controller.getLeftY(),
-            () -> -controller.getLeftX(),
-            () -> -controller.getRightX()));
+            () -> -driverController.getLeftY(),
+            () -> -driverController.getLeftX(),
+            () -> -driverController.getRightX()));
 
     // Lock to 0° when A button is held
-    controller
+    driverController
         .a()
         .whileTrue(
             DriveCommands.joystickDriveAtAngle(
                 drive,
-                () -> -controller.getLeftY(),
-                () -> -controller.getLeftX(),
+                () -> -driverController.getLeftY(),
+                () -> -driverController.getLeftX(),
                 () -> Rotation2d.kZero));
 
     // Switch to X pattern when X button is pressed
-    controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
+    driverController.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
     // Reset gyro to 0° when B button is pressed
-    controller
+    driverController
         .b()
         .onTrue(
             Commands.runOnce(
@@ -164,12 +167,39 @@ public class RobotContainer {
     // Set robot pose to 0, 0 which is the origin position on the Field 3D map.
     // Useful for determining robot model config offsets.
     if (Constants.DEBUG) {
-      controller
+      driverController
           .y()
           .onTrue(
               Commands.runOnce(() -> drive.setPose(new Pose2d(0, 0, Rotation2d.kZero)), drive)
                   .ignoringDisable(true));
     }
+  }
+
+  private void configureOperatorBindings() {
+    // Shooter
+    operatorController.shooter().hoodToUpPosition(); // TODO
+    operatorController.shooter().manualMoveHoodUp(); // TODO
+    operatorController.shooter().shooterHighSpeed(); // TODO
+
+    operatorController.shooter().hoodToDownPosition(); // TODO
+    operatorController.shooter().manualMoveHoodDown(); // TODO
+    operatorController.shooter().shooterLowSpeed(); // TODO
+
+    // Right Collector
+    operatorController.rightCollector().deploy(); // TODO
+    operatorController.rightCollector().retract(); // TODO
+    operatorController.rightCollector().intake(); // TODO
+    operatorController.rightCollector().outtake(); // TODO
+    operatorController.rightCollector().manualDeploy(); // TODO
+    operatorController.rightCollector().manualRetract(); // TODO
+
+    // Left Collector
+    operatorController.leftCollector().deploy(); // TODO
+    operatorController.leftCollector().retract(); // TODO
+    operatorController.leftCollector().intake(); // TODO
+    operatorController.leftCollector().outtake(); // TODO
+    operatorController.leftCollector().manualDeploy(); // TODO
+    operatorController.leftCollector().manualRetract(); // TODO
   }
 
   private void configureDeveloperBindings() {
