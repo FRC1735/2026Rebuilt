@@ -12,6 +12,9 @@ public class CollectorDeployer extends SubsystemBase {
   private static final double MIN_ROT = 0; // TODO
   private static final double MAX_ROT = 1; // TODO
 
+  private static final double DEPLOYED_TARGET = 0.5; // TODO
+  private static final double RETRACTED_TARGET = 0.5; // TODO
+
   public CollectorDeployer(CollectorDeployerIO io) {
     this.io = io;
   }
@@ -37,6 +40,14 @@ public class CollectorDeployer extends SubsystemBase {
 
   public double getPosition() {
     return inputs.encoderPosition;
+  }
+
+  public void deploy() {
+    setTarget(DEPLOYED_TARGET);
+  }
+
+  public void retract() {
+    setTarget(RETRACTED_TARGET);
   }
 
   public void incrementTargetPosition() {

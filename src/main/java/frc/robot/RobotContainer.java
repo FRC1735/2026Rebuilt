@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.RightCollectorCommands;
+import frc.robot.commands.ShooterCommands;
 import frc.robot.limelight.LimelightLogger;
 import frc.robot.subsystems.collectordeployer.CollectorDeployer;
 import frc.robot.subsystems.drive.Drive;
@@ -177,21 +179,21 @@ public class RobotContainer {
 
   private void configureOperatorBindings() {
     // Shooter
-    operatorController.shooter().hoodToUpPosition(); // TODO
-    operatorController.shooter().manualMoveHoodUp(); // TODO
-    operatorController.shooter().shooterHighSpeed(); // TODO
+    operatorController.shooter().hoodToUpPosition().onTrue(ShooterCommands.hoodUp(shooterHood)); // TODO - verify
+    operatorController.shooter().manualMoveHoodUp().onTrue(ShooterCommands.hoodUpManual(shooterHood)); // TODO - verify
+    operatorController.shooter().shooterHighSpeed().whileTrue(ShooterCommands.shooterHighSpeed(shooter, shooterIntake)).onFalse(ShooterCommands.shooterStop(shooter)); // TODO - verify
 
-    operatorController.shooter().hoodToDownPosition(); // TODO
-    operatorController.shooter().manualMoveHoodDown(); // TODO
-    operatorController.shooter().shooterLowSpeed(); // TODO
+    operatorController.shooter().hoodToDownPosition().onTrue(ShooterCommands.hoodDown(shooterHood)); // TODO - verify
+    operatorController.shooter().manualMoveHoodDown().onTrue(ShooterCommands.hoodDownManual(shooterHood)); // TODO - verify
+    operatorController.shooter().shooterLowSpeed().whileTrue(ShooterCommands.shooterLowSpeed(shooter, shooterIntake)).onFalse(ShooterCommands.shooterStop(shooter)); // TODO - verify
 
     // Right Collector
-    operatorController.rightCollector().deploy(); // TODO
-    operatorController.rightCollector().retract(); // TODO
-    operatorController.rightCollector().intake(); // TODO
-    operatorController.rightCollector().outtake(); // TODO
-    operatorController.rightCollector().manualDeploy(); // TODO
-    operatorController.rightCollector().manualRetract(); // TODO
+    operatorController.rightCollector().deploy().onTrue(RightCollectorCommands.deploy(rightCollectorDeployer)); // TODO - verify
+    operatorController.rightCollector().retract().onTrue(RightCollectorCommands.retract(rightCollectorDeployer)); // TODO - verify
+    operatorController.rightCollector().intake().whileTrue(RightCollectorCommands.intake(rightCollectorInteriorRoller, rightCollectorExteriorRoller)).onFalse(RightCollectorCommands.stopCollection(rightCollectorInteriorRoller, rightCollectorExteriorRoller)); // TODO - verify
+    operatorController.rightCollector().outtake().whileTrue(RightCollectorCommands.outtake(rightCollectorInteriorRoller, rightCollectorExteriorRoller)).onFalse(RightCollectorCommands.stopCollection(rightCollectorInteriorRoller, rightCollectorExteriorRoller)); // TODO - verify
+    operatorController.rightCollector().manualDeploy().onTrue(RightCollectorCommands.manualDeploy(rightCollectorDeployer)); // TODO - verify
+    operatorController.rightCollector().manualRetract().onTrue(RightCollectorCommands.manualRetract(rightCollectorDeployer)); // TODO - verify
 
     // Left Collector
     operatorController.leftCollector().deploy(); // TODO
