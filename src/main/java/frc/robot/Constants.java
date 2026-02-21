@@ -34,7 +34,7 @@ public final class Constants {
   /// Left Collector
   public static final boolean LEFT_COLLECTOR_DEPLOYER_ENABLED = false;
   public static final boolean LEFT_COLLECTOR_ROLLER_EXTERIOR_ENABLED = false;
-  public static final boolean LEFT_COLLECTOR_ROLLER_INTERIOR_ENABLED = false; // TODO
+  public static final boolean LEFT_COLLECTOR_ROLLER_INTERIOR_ENABLED = false;
   /// Right Collector
   public static final boolean RIGHT_COLLECTOR_DEPLOYER_ENABLED = false;
   public static final boolean RIGHT_COLLECTOR_ROLLER_EXTERIOR_ENABLED = false;
@@ -42,10 +42,10 @@ public final class Constants {
 
   // CAN ID's
   /// Shooter
-  public static final int SHOOTER_LEFT_CAN_ID = 10; // TODO
-  public static final int SHOOTER_RIGHT_CAN_ID = 15; // TODO
-  public static final int SHOOTER_HOOD_CAN_ID = 8; // TODO
-  public static final int SHOOTER_INTAKE_CAN_ID = 9; // TODO
+  public static final int SHOOTER_LEFT_CAN_ID = 15; // TODO - verify
+  public static final int SHOOTER_RIGHT_CAN_ID = 10; // TODO - verify
+  public static final int SHOOTER_HOOD_CAN_ID = 8; // TODO - verify
+  public static final int SHOOTER_INTAKE_CAN_ID = 9; // TODO - verify
   /// LEFT COLLECTOR
   public static final int LEFT_COLLECTOR_DEPLOYER_CAN_ID = 99; // TODO
   public static final int LEFT_COLLECTOR_DEPLOYER_ENCODER_CAN_ID = 98; // TODO
