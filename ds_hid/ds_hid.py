@@ -6,7 +6,7 @@ from networktables import NetworkTables
 
 # XK-80 Vendor and Product ID
 VENDOR_ID = 1523
-PRODUCT_ID = 1089
+PRODUCT_ID = 1091
 
 # Networktables stuff
 SERVER = '10.17.35.2'
@@ -51,6 +51,7 @@ set_up_NT()
 # Find the XK-80 device
 backend = usb.backend.libusb1.get_backend()
 device = usb.core.find(idVendor=VENDOR_ID, idProduct=PRODUCT_ID, backend=backend)
+
 
 if device is None:
     print("XK-80 not found! Check connections.")
