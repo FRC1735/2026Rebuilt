@@ -14,6 +14,13 @@ public class CollectorDeployer extends SubsystemBase {
 
   private static final double DEPLOYED_TARGET = 0.5; // TODO
   private static final double RETRACTED_TARGET = 0.5; // TODO
+  private static final double RANGE = 0.02; // TODO
+
+  enum State {
+    RETRACTED,
+    DEPLOYING,
+    DEPLOYED
+  }
 
   public CollectorDeployer(CollectorDeployerIO io) {
     this.io = io;
@@ -22,6 +29,7 @@ public class CollectorDeployer extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
+
     Logger.processInputs("Collector Deployer", inputs);
   }
 
@@ -40,6 +48,17 @@ public class CollectorDeployer extends SubsystemBase {
 
   public double getPosition() {
     return inputs.encoderPosition;
+  }
+
+  public State getState() {
+    if ((DEPLOYED_TARGET - RANGE) <= inputs.encoderPosition
+        && inputs.encoderPosition <= (RANGE + DEPLOYED_TARGET)) {
+      return State.DEPLOYED;
+    } else if ((RETRACTED_TARGET - RANGE) <= inputs.encoderPosition
+        && inputs.encoderPosition <= (RANGE + RETRACTED_TARGET)) {
+      return State.RETRACTED;
+    }
+    return State.DEPLOYING;
   }
 
   public void deploy() {
