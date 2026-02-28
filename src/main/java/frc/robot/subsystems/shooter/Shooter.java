@@ -11,6 +11,9 @@ public class Shooter extends SubsystemBase {
   private final int SHOOT_HIGH_VOLTAGE = 12;
   private final int SHOOT_LOW_VOLTAGE = 2;
 
+  private final int SHOOT_HIGH_RPM = 6000;
+  private final int SHOOT_LOW_RPM = 1500;
+
   public Shooter(ShooterIO io) {
     this.io = io;
   }
@@ -26,11 +29,15 @@ public class Shooter extends SubsystemBase {
   }
 
   public void shootHigh() {
-    io.setVoltage(SHOOT_HIGH_VOLTAGE, SHOOT_HIGH_VOLTAGE);
+    io.setTargetVelocity(SHOOT_HIGH_RPM);
   }
 
   public void shootLow() {
-    io.setVoltage(SHOOT_LOW_VOLTAGE, SHOOT_LOW_VOLTAGE);
+    io.setTargetVelocity(SHOOT_LOW_RPM);
+  }
+
+  public boolean atTargetVelocity() {
+    return io.atTargetVelocity();
   }
 
   public void stop() {

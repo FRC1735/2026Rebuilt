@@ -23,6 +23,12 @@ public interface ShooterIO {
 
   default void setVoltage(double leftVolts, double rightVolts) {}
 
+  default void setTargetVelocity(double velocity) {}
+
+  default boolean atTargetVelocity() {
+    return false;
+  }
+
   default void stop() {
     setVoltage(0.0, 0.0);
   }

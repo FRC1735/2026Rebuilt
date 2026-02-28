@@ -30,11 +30,15 @@ public class ShooterCommands {
   }
 
   public static Command shooterHighSpeed(Shooter shooter, RollerIntake shooterIntake) {
-    return Commands.runOnce(shooter::shootHigh, shooter).andThen(Commands.run(shooterIntake::in));
+    return Commands.runOnce(shooter::shootHigh, shooter)
+        .until(() -> shooter.atTargetVelocity())
+        .andThen(Commands.run(shooterIntake::in));
   }
 
   public static Command shooterLowSpeed(Shooter shooter, RollerIntake shooterIntake) {
-    return Commands.runOnce(shooter::shootLow, shooter).andThen(Commands.run(shooterIntake::in));
+    return Commands.runOnce(shooter::shootLow, shooter)
+        .until(() -> shooter.atTargetVelocity())
+        .andThen(Commands.run(shooterIntake::in));
   }
 
   public static Command shooterStop(Shooter shooter) {

@@ -113,6 +113,16 @@ public class ShooterIOSparkFlex implements ShooterIO {
   }
 
   @Override
+  public void setTargetVelocity(double velocity) {
+    pid.setSetpoint(velocity);
+  }
+
+  @Override
+  public boolean atTargetVelocity() {
+    return pid.atSetpoint();
+  }
+
+  @Override
   public void stop() {
     leader.stopMotor();
     pid.reset();
