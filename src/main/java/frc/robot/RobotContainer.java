@@ -14,10 +14,10 @@ import static frc.robot.subsystems.SimulatedSubsystemFactory.*;
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.RightCollectorCommands;
 import frc.robot.commands.ShooterCommands;
@@ -108,6 +108,7 @@ public class RobotContainer {
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
     // Set up SysId routines
+    /*
     autoChooser.addOption(
         "Drive Wheel Radius Characterization", DriveCommands.wheelRadiusCharacterization(drive));
     autoChooser.addOption(
@@ -122,6 +123,18 @@ public class RobotContainer {
         "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
     autoChooser.addOption(
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+        */
+
+    autoChooser.addOption(
+        "Do Nothing",
+        Commands.runOnce(
+            () -> {
+              if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
+                drive.setPose(new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
+              } else {
+                drive.setPose(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
+              }
+            }));
 
     configureDriverBindings();
     configureOperatorBindings();
@@ -167,6 +180,17 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     // Set robot pose to 0, 0 which is the origin position on the Field 3D map.
+    driverController
+        .leftBumper()
+        .onTrue(
+            Commands.runOnce(
+                () -> {
+                  if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
+                    drive.setPose(new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
+                  } else {
+                    drive.setPose(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
+                  }
+                }));
     // Useful for determining robot model config offsets.
     if (Constants.DEBUG) {
       driverController
