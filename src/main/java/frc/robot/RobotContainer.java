@@ -179,21 +179,69 @@ public class RobotContainer {
 
   private void configureOperatorBindings() {
     // Shooter
-    operatorController.shooter().hoodToUpPosition().onTrue(ShooterCommands.hoodUp(shooterHood)); // TODO - verify
-    operatorController.shooter().manualMoveHoodUp().onTrue(ShooterCommands.hoodUpManual(shooterHood)); // TODO - verify
-    operatorController.shooter().shooterHighSpeed().whileTrue(ShooterCommands.shooterHighSpeed(shooter, shooterIntake)).onFalse(ShooterCommands.shooterStop(shooter)); // TODO - verify
+    operatorController
+        .shooter()
+        .hoodToUpPosition()
+        .onTrue(ShooterCommands.hoodUp(shooterHood)); // TODO - verify
+    operatorController
+        .shooter()
+        .manualMoveHoodUp()
+        .onTrue(ShooterCommands.hoodUpManual(shooterHood)); // TODO - verify
+    operatorController
+        .shooter()
+        .shooterHighSpeed()
+        .whileTrue(ShooterCommands.shooterHighSpeed(shooter, shooterIntake))
+        .onFalse(ShooterCommands.shooterStop(shooter)); // TODO - verify
 
-    operatorController.shooter().hoodToDownPosition().onTrue(ShooterCommands.hoodDown(shooterHood)); // TODO - verify
-    operatorController.shooter().manualMoveHoodDown().onTrue(ShooterCommands.hoodDownManual(shooterHood)); // TODO - verify
-    operatorController.shooter().shooterLowSpeed().whileTrue(ShooterCommands.shooterLowSpeed(shooter, shooterIntake)).onFalse(ShooterCommands.shooterStop(shooter)); // TODO - verify
+    operatorController
+        .shooter()
+        .hoodToDownPosition()
+        .onTrue(ShooterCommands.hoodDown(shooterHood)); // TODO - verify
+    operatorController
+        .shooter()
+        .manualMoveHoodDown()
+        .onTrue(ShooterCommands.hoodDownManual(shooterHood)); // TODO - verify
+    operatorController
+        .shooter()
+        .shooterLowSpeed()
+        .whileTrue(ShooterCommands.shooterLowSpeed(shooter, shooterIntake))
+        .onFalse(ShooterCommands.shooterStop(shooter)); // TODO - verify
 
     // Right Collector
-    operatorController.rightCollector().deploy().onTrue(RightCollectorCommands.deploy(rightCollectorDeployer)); // TODO - verify
-    operatorController.rightCollector().retract().onTrue(RightCollectorCommands.retract(rightCollectorDeployer)); // TODO - verify
-    operatorController.rightCollector().intake().whileTrue(RightCollectorCommands.intake(rightCollectorInteriorRoller, rightCollectorExteriorRoller)).onFalse(RightCollectorCommands.stopCollection(rightCollectorInteriorRoller, rightCollectorExteriorRoller)); // TODO - verify
-    operatorController.rightCollector().outtake().whileTrue(RightCollectorCommands.outtake(rightCollectorInteriorRoller, rightCollectorExteriorRoller)).onFalse(RightCollectorCommands.stopCollection(rightCollectorInteriorRoller, rightCollectorExteriorRoller)); // TODO - verify
-    operatorController.rightCollector().manualDeploy().onTrue(RightCollectorCommands.manualDeploy(rightCollectorDeployer)); // TODO - verify
-    operatorController.rightCollector().manualRetract().onTrue(RightCollectorCommands.manualRetract(rightCollectorDeployer)); // TODO - verify
+    operatorController
+        .rightCollector()
+        .deploy()
+        .onTrue(RightCollectorCommands.deploy(rightCollectorDeployer)); // TODO - verify
+    operatorController
+        .rightCollector()
+        .retract()
+        .onTrue(RightCollectorCommands.retract(rightCollectorDeployer)); // TODO - verify
+    operatorController
+        .rightCollector()
+        .intake()
+        .whileTrue(
+            RightCollectorCommands.intake(
+                rightCollectorInteriorRoller, rightCollectorExteriorRoller))
+        .onFalse(
+            RightCollectorCommands.stopCollection(
+                rightCollectorInteriorRoller, rightCollectorExteriorRoller)); // TODO - verify
+    operatorController
+        .rightCollector()
+        .outtake()
+        .whileTrue(
+            RightCollectorCommands.outtake(
+                rightCollectorInteriorRoller, rightCollectorExteriorRoller))
+        .onFalse(
+            RightCollectorCommands.stopCollection(
+                rightCollectorInteriorRoller, rightCollectorExteriorRoller)); // TODO - verify
+    operatorController
+        .rightCollector()
+        .manualDeploy()
+        .onTrue(RightCollectorCommands.manualDeploy(rightCollectorDeployer)); // TODO - verify
+    operatorController
+        .rightCollector()
+        .manualRetract()
+        .onTrue(RightCollectorCommands.manualRetract(rightCollectorDeployer)); // TODO - verify
 
     // Left Collector
     operatorController.leftCollector().deploy(); // TODO
