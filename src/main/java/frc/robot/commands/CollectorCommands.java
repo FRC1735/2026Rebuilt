@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.collectordeployer.CollectorDeployer;
 import frc.robot.subsystems.rollerintake.RollerIntake;
 
-public class RightCollectorCommands {
-  private RightCollectorCommands() {}
+public class CollectorCommands {
+  private CollectorCommands() {}
 
   public static Command deploy(CollectorDeployer collectorDeployer) {
     return Commands.runOnce(collectorDeployer::deploy, collectorDeployer);
