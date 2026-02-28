@@ -47,13 +47,13 @@ public final class Constants {
   public static final int SHOOTER_HOOD_CAN_ID = 8; // TODO - verify
   public static final int SHOOTER_INTAKE_CAN_ID = 9; // TODO - verify
   /// LEFT COLLECTOR
-  public static final int LEFT_COLLECTOR_DEPLOYER_CAN_ID = 99; // TODO
-  public static final int LEFT_COLLECTOR_DEPLOYER_ENCODER_CAN_ID = 98; // TODO
-  public static final int LEFT_COLLECTOR_ROLLER_EXTERIOR_CAN_ID = 97; // TODO
-  public static final int LEFT_COLLECTOR_ROLLER_INTERIOR_CAN_ID = 96; // TODO
+  public static final int LEFT_COLLECTOR_DEPLOYER_CAN_ID = 2; // TODO- verify
+  public static final int LEFT_COLLECTOR_DEPLOYER_ENCODER_CAN_ID = 18; // TODO-unknown
+  public static final int LEFT_COLLECTOR_ROLLER_EXTERIOR_CAN_ID = 3; // TODO-verify
+  public static final int LEFT_COLLECTOR_ROLLER_INTERIOR_CAN_ID = 1; // TODO-verify
   /// RIGHT COLLECTOR
   public static final int RIGHT_COLLECTOR_DEPLOYER_CAN_ID = 95; // TODO
-  public static final int RIGHT_COLLECTOR_DEPLOYER_ENCODER_CAN_ID = 94; // TODO
+  public static final int RIGHT_COLLECTOR_DEPLOYER_ENCODER_CAN_ID = 19; // TODO- verify
   public static final int RIGHT_COLLECTOR_ROLLER_EXTERIOR_CAN_ID = 93; // TODO
   public static final int RIGHT_COLLECTOR_ROLLER_INTERIOR_CAN_ID = 92; // TODO
 }
