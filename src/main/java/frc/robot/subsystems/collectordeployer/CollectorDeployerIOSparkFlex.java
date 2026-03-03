@@ -5,6 +5,7 @@ import com.revrobotics.ResetMode;
 import com.revrobotics.encoder.DetachedEncoder;
 import com.revrobotics.encoder.DetachedEncoder.Model;
 import com.revrobotics.encoder.config.DetachedEncoderConfig;
+import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkClosedLoopController;
@@ -25,16 +26,16 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
   private double targetRotations = 0.0;
 
-  private final double FORWARD_LIMIT = 0.9;
+  private final double FORWARD_LIMIT = 0.7;
   private final double REVERSE_LIMIT = 0.3;
 
   // Tunables
-  private double kP = 4.0;
+  private double kP = 0.001;
   private double kI = 0.0;
-  private double kD = 5.0;
-  private double cruiseVelocity = 500.0;
-  private double acceleration = 200.0;
-  private double allowedProfileError = 0.01;
+  private double kD = 0.0;
+  private double cruiseVelocity = 10; // 500.0;
+  private double acceleration = 1; // 200.0;
+  private double allowedProfileError = 0.1;
 
   private double lastP, lastI, lastD;
   private double lastCruise, lastAccel, lastError;
@@ -45,6 +46,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
   private final DoubleEntry cruiseEntry;
   private final DoubleEntry accelEntry;
   private final DoubleEntry errorEntry;
+  private final DoubleEntry targetEntry;
 
   public CollectorDeployerIOSparkFlex(int motorCanId, int detachedEncoderCanId, String name) {
     this.detachedEncoderCanId = detachedEncoderCanId;
@@ -63,6 +65,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     cruiseEntry = table.getDoubleTopic("cruiseVelocity").getEntry(cruiseVelocity);
     accelEntry = table.getDoubleTopic("acceleration").getEntry(acceleration);
     errorEntry = table.getDoubleTopic("allowedProfileError").getEntry(allowedProfileError);
+    targetEntry = table.getDoubleTopic("targetRotations").getEntry(targetRotations);
 
     kPEntry.set(kP);
     kIEntry.set(kI);
@@ -70,6 +73,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     cruiseEntry.set(cruiseVelocity);
     accelEntry.set(acceleration);
     errorEntry.set(allowedProfileError);
+    targetEntry.set(targetRotations);
 
     configureSpark();
   }
@@ -102,7 +106,8 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     config
         .closedLoop
         .feedbackSensor(FeedbackSensor.kDetachedAbsoluteEncoder, detachedEncoderCanId)
-        .outputRange(-1, 1)
+        .positionWrappingEnabled(false)
+        .allowedClosedLoopError(0.1, ClosedLoopSlot.kSlot0)
         .p(kP)
         .i(kI)
         .d(kD);
@@ -158,6 +163,9 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
     inputs.targetRotations = targetRotations;
     inputs.atTarget = Math.abs(inputs.encoderPosition - targetRotations) < allowedProfileError;
+    System.out.println("JTA - target: " + targetRotations);
+    System.out.println(
+        "JTA: " + inputs.atTarget + ", " + (Math.abs(inputs.encoderPosition - targetRotations)));
 
     inputs.kP = kP;
     inputs.kI = kI;
@@ -170,7 +178,6 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
   @Override
   public void setTarget(double rotations) {
     targetRotations = rotations;
-
     controller.setSetpoint(rotations, SparkBase.ControlType.kMAXMotionPositionControl);
   }
 
