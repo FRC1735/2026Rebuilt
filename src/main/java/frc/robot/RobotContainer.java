@@ -301,6 +301,7 @@ public class RobotContainer {
   }
 
   private void configureDeveloperBindings() {
+    // TODO - move these to xk-80
     driverController
         .a()
         .whileTrue(
@@ -310,6 +311,16 @@ public class RobotContainer {
         .b()
         .whileTrue(
             CollectorCommands.outtake(leftCollectorInteriorRoller, leftCollectorExteriorRoller));
+
+    driverController
+        .x()
+        .whileTrue(
+            CollectorCommands.intake(rightCollectorInteriorRoller, rightCollectorExteriorRoller));
+
+    driverController
+        .y()
+        .whileTrue(
+            CollectorCommands.outtake(rightCollectorInteriorRoller, rightCollectorExteriorRoller));
   }
 
   public Command getAutonomousCommand() {

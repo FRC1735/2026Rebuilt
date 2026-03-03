@@ -98,7 +98,7 @@ public class RealSubsystemFactory {
             ? new RollerIntakeIOSparkFlex(
                 Constants.RIGHT_COLLECTOR_ROLLER_EXTERIOR_CAN_ID,
                 "Right Collector Exterior Roller",
-                false)
+                true)
             : new RollerIntakeIO() {},
         "Right Collector Exterior Roller");
   }
@@ -109,7 +109,7 @@ public class RealSubsystemFactory {
             ? new RollerIntakeIOSparkFlex(
                 Constants.RIGHT_COLLECTOR_ROLLER_INTERIOR_CAN_ID,
                 "Right Collector Interior Roller",
-                false)
+                true)
             : new RollerIntakeIO() {},
         "Right Collector Interior Roller");
   }

@@ -37,8 +37,8 @@ public final class Constants {
   public static final boolean LEFT_COLLECTOR_ROLLER_INTERIOR_ENABLED = true;
   /// Right Collector
   public static final boolean RIGHT_COLLECTOR_DEPLOYER_ENABLED = false;
-  public static final boolean RIGHT_COLLECTOR_ROLLER_EXTERIOR_ENABLED = false;
-  public static final boolean RIGHT_COLLECTOR_ROLLER_INTERIOR_ENABLED = false;
+  public static final boolean RIGHT_COLLECTOR_ROLLER_EXTERIOR_ENABLED = true;
+  public static final boolean RIGHT_COLLECTOR_ROLLER_INTERIOR_ENABLED = true;
 
   // CAN ID's
   /// Shooter
