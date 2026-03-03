@@ -42,18 +42,18 @@ public final class Constants {
 
   // CAN ID's
   /// Shooter
-  public static final int SHOOTER_LEFT_CAN_ID = 15; // TODO - verify
-  public static final int SHOOTER_RIGHT_CAN_ID = 10; // TODO - verify
-  public static final int SHOOTER_HOOD_CAN_ID = 8; // TODO - verify
-  public static final int SHOOTER_INTAKE_CAN_ID = 9; // TODO - verify
+  public static final int SHOOTER_LEFT_CAN_ID = 5;
+  public static final int SHOOTER_RIGHT_CAN_ID = 6;
+  public static final int SHOOTER_INTAKE_CAN_ID = 7;
+  public static final int SHOOTER_HOOD_CAN_ID = 8;
   /// LEFT COLLECTOR
-  public static final int LEFT_COLLECTOR_DEPLOYER_CAN_ID = 2; // TODO- verify
-  public static final int LEFT_COLLECTOR_DEPLOYER_ENCODER_CAN_ID = 18; // TODO-unknown
-  public static final int LEFT_COLLECTOR_ROLLER_EXTERIOR_CAN_ID = 3; // TODO-verify
-  public static final int LEFT_COLLECTOR_ROLLER_INTERIOR_CAN_ID = 1; // TODO-verify
+  public static final int LEFT_COLLECTOR_DEPLOYER_CAN_ID = 17;
+  public static final int LEFT_COLLECTOR_DEPLOYER_ENCODER_CAN_ID = 18;
+  public static final int LEFT_COLLECTOR_ROLLER_EXTERIOR_CAN_ID = 15;
+  public static final int LEFT_COLLECTOR_ROLLER_INTERIOR_CAN_ID = 16;
   /// RIGHT COLLECTOR
-  public static final int RIGHT_COLLECTOR_DEPLOYER_CAN_ID = 95; // TODO
-  public static final int RIGHT_COLLECTOR_DEPLOYER_ENCODER_CAN_ID = 19; // TODO- verify
-  public static final int RIGHT_COLLECTOR_ROLLER_EXTERIOR_CAN_ID = 93; // TODO
-  public static final int RIGHT_COLLECTOR_ROLLER_INTERIOR_CAN_ID = 92; // TODO
+  public static final int RIGHT_COLLECTOR_DEPLOYER_CAN_ID = 27;
+  public static final int RIGHT_COLLECTOR_DEPLOYER_ENCODER_CAN_ID = 28;
+  public static final int RIGHT_COLLECTOR_ROLLER_EXTERIOR_CAN_ID = 25;
+  public static final int RIGHT_COLLECTOR_ROLLER_INTERIOR_CAN_ID = 26;
 }
