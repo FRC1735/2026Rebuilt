@@ -137,8 +137,8 @@ public class RobotContainer {
             }));
 
     // configureDriverBindings();
-    // configureOperatorBindings();
-    configureDeveloperBindings();
+    configureOperatorBindings();
+    // configureDeveloperBindings();
   }
 
   public void logLimelights() {
@@ -239,23 +239,20 @@ public class RobotContainer {
     operatorController
         .rightCollector()
         .retract()
-        .onTrue(CollectorCommands.retract(rightCollectorDeployer)); // TODO - verify
-    operatorController
+        .onTrue(CollectorCommands.retract(rightCollectorDeployer)); // TODO - verif
+
+    operatorController // verified
         .rightCollector()
         .intake()
         .whileTrue(
-            CollectorCommands.intake(rightCollectorInteriorRoller, rightCollectorExteriorRoller))
-        .onFalse(
-            CollectorCommands.stopCollection(
-                rightCollectorInteriorRoller, rightCollectorExteriorRoller)); // TODO - verify
-    operatorController
+            CollectorCommands.intake(rightCollectorInteriorRoller, rightCollectorExteriorRoller));
+
+    operatorController // verified
         .rightCollector()
         .outtake()
         .whileTrue(
-            CollectorCommands.outtake(rightCollectorInteriorRoller, rightCollectorExteriorRoller))
-        .onFalse(
-            CollectorCommands.stopCollection(
-                rightCollectorInteriorRoller, rightCollectorExteriorRoller)); // TODO - verify
+            CollectorCommands.outtake(rightCollectorInteriorRoller, rightCollectorExteriorRoller));
+
     operatorController
         .rightCollector()
         .manualDeploy()
@@ -274,22 +271,19 @@ public class RobotContainer {
         .leftCollector()
         .retract()
         .onTrue(CollectorCommands.retract(leftCollectorDeployer)); // TODO - verify
-    operatorController
+
+    operatorController // verified
         .leftCollector()
         .intake()
         .whileTrue(
-            CollectorCommands.intake(leftCollectorInteriorRoller, leftCollectorExteriorRoller))
-        .onFalse(
-            CollectorCommands.stopCollection(
-                leftCollectorInteriorRoller, leftCollectorExteriorRoller)); // TODO - verify
-    operatorController
+            CollectorCommands.intake(leftCollectorInteriorRoller, leftCollectorExteriorRoller));
+
+    operatorController // verified
         .leftCollector()
         .outtake()
         .whileTrue(
-            CollectorCommands.outtake(leftCollectorInteriorRoller, leftCollectorExteriorRoller))
-        .onFalse(
-            CollectorCommands.stopCollection(
-                leftCollectorInteriorRoller, leftCollectorExteriorRoller)); // TODO - verify
+            CollectorCommands.outtake(leftCollectorInteriorRoller, leftCollectorExteriorRoller));
+
     operatorController
         .leftCollector()
         .manualDeploy()
@@ -297,31 +291,10 @@ public class RobotContainer {
     operatorController
         .leftCollector()
         .manualRetract()
-        .onTrue(CollectorCommands.manualRetract(leftCollectorDeployer));
+        .onTrue(CollectorCommands.manualRetract(leftCollectorDeployer)); // TODO - verify
   }
 
-  private void configureDeveloperBindings() {
-    // TODO - move these to xk-80
-    driverController
-        .a()
-        .whileTrue(
-            CollectorCommands.intake(leftCollectorInteriorRoller, leftCollectorExteriorRoller));
-
-    driverController
-        .b()
-        .whileTrue(
-            CollectorCommands.outtake(leftCollectorInteriorRoller, leftCollectorExteriorRoller));
-
-    driverController
-        .x()
-        .whileTrue(
-            CollectorCommands.intake(rightCollectorInteriorRoller, rightCollectorExteriorRoller));
-
-    driverController
-        .y()
-        .whileTrue(
-            CollectorCommands.outtake(rightCollectorInteriorRoller, rightCollectorExteriorRoller));
-  }
+  private void configureDeveloperBindings() {}
 
   public Command getAutonomousCommand() {
     return autoChooser.get();
