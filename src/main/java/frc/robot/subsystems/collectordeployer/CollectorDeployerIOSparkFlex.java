@@ -5,7 +5,6 @@ import com.revrobotics.ResetMode;
 import com.revrobotics.encoder.DetachedEncoder;
 import com.revrobotics.encoder.DetachedEncoder.Model;
 import com.revrobotics.encoder.config.DetachedEncoderConfig;
-import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkClosedLoopController;
@@ -39,6 +38,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
   private double lastP, lastI, lastD;
   private double lastCruise, lastAccel, lastError;
+  private double lastTargetRotations;
 
   private final DoubleEntry kPEntry;
   private final DoubleEntry kIEntry;
@@ -107,7 +107,6 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
         .closedLoop
         .feedbackSensor(FeedbackSensor.kDetachedAbsoluteEncoder, detachedEncoderCanId)
         .positionWrappingEnabled(false)
-        .allowedClosedLoopError(0.1, ClosedLoopSlot.kSlot0)
         .p(kP)
         .i(kI)
         .d(kD);
@@ -121,7 +120,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
     config.closedLoop.apply(motionConfig);
 
-    spark.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
+    spark.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
     lastP = kP;
     lastI = kI;
@@ -129,6 +128,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     lastCruise = cruiseVelocity;
     lastAccel = acceleration;
     lastError = allowedProfileError;
+    lastTargetRotations = targetRotations;
   }
 
   private void checkForChanges() {
@@ -139,13 +139,15 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     cruiseVelocity = cruiseEntry.get();
     acceleration = accelEntry.get();
     allowedProfileError = errorEntry.get();
+    targetRotations = targetEntry.get();
 
     if (kP != lastP
         || kI != lastI
         || kD != lastD
         || cruiseVelocity != lastCruise
         || acceleration != lastAccel
-        || allowedProfileError != lastError) {
+        || allowedProfileError != lastError
+        || targetRotations != lastTargetRotations) {
 
       configureSpark();
     }
