@@ -46,7 +46,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
   private final DoubleEntry accelEntry;
   private final DoubleEntry errorEntry;
 
-  public CollectorDeployerIOSparkFlex(int motorCanId, int detachedEncoderCanId) {
+  public CollectorDeployerIOSparkFlex(int motorCanId, int detachedEncoderCanId, String name) {
     this.detachedEncoderCanId = detachedEncoderCanId;
 
     spark = new SparkFlex(motorCanId, MotorType.kBrushless);
@@ -55,8 +55,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
     encoder = new DetachedEncoder(detachedEncoderCanId, Model.MAXSplineEncoder) {};
 
-    NetworkTable table =
-        NetworkTableInstance.getDefault().getTable("Elastic").getSubTable("Collector Deployer");
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("Elastic").getSubTable(name);
 
     kPEntry = table.getDoubleTopic("kP").getEntry(kP);
     kIEntry = table.getDoubleTopic("kI").getEntry(kI);

@@ -3,22 +3,22 @@
     {
       "x": -7,
       "y": -7,
-      "width": 1440,
-      "height": 936,
+      "width": 1454,
+      "height": 950,
       "state": {
         "sidebar": {
-          "width": 300,
+          "width": 400,
           "expanded": [
             "/RealOutputs/Odometry/Robot",
             "/RealOutputs/SwerveStates",
-            "/Shooter",
-            "/RealOutputs",
             "/Collector Deployer",
-            "/Collector Exterior"
+            "/Collector Exterior",
+            "/RealOutputs/Odometry",
+            "/Left Collector Deployer"
           ]
         },
         "tabs": {
-          "selected": 7,
+          "selected": 6,
           "tabs": [
             {
               "type": 0,
@@ -56,7 +56,17 @@
               "type": 2,
               "title": "2D Field",
               "controller": {
-                "sources": [],
+                "sources": [
+                  {
+                    "type": "robot",
+                    "logKey": "/RealOutputs/Odometry/Robot",
+                    "logType": "Pose2d",
+                    "visible": true,
+                    "options": {
+                      "bumpers": ""
+                    }
+                  }
+                ],
                 "field": "FRC:2026 Field",
                 "orientation": 0,
                 "size": "large"
@@ -87,14 +97,14 @@
                 "cameraIndex": -1,
                 "orbitFov": 50,
                 "cameraPosition": [
-                  -1.7035665602824637,
-                  8.372781219637814,
-                  -6.262853420139513
+                  -13.46478365866037,
+                  7.624134812924329,
+                  1.6809364910180453
                 ],
                 "cameraTarget": [
-                  -1.7287139753268634,
-                  1.9735259949958326,
-                  -2.1657076776388307
+                  -0.08959485390572539,
+                  -3.755743664079014,
+                  -0.4350062864597737
                 ]
               },
               "controlsHeight": 100
@@ -188,26 +198,26 @@
             },
             {
               "type": 1,
-              "title": "Collector Deployer",
+              "title": "Left Collector Deployer",
               "controller": {
                 "leftSources": [
                   {
                     "type": "stepped",
-                    "logKey": "/Collector Deployer/PositionRotations",
+                    "logKey": "/Left Collector Deployer/EncoderPosition",
                     "logType": "Number",
                     "visible": true,
                     "options": {
-                      "color": "#e5b31b",
+                      "color": "#af2437",
                       "size": "normal"
                     }
                   },
                   {
                     "type": "stepped",
-                    "logKey": "/Collector Deployer/TargetRotations",
+                    "logKey": "/Left Collector Deployer/TargetRotations",
                     "logType": "Number",
                     "visible": true,
                     "options": {
-                      "color": "#af2437",
+                      "color": "#80588e",
                       "size": "normal"
                     }
                   }
@@ -216,11 +226,11 @@
                 "discreteSources": [
                   {
                     "type": "stripes",
-                    "logKey": "/Collector Deployer/AtTarget",
+                    "logKey": "/Left Collector Deployer/AtTarget",
                     "logType": "Boolean",
                     "visible": true,
                     "options": {
-                      "color": "#2b66a2"
+                      "color": "#e5b31b"
                     }
                   }
                 ],

@@ -40,7 +40,7 @@ public class SimulatedSubsystemFactory {
 
   /// Left Collector
   public static CollectorDeployer createSimulatedLeftCollectorDeployer() {
-    return new CollectorDeployer(new CollectorDeployerIOSim());
+    return new CollectorDeployer(new CollectorDeployerIOSim(), "Left Collector Deployer");
   }
 
   public static RollerIntake createSimulatedLeftCollectorExteriorRoller() {
@@ -53,7 +53,7 @@ public class SimulatedSubsystemFactory {
 
   /// Right Collector
   public static CollectorDeployer createSimulatedRightCollectorDeployer() {
-    return new CollectorDeployer(new CollectorDeployerIOSim());
+    return new CollectorDeployer(new CollectorDeployerIOSim(), "Right Collector Deployer");
   }
 
   public static RollerIntake createSimulatedRightCollectorExteriorRoller() {

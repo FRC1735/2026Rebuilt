@@ -16,21 +16,23 @@ public class CollectorDeployer extends SubsystemBase {
   private static final double RETRACTED_TARGET = 0.5; // TODO
   private static final double RANGE = 0.02; // TODO
 
+  private final String name;
+
   enum State {
     RETRACTED,
     DEPLOYING,
     DEPLOYED
   }
 
-  public CollectorDeployer(CollectorDeployerIO io) {
+  public CollectorDeployer(CollectorDeployerIO io, String name) {
     this.io = io;
+    this.name = name;
   }
 
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-
-    Logger.processInputs("Collector Deployer", inputs);
+    Logger.processInputs(name, inputs);
   }
 
   public void setTarget(double rotations) {

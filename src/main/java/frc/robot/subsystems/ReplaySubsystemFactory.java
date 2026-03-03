@@ -38,7 +38,7 @@ public class ReplaySubsystemFactory {
 
   /// Left Collector
   public static CollectorDeployer createReplayLeftCollectorDeployer() {
-    return new CollectorDeployer(new CollectorDeployerIO() {});
+    return new CollectorDeployer(new CollectorDeployerIO() {}, "Left Collector Deployer");
   }
 
   public static RollerIntake createReplayLeftCollectorExteriorRoller() {
@@ -51,7 +51,7 @@ public class ReplaySubsystemFactory {
 
   /// Right Collector
   public static CollectorDeployer createReplayRightCollectorDeployer() {
-    return new CollectorDeployer(new CollectorDeployerIO() {});
+    return new CollectorDeployer(new CollectorDeployerIO() {}, "Right Collector Deployer");
   }
 
   public static RollerIntake createReplayRightCollectorExteriorRoller() {
