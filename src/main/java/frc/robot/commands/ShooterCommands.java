@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.subsystems.rollerintake.RollerIntake;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooterhood.ShooterHood;
@@ -39,6 +40,14 @@ public class ShooterCommands {
     return Commands.runOnce(shooter::shootLow, shooter)
         .until(() -> shooter.atTargetVelocity())
         .andThen(Commands.run(shooterIntake::in));
+  }
+
+  public static Command shooterIntake(RollerIntake shooterIntake) {
+    return new StartEndCommand(shooterIntake::in, shooterIntake::stop, shooterIntake);
+  }
+
+  public static Command shooterOuttake(RollerIntake shooterIntake) {
+    return new StartEndCommand(shooterIntake::out, shooterIntake::stop, shooterIntake);
   }
 
   public static Command shooterStop(Shooter shooter) {

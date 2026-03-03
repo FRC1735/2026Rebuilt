@@ -137,8 +137,8 @@ public class RobotContainer {
             }));
 
     // configureDriverBindings();
-    configureOperatorBindings();
-    // configureDeveloperBindings();
+    // configureOperatorBindings();
+    configureDeveloperBindings();
   }
 
   public void logLimelights() {
@@ -267,6 +267,7 @@ public class RobotContainer {
         .leftCollector()
         .deploy()
         .onTrue(CollectorCommands.deploy(leftCollectorDeployer)); // TODO - verify
+
     operatorController
         .leftCollector()
         .retract()
@@ -294,7 +295,10 @@ public class RobotContainer {
         .onTrue(CollectorCommands.manualRetract(leftCollectorDeployer)); // TODO - verify
   }
 
-  private void configureDeveloperBindings() {}
+  private void configureDeveloperBindings() {
+    driverController.a().whileTrue(ShooterCommands.shooterIntake(shooterIntake));
+    driverController.b().whileTrue(ShooterCommands.shooterOuttake(shooterIntake));
+  }
 
   public Command getAutonomousCommand() {
     return autoChooser.get();

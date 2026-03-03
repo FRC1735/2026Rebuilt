@@ -30,7 +30,7 @@ public final class Constants {
   /// Shooter
   public static final boolean SHOOTER_ENABLED = false;
   public static final boolean SHOOTER_HOOD_ENABLED = false;
-  public static final boolean SHOOTER_INTAKE_ENABLED = false;
+  public static final boolean SHOOTER_INTAKE_ENABLED = true;
   /// Left Collector
   public static final boolean LEFT_COLLECTOR_DEPLOYER_ENABLED = false;
   public static final boolean LEFT_COLLECTOR_ROLLER_EXTERIOR_ENABLED = true;
