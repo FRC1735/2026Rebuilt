@@ -136,9 +136,9 @@ public class RobotContainer {
               }
             }));
 
-    configureDriverBindings();
-    configureOperatorBindings();
-    // configureDeveloperBindings();
+    // configureDriverBindings();
+    // configureOperatorBindings();
+    configureDeveloperBindings();
   }
 
   public void logLimelights() {
@@ -301,81 +301,15 @@ public class RobotContainer {
   }
 
   private void configureDeveloperBindings() {
-    /*
-    // Shoot Shooter - High Speed
-    controller
-        .rightBumper()
-        .whileTrue(Commands.run(shooter::shootHigh, shooter))
-        .onFalse(Commands.runOnce(shooter::stop, shooter));
+    driverController
+        .a()
+        .whileTrue(
+            CollectorCommands.intake(leftCollectorInteriorRoller, leftCollectorExteriorRoller));
 
-    // Shoot Shooter - Low Speed
-    controller
-        .leftBumper()
-        .whileTrue(Commands.run(shooter::shootLow, shooter))
-        .onFalse(Commands.runOnce(shooter::stop, shooter));
-
-    // Shooter Hood - Position A
-    controller
-        .povUp()
-        .onTrue(Commands.runOnce(() -> shooterHood.setPositionRotations(0.8), shooterHood));
-
-    // Shooter Hood - Position B
-    controller
-        .povDown()
-        .onTrue(Commands.runOnce(() -> shooterHood.setPositionRotations(0.4), shooterHood));
-
-    // DEBUG - tell hood to go outside of position range
-    controller
-        .povLeft()
-        .onTrue(
-            Commands.runOnce(
-                () -> {
-                  shooterHood.setPositionRotations(0.99);
-                },
-                shooterHood));
-    controller
-        .povRight()
-        .onTrue(Commands.runOnce(() -> shooterHood.setPositionRotations(0.22), shooterHood));
-        */
-    /*
-    controller
-        .leftBumper()
-        .onTrue(
-            Commands.runOnce(
-                () -> {
-                  collectorExteriorRight.setVoltage(-9);
-                  collectorExteriorLeft.setVoltage(-9);
-                },
-                collectorExteriorRight,
-                collectorExteriorLeft))
-        .onFalse(
-            Commands.runOnce(
-                () -> {
-                  collectorExteriorRight.stop();
-                  collectorExteriorLeft.stop();
-                },
-                collectorExteriorRight,
-                collectorExteriorLeft));
-
-    controller
-        .rightBumper()
-        .onTrue(
-            Commands.runOnce(
-                () -> {
-                  collectorExteriorRight.setVoltage(9);
-                  collectorExteriorLeft.setVoltage(9);
-                },
-                collectorExteriorRight,
-                collectorExteriorLeft))
-        .onFalse(
-            Commands.runOnce(
-                () -> {
-                  collectorExteriorRight.stop();
-                  collectorExteriorLeft.stop();
-                },
-                collectorExteriorRight,
-                collectorExteriorLeft));
-                */
+    driverController
+        .b()
+        .whileTrue(
+            CollectorCommands.outtake(leftCollectorInteriorRoller, leftCollectorExteriorRoller));
   }
 
   public Command getAutonomousCommand() {
