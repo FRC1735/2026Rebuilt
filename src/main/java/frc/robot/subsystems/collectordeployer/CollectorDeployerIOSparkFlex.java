@@ -95,7 +95,8 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
         .inverted(false);
 
     DetachedEncoderConfig encoderConfig = new DetachedEncoderConfig();
-    // encoderConfig.
+    // TODO - expose as argument
+    encoderConfig.dutyCycleOffset(0.2f);
     encoder.configure(encoderConfig, ResetMode.kNoResetSafeParameters);
 
     config
