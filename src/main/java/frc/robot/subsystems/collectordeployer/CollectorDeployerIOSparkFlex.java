@@ -6,74 +6,59 @@ import com.revrobotics.encoder.DetachedEncoder;
 import com.revrobotics.encoder.DetachedEncoder.Model;
 import com.revrobotics.encoder.config.DetachedEncoderConfig;
 import com.revrobotics.spark.FeedbackSensor;
-import com.revrobotics.spark.SparkBase;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.MAXMotionConfig;
+import com.revrobotics.spark.config.MAXMotionConfig.MAXMotionPositionMode;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
-import edu.wpi.first.networktables.DoubleEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.util.TunableNumber;
 
 public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
+
   private final SparkFlex spark;
   private final SparkClosedLoopController controller;
   private final DetachedEncoder encoder;
   private final int detachedEncoderCanId;
 
-  private double targetRotations = 0.0;
+  private double targetRotations = 0.5;
 
-  private final double FORWARD_LIMIT = 0.7;
-  private final double REVERSE_LIMIT = 0.3;
+  private static final double FORWARD_LIMIT = 0.7;
+  private static final double REVERSE_LIMIT = 0.3;
 
   // Tunables
-  private double kP = 0.001;
-  private double kI = 0.0;
-  private double kD = 0.0;
-  private double cruiseVelocity = 10; // 500.0;
-  private double acceleration = 1; // 200.0;
-  private double allowedProfileError = 0.1;
-
-  private double lastP, lastI, lastD;
-  private double lastCruise, lastAccel, lastError;
-  private double lastTargetRotations;
-
-  private final DoubleEntry kPEntry;
-  private final DoubleEntry kIEntry;
-  private final DoubleEntry kDEntry;
-  private final DoubleEntry cruiseEntry;
-  private final DoubleEntry accelEntry;
-  private final DoubleEntry errorEntry;
-  private final DoubleEntry targetEntry;
+  private final TunableNumber kP;
+  private final TunableNumber kI;
+  private final TunableNumber kD;
+  private final TunableNumber cruiseVelocity;
+  private final TunableNumber acceleration;
+  private final TunableNumber allowedProfileError;
+  private final TunableNumber target;
+  private final double delta;
 
   public CollectorDeployerIOSparkFlex(int motorCanId, int detachedEncoderCanId, String name) {
+
     this.detachedEncoderCanId = detachedEncoderCanId;
 
     spark = new SparkFlex(motorCanId, MotorType.kBrushless);
     controller = spark.getClosedLoopController();
-    // encoder = spark.getAbsoluteEncoder();
-
     encoder = new DetachedEncoder(detachedEncoderCanId, Model.MAXSplineEncoder) {};
 
     NetworkTable table = NetworkTableInstance.getDefault().getTable("Elastic").getSubTable(name);
 
-    kPEntry = table.getDoubleTopic("kP").getEntry(kP);
-    kIEntry = table.getDoubleTopic("kI").getEntry(kI);
-    kDEntry = table.getDoubleTopic("kD").getEntry(kD);
-    cruiseEntry = table.getDoubleTopic("cruiseVelocity").getEntry(cruiseVelocity);
-    accelEntry = table.getDoubleTopic("acceleration").getEntry(acceleration);
-    errorEntry = table.getDoubleTopic("allowedProfileError").getEntry(allowedProfileError);
-    targetEntry = table.getDoubleTopic("targetRotations").getEntry(targetRotations);
+    kP = new TunableNumber(table, "kP", 5);
+    kI = new TunableNumber(table, "kI", 0.0);
+    kD = new TunableNumber(table, "kD", 0.0);
 
-    kPEntry.set(kP);
-    kIEntry.set(kI);
-    kDEntry.set(kD);
-    cruiseEntry.set(cruiseVelocity);
-    accelEntry.set(acceleration);
-    errorEntry.set(allowedProfileError);
-    targetEntry.set(targetRotations);
+    cruiseVelocity = new TunableNumber(table, "cruiseVelocity", 1.8);
+    acceleration = new TunableNumber(table, "acceleration", 4.0);
+    allowedProfileError = new TunableNumber(table, "allowedProfileError", 0.02);
+    target = new TunableNumber(table, "targetRotations", 0.0);
+    delta = target.get() - encoder.getAngle();
 
     configureSpark();
   }
@@ -84,6 +69,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
     config.idleMode(IdleMode.kBrake);
     config.smartCurrentLimit(30);
+    config.inverted(true);
 
     config
         .softLimit
@@ -92,14 +78,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
         .reverseSoftLimit(REVERSE_LIMIT)
         .reverseSoftLimitEnabled(true);
 
-    config
-        .absoluteEncoder
-        .positionConversionFactor(1.0)
-        .velocityConversionFactor(1.0)
-        .inverted(false);
-
     DetachedEncoderConfig encoderConfig = new DetachedEncoderConfig();
-    // TODO - expose as argument
     encoderConfig.dutyCycleOffset(0.2f);
     encoder.configure(encoderConfig, ResetMode.kNoResetSafeParameters);
 
@@ -107,80 +86,85 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
         .closedLoop
         .feedbackSensor(FeedbackSensor.kDetachedAbsoluteEncoder, detachedEncoderCanId)
         .positionWrappingEnabled(false)
-        .p(kP)
-        .i(kI)
-        .d(kD);
+        .p(kP.get())
+        .i(kI.get())
+        .d(kD.get())
+        .feedForward
+        .kS(0.25)
+        .kV(0)
+        .kA(0)
+        .kG(0);
 
     var motionConfig = new MAXMotionConfig();
 
     motionConfig
-        .cruiseVelocity(cruiseVelocity)
-        .maxAcceleration(acceleration)
-        .allowedProfileError(allowedProfileError);
+        .cruiseVelocity(cruiseVelocity.get())
+        .maxAcceleration(acceleration.get())
+        .positionMode(MAXMotionPositionMode.kMAXMotionTrapezoidal)
+        .allowedProfileError(allowedProfileError.get());
 
     config.closedLoop.apply(motionConfig);
 
-    spark.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
-    lastP = kP;
-    lastI = kI;
-    lastD = kD;
-    lastCruise = cruiseVelocity;
-    lastAccel = acceleration;
-    lastError = allowedProfileError;
-    lastTargetRotations = targetRotations;
+    spark.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
-  private void checkForChanges() {
+  private void updateTunables() {
 
-    kP = kPEntry.get();
-    kI = kIEntry.get();
-    kD = kDEntry.get();
-    cruiseVelocity = cruiseEntry.get();
-    acceleration = accelEntry.get();
-    allowedProfileError = errorEntry.get();
-    targetRotations = targetEntry.get();
+    boolean pidChanged =
+        kP.hasChanged(1e-6)
+            | kI.hasChanged(1e-6)
+            | kD.hasChanged(1e-6)
+            | cruiseVelocity.hasChanged(1e-3)
+            | acceleration.hasChanged(1e-3)
+            | allowedProfileError.hasChanged(1e-4);
 
-    if (kP != lastP
-        || kI != lastI
-        || kD != lastD
-        || cruiseVelocity != lastCruise
-        || acceleration != lastAccel
-        || allowedProfileError != lastError
-        || targetRotations != lastTargetRotations) {
-
+    if (pidChanged) {
       configureSpark();
+    }
+
+    if (target.hasChanged(1e-6)) {
+      targetRotations = target.get();
+      /*
+      controller.setSetpoint(
+          targetRotations,
+          SparkBase.ControlType.kMAXMotionPositionControl);
+          */
     }
   }
 
   @Override
   public void updateInputs(CollectorDeployerIOInputs inputs) {
 
-    checkForChanges();
+    updateTunables();
 
-    inputs.encoderPosition = encoder.getAngle();
+    double position = encoder.getAngle();
+
+    inputs.encoderPosition = position;
     inputs.velocityRPM = encoder.getVelocity();
     inputs.appliedVolts = spark.getAppliedOutput() * spark.getBusVoltage();
     inputs.currentAmps = spark.getOutputCurrent();
 
     inputs.targetRotations = targetRotations;
-    inputs.atTarget = Math.abs(inputs.encoderPosition - targetRotations) < allowedProfileError;
-    System.out.println("JTA - target: " + targetRotations);
-    System.out.println(
-        "JTA: " + inputs.atTarget + ", " + (Math.abs(inputs.encoderPosition - targetRotations)));
+    inputs.atTarget = Math.abs(position - targetRotations) < allowedProfileError.get();
 
-    inputs.kP = kP;
-    inputs.kI = kI;
-    inputs.kD = kD;
-    inputs.cruiseVelocity = cruiseVelocity;
-    inputs.acceleration = acceleration;
-    inputs.allowedProfileError = allowedProfileError;
+    inputs.kP = kP.get();
+    inputs.kI = kI.get();
+    inputs.kD = kD.get();
+    inputs.cruiseVelocity = cruiseVelocity.get();
+    inputs.acceleration = acceleration.get();
+    inputs.allowedProfileError = allowedProfileError.get();
+
+    inputs.delta = position - targetRotations;
   }
 
   @Override
   public void setTarget(double rotations) {
     targetRotations = rotations;
-    controller.setSetpoint(rotations, SparkBase.ControlType.kMAXMotionPositionControl);
+
+    System.out.println("JTA - setTarget: " + rotations);
+
+    controller.setSetpoint(rotations, ControlType.kMAXMotionPositionControl);
   }
 
   @Override

@@ -137,7 +137,7 @@ public class RobotContainer {
             }));
 
     // configureDriverBindings();
-    // configureOperatorBindings();
+    configureOperatorBindings();
     configureDeveloperBindings();
   }
 

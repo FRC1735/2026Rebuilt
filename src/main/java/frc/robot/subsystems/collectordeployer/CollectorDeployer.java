@@ -9,8 +9,8 @@ public class CollectorDeployer extends SubsystemBase {
   private final CollectorDeployerIOInputsAutoLogged inputs =
       new CollectorDeployerIOInputsAutoLogged();
 
-  private static final double MIN_ROT = 0; // TODO
-  private static final double MAX_ROT = 1; // TODO
+  private static final double MIN_ROT = 0.3; // TODO
+  private static final double MAX_ROT = 0.7; // TODO
 
   private static final double DEPLOYED_TARGET = 0.5; // TODO
   private static final double RETRACTED_TARGET = 0.5; // TODO

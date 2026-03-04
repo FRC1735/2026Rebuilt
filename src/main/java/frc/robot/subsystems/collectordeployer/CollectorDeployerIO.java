@@ -15,6 +15,8 @@ public interface CollectorDeployerIO {
     public double targetRotations = 0.0;
     public boolean atTarget = false;
 
+    public double delta = 0;
+
     // Tunables (logged for replay)
     public double kP = 0.0;
     public double kI = 0.0;
