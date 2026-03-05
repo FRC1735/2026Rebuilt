@@ -58,11 +58,13 @@ public class RealSubsystemFactory {
                 Constants.LEFT_COLLECTOR_DEPLOYER_CAN_ID,
                 Constants.LEFT_COLLECTOR_DEPLOYER_ENCODER_CAN_ID,
                 "Left Collector Deployer",
-                5, 0, 0,
-                1, 1.2,
+                5,
+                0,
+                0,
+                1,
+                1.2,
                 false,
-                0.2f
-                )
+                0.2f)
             : new CollectorDeployerIO() {},
         "Left Collector Deployer");
   }
@@ -96,7 +98,14 @@ public class RealSubsystemFactory {
             ? new CollectorDeployerIOSparkFlex(
                 Constants.RIGHT_COLLECTOR_DEPLOYER_CAN_ID,
                 Constants.RIGHT_COLLECTOR_DEPLOYER_ENCODER_CAN_ID,
-                "Right Collector Deployer")
+                "Right Collector Deployer",
+                0.7,
+                0,
+                0.2,
+                1,
+                1.2,
+                false,
+                0.48f)
             : new CollectorDeployerIO() {},
         "Right Collector Deployer");
   }

@@ -35,10 +35,10 @@ public class CollectorCommands {
   }
 
   public static Command manualDeploy(CollectorDeployer collectorDeployer) {
-    return Commands.runOnce(collectorDeployer::incrementTargetPosition);
+    return Commands.runOnce(collectorDeployer::decrementTargetPosition);
   }
 
   public static Command manualRetract(CollectorDeployer collectorDeployer) {
-    return Commands.runOnce(collectorDeployer::decrementTargetPosition);
+    return Commands.runOnce(collectorDeployer::incrementTargetPosition);
   }
 }

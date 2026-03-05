@@ -40,7 +40,17 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
   private final double kS;
   private final double kG;
 
-  public CollectorDeployerIOSparkFlex(int motorCanId, int detachedEncoderCanId, String name, double p, double i, double d, double kS, double kG, boolean motorInverted, float encoderOffset) {
+  public CollectorDeployerIOSparkFlex(
+      int motorCanId,
+      int detachedEncoderCanId,
+      String name,
+      double p,
+      double i,
+      double d,
+      double kS,
+      double kG,
+      boolean motorInverted,
+      float encoderOffset) {
 
     this.detachedEncoderCanId = detachedEncoderCanId;
     this.motorInverted = motorInverted;
@@ -78,12 +88,14 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     config.smartCurrentLimit(40);
     config.inverted(motorInverted);
 
+    // NOTE: leaving this here, but these do not get applied because the motor is not aware of the
+    // encoder
     config
         .softLimit
         .forwardSoftLimit(FORWARD_LIMIT)
-        .forwardSoftLimitEnabled(true)
+        .forwardSoftLimitEnabled(false)
         .reverseSoftLimit(REVERSE_LIMIT)
-        .reverseSoftLimitEnabled(true);
+        .reverseSoftLimitEnabled(false);
 
     DetachedEncoderConfig encoderConfig = new DetachedEncoderConfig();
     encoderConfig.dutyCycleOffset(encoderOffset);
@@ -120,12 +132,14 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
     // double output = pid.calculate(position, targetRotations);
     double pidOutput = pid.calculate(position, targetRotations);
-    double output = pidOutput + Math.copySign(kS, pidOutput) + (kG * Math.cos(angleRadians));
+    double output = pidOutput + Math.copySign(kS, pidOutput) /*+ (kG * Math.cos(angleRadians))*/;
 
     double volts = MathUtil.clamp(output, -12.0, 12.0);
 
     // TODO - I guess this is fine, but it might make more sense to use setSetpoint
-    spark.setVoltage(volts);
+    if (!pid.atSetpoint()) {
+      spark.setVoltage(volts);
+    }
 
     inputs.encoderPosition = position;
     inputs.velocityRPM = encoder.getVelocity();
@@ -150,7 +164,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
   }
 
   public void setVoltage(double volts) {
-    // spark.setVoltage(volts);
+    spark.setVoltage(volts);
   }
 
   @Override
