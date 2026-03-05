@@ -57,7 +57,12 @@ public class RealSubsystemFactory {
             ? new CollectorDeployerIOSparkFlex(
                 Constants.LEFT_COLLECTOR_DEPLOYER_CAN_ID,
                 Constants.LEFT_COLLECTOR_DEPLOYER_ENCODER_CAN_ID,
-                "Left Collector Deployer")
+                "Left Collector Deployer",
+                5, 0, 0,
+                1, 1.2,
+                false,
+                0.2f
+                )
             : new CollectorDeployerIO() {},
         "Left Collector Deployer");
   }

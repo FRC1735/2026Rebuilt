@@ -35,9 +35,18 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
   private final TunableNumber allowedProfileError;
   private final TunableNumber target;
 
-  public CollectorDeployerIOSparkFlex(int motorCanId, int detachedEncoderCanId, String name) {
+  private boolean motorInverted;
+  private float encoderOffset;
+  private final double kS;
+  private final double kG;
+
+  public CollectorDeployerIOSparkFlex(int motorCanId, int detachedEncoderCanId, String name, double p, double i, double d, double kS, double kG, boolean motorInverted, float encoderOffset) {
 
     this.detachedEncoderCanId = detachedEncoderCanId;
+    this.motorInverted = motorInverted;
+    this.encoderOffset = encoderOffset;
+    this.kS = kS;
+    this.kG = kG;
 
     spark = new SparkFlex(motorCanId, MotorType.kBrushless);
 
@@ -45,9 +54,9 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
     NetworkTable table = NetworkTableInstance.getDefault().getTable("Elastic").getSubTable(name);
 
-    kP = new TunableNumber(table, "kP", 5);
-    kI = new TunableNumber(table, "kI", 0.0);
-    kD = new TunableNumber(table, "kD", 0.0);
+    kP = new TunableNumber(table, "kP", p);
+    kI = new TunableNumber(table, "kI", i);
+    kD = new TunableNumber(table, "kD", d);
 
     allowedProfileError = new TunableNumber(table, "allowedError", 0.02);
     target = new TunableNumber(table, "targetRotations", 0.0);
@@ -67,7 +76,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
     config.idleMode(IdleMode.kBrake);
     config.smartCurrentLimit(40);
-    config.inverted(false); // TODO - probably need to expose this for right collector
+    config.inverted(motorInverted);
 
     config
         .softLimit
@@ -77,8 +86,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
         .reverseSoftLimitEnabled(true);
 
     DetachedEncoderConfig encoderConfig = new DetachedEncoderConfig();
-    encoderConfig.dutyCycleOffset(
-        0.2f); // TODO - this should be exposed so that it can be changed for the right collector
+    encoderConfig.dutyCycleOffset(encoderOffset);
 
     encoder.configure(encoderConfig, ResetMode.kNoResetSafeParameters);
 
@@ -107,9 +115,6 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     updateTunables();
 
     double position = encoder.getAngle();
-
-    double kS = 1;
-    double kG = 1.2;
 
     double angleRadians = position * 2 * Math.PI;
 
