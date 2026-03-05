@@ -30,5 +30,7 @@ public interface CollectorDeployerIO {
 
   default void setTarget(double target) {}
 
+  default void setVoltage(double volts) {}
+
   default void stop() {}
 }

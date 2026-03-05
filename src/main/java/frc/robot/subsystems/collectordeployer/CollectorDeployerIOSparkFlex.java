@@ -56,6 +56,9 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     pid.setTolerance(allowedProfileError.get());
 
     configureSpark();
+
+    // make the current target whatever the encoder is when subsystem initialized
+    targetRotations = encoder.getAngle();
   }
 
   private void configureSpark() {
@@ -63,8 +66,8 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     var config = new SparkFlexConfig();
 
     config.idleMode(IdleMode.kBrake);
-    config.smartCurrentLimit(30);
-    config.inverted(true);
+    config.smartCurrentLimit(40);
+    config.inverted(false); // TODO - probably need to expose this for right collector
 
     config
         .softLimit
@@ -74,7 +77,8 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
         .reverseSoftLimitEnabled(true);
 
     DetachedEncoderConfig encoderConfig = new DetachedEncoderConfig();
-    encoderConfig.dutyCycleOffset(0.2f); // TODO - this should be exposed so that it can be changed for the right collector
+    encoderConfig.dutyCycleOffset(
+        0.2f); // TODO - this should be exposed so that it can be changed for the right collector
 
     encoder.configure(encoderConfig, ResetMode.kNoResetSafeParameters);
 
@@ -104,7 +108,14 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
     double position = encoder.getAngle();
 
-    double output = pid.calculate(position, targetRotations);
+    double kS = 1;
+    double kG = 1.2;
+
+    double angleRadians = position * 2 * Math.PI;
+
+    // double output = pid.calculate(position, targetRotations);
+    double pidOutput = pid.calculate(position, targetRotations);
+    double output = pidOutput + Math.copySign(kS, pidOutput) + (kG * Math.cos(angleRadians));
 
     double volts = MathUtil.clamp(output, -12.0, 12.0);
 
@@ -131,6 +142,10 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
   @Override
   public void setTarget(double rotations) {
     targetRotations = rotations;
+  }
+
+  public void setVoltage(double volts) {
+    // spark.setVoltage(volts);
   }
 
   @Override

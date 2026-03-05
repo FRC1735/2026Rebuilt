@@ -136,9 +136,9 @@ public class RobotContainer {
               }
             }));
 
-    // configureDriverBindings();
+    configureDriverBindings();
     configureOperatorBindings();
-    configureDeveloperBindings();
+    // configureDeveloperBindings();
   }
 
   public void logLimelights() {
@@ -289,6 +289,7 @@ public class RobotContainer {
         .leftCollector()
         .manualDeploy()
         .onTrue(CollectorCommands.manualDeploy(leftCollectorDeployer)); // TODO - verify
+
     operatorController
         .leftCollector()
         .manualRetract()
@@ -296,8 +297,26 @@ public class RobotContainer {
   }
 
   private void configureDeveloperBindings() {
-    driverController.a().whileTrue(ShooterCommands.shooterIntake(shooterIntake));
-    driverController.b().whileTrue(ShooterCommands.shooterOuttake(shooterIntake));
+    // driverController.a().whileTrue(ShooterCommands.shooterIntake(shooterIntake));
+    // driverController.b().whileTrue(ShooterCommands.shooterOuttake(shooterIntake));
+
+    /*
+    driverController
+        .a()
+        .whileTrue(
+            new StartEndCommand(
+                () -> leftCollectorDeployer.setVoltage(6),
+                leftCollectorDeployer::stop,
+                leftCollectorDeployer));
+
+    driverController
+        .b()
+        .whileTrue(
+            new StartEndCommand(
+                () -> leftCollectorDeployer.setVoltage(-6),
+                leftCollectorDeployer::stop,
+                leftCollectorDeployer));
+                */
   }
 
   public Command getAutonomousCommand() {
