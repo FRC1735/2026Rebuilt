@@ -136,6 +136,13 @@ public class RobotContainer {
                 drive.setPose(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
               }
             }));
+    autoChooser.addOption(
+        "Shoot Preloaded",
+        Commands.runOnce(
+                () -> {
+                  shooter.shootAtHub();
+                })
+            .withTimeout(12));
 
     configureDriverBindings();
     configureOperatorBindings();
