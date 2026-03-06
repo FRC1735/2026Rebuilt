@@ -229,8 +229,7 @@ public class RobotContainer {
     operatorController
         .shooter()
         .shooterLowSpeed()
-        .whileTrue(ShooterCommands.shooterLowSpeed(shooter, shooterIntake))
-        .onFalse(ShooterCommands.shooterStop(shooter)); // TODO - verify
+        .whileTrue(ShooterCommands.shooterLowSpeed(shooter, shooterIntake));
 
     // Right Collector
     operatorController
