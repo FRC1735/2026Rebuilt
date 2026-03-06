@@ -22,6 +22,7 @@ public class ShooterIOSparkFlex implements ShooterIO {
   private final SimpleMotorFeedforward feedforward;
 
   private double targetVelocity = 0;
+  private boolean enablePid = false;
 
   // Dashboard keys
   private static final String kPrefix = "Shooter/";
@@ -112,8 +113,10 @@ public class ShooterIOSparkFlex implements ShooterIO {
 
     SmartDashboard.putBoolean(kPrefix + "At Target", pid.atSetpoint());
 
-    // double pidVolts = pid.calculate(velocityRadPerSec, targetVelocity);
-    // leader.setVoltage(/*ffVolts +*/ pidVolts);
+    if (enablePid) {
+      double pidVolts = pid.calculate(velocityRadPerSec, targetVelocity);
+      leader.setVoltage(/*ffVolts +*/ pidVolts);
+    }
   }
 
   @Override
@@ -126,6 +129,7 @@ public class ShooterIOSparkFlex implements ShooterIO {
   public void setTargetVelocity(double velocity) {
     pid.setSetpoint(velocity);
     targetVelocity = velocity;
+    enablePid = true;
   }
 
   @Override
@@ -137,6 +141,7 @@ public class ShooterIOSparkFlex implements ShooterIO {
   public void stop() {
     leader.stopMotor();
     // targetVelocity = 0;
+    enablePid = false;
     pid.reset();
   }
 }
