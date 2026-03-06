@@ -6,6 +6,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -20,6 +21,8 @@ public class ShooterIOSparkFlex implements ShooterIO {
   private final PIDController pid;
   private final SimpleMotorFeedforward feedforward;
 
+  private double targetVelocity = 0;
+
   // Dashboard keys
   private static final String kPrefix = "Shooter/";
 
@@ -31,7 +34,11 @@ public class ShooterIOSparkFlex implements ShooterIO {
     SparkFlexConfig leaderConfig = new SparkFlexConfig();
     SparkFlexConfig followerConfig = new SparkFlexConfig();
 
-    leaderConfig.inverted(false).voltageCompensation(12.0).smartCurrentLimit(80);
+    leaderConfig
+        .inverted(false)
+        .idleMode(IdleMode.kCoast)
+        .voltageCompensation(12.0)
+        .smartCurrentLimit(80);
 
     followerConfig.follow(leader, true).voltageCompensation(12.0).smartCurrentLimit(80);
 
@@ -46,7 +53,7 @@ public class ShooterIOSparkFlex implements ShooterIO {
 
     pid =
         new PIDController(
-            SmartDashboard.getNumber(kPrefix + "kP", 0.0005),
+            SmartDashboard.getNumber(kPrefix + "kP", 1),
             SmartDashboard.getNumber(kPrefix + "kI", 0.0),
             SmartDashboard.getNumber(kPrefix + "kD", 0.0));
 
@@ -54,12 +61,12 @@ public class ShooterIOSparkFlex implements ShooterIO {
 
     feedforward =
         new SimpleMotorFeedforward(
-            SmartDashboard.getNumber(kPrefix + "kS", 0.25),
-            SmartDashboard.getNumber(kPrefix + "kV", 0.12),
+            SmartDashboard.getNumber(kPrefix + "kS", 0.15),
+            SmartDashboard.getNumber(kPrefix + "kV", 0.0),
             SmartDashboard.getNumber(kPrefix + "kA", 0.0));
 
     // Seed dashboard values (Elastic-friendly)
-    SmartDashboard.setDefaultNumber(kPrefix + "kP", 0.0005);
+    SmartDashboard.setDefaultNumber(kPrefix + "kP", 0.15);
     SmartDashboard.setDefaultNumber(kPrefix + "kI", 0.0);
     SmartDashboard.setDefaultNumber(kPrefix + "kD", 0.0);
     SmartDashboard.setDefaultNumber(kPrefix + "kS", 0.25);
@@ -97,13 +104,16 @@ public class ShooterIOSparkFlex implements ShooterIO {
     pid.setTolerance(
         SmartDashboard.getNumber(kPrefix + "VelocityToleranceRadPerSec", pid.getErrorTolerance()));
 
-    double targetRadPerSec = SmartDashboard.getNumber(kPrefix + "TargetRadPerSec", 0.0);
+    // double targetRadPerSec = SmartDashboard.getNumber(kPrefix + "TargetRadPerSec", 0.0);
 
-    double ffVolts = feedforward.calculate(targetRadPerSec);
+    // double ffVolts = feedforward.calculate(targetVelocity);
 
-    double pidVolts = pid.calculate(velocityRadPerSec, targetRadPerSec);
+    // System.out.println("JTA " + targetVelocity);
 
-    leader.setVoltage(ffVolts + pidVolts);
+    SmartDashboard.putBoolean(kPrefix + "At Target", pid.atSetpoint());
+
+    // double pidVolts = pid.calculate(velocityRadPerSec, targetVelocity);
+    // leader.setVoltage(/*ffVolts +*/ pidVolts);
   }
 
   @Override
@@ -115,6 +125,7 @@ public class ShooterIOSparkFlex implements ShooterIO {
   @Override
   public void setTargetVelocity(double velocity) {
     pid.setSetpoint(velocity);
+    targetVelocity = velocity;
   }
 
   @Override
@@ -125,6 +136,7 @@ public class ShooterIOSparkFlex implements ShooterIO {
   @Override
   public void stop() {
     leader.stopMotor();
+    // targetVelocity = 0;
     pid.reset();
   }
 }

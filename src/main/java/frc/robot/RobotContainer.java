@@ -137,9 +137,9 @@ public class RobotContainer {
               }
             }));
 
-    // configureDriverBindings();
+    configureDriverBindings();
     configureOperatorBindings();
-    configureDeveloperBindings();
+    // configureDeveloperBindings();
   }
 
   public void logLimelights() {
@@ -212,11 +212,11 @@ public class RobotContainer {
         .shooter()
         .manualMoveHoodUp()
         .onTrue(ShooterCommands.hoodUpManual(shooterHood)); // TODO - verify
+
     operatorController
         .shooter()
         .shooterHighSpeed()
-        .whileTrue(ShooterCommands.shooterHighSpeed(shooter, shooterIntake))
-        .onFalse(ShooterCommands.shooterStop(shooter)); // TODO - verify
+        .whileTrue(ShooterCommands.shooterHighSpeed(shooter, shooterIntake));
 
     operatorController
         .shooter()
@@ -240,7 +240,7 @@ public class RobotContainer {
     operatorController
         .rightCollector()
         .retract()
-        .onTrue(CollectorCommands.retract(rightCollectorDeployer)); // TODO - verif
+        .onTrue(CollectorCommands.retract(rightCollectorDeployer)); // TODO - verify
 
     operatorController // verified
         .rightCollector()

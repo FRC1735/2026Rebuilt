@@ -31,9 +31,44 @@ public class ShooterCommands {
   }
 
   public static Command shooterHighSpeed(Shooter shooter, RollerIntake shooterIntake) {
-    return Commands.runOnce(shooter::shootHigh, shooter)
-        .until(() -> shooter.atTargetVelocity())
-        .andThen(Commands.run(shooterIntake::in));
+    /*return Commands.runOnce(shooter::shootHigh, shooter)
+    .until(() -> shooter.atTargetVelocity())
+    .andThen(Commands.run(shooterIntake::in));*/
+
+    /*
+    return new StartEndCommand(
+        () ->
+            Commands.run(shooter::shootHigh, shooter)
+                .until(() -> shooter.atTargetVelocity())
+                .andThen(shooterIntake::in, shooterIntake),
+        shooter::stop,
+        shooter,
+        shooterIntake);
+        */
+
+    /*
+    return new StartEndCommand(
+        () -> {
+          Commands.run(shooter::shootHigh, shooter)
+              .until(() -> shooter.atTargetVelocity())
+              .andThen(shooterIntake::in, shooterIntake);
+        },
+        () ->
+            new ParallelCommandGroup(
+                Commands.run(shooter::stop, shooter),
+                Commands.run(shooterIntake::stop, shooterIntake)),
+        shooter,
+        shooterIntake);
+        */
+
+    return Commands.run(shooter::shootHigh, shooter)
+        .until(shooter::atTargetVelocity)
+        .andThen(Commands.run(shooterIntake::in, shooterIntake))
+        .finallyDo(
+            () -> {
+              shooter.stop();
+              shooterIntake.stop();
+            });
   }
 
   public static Command shooterLowSpeed(Shooter shooter, RollerIntake shooterIntake) {

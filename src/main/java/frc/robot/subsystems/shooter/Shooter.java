@@ -28,8 +28,19 @@ public class Shooter extends SubsystemBase {
     io.setVoltage(leftVolts, rightVolts);
   }
 
+  public void shootAtHub() {
+    io.setTargetVelocity(400);
+    // io.setVoltage(3, 3);
+  }
+
   public void shootHigh() {
-    io.setTargetVelocity(SHOOT_HIGH_RPM);
+    io.setTargetVelocity(450);
+    // io.setVoltage(3, 3);
+  }
+
+  public void shootAcross() {
+    io.setTargetVelocity(450);
+    // io.setVoltage(3, 3);
   }
 
   public void shootLow() {
