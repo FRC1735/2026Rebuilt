@@ -22,12 +22,12 @@ public class ShooterCommands {
 
   // Manually move hood up
   public static Command hoodUpManual(ShooterHood hood) {
-    return Commands.runOnce(hood::incrementTargetPosition, hood);
+    return Commands.runOnce(hood::manualUp, hood);
   }
 
   // Manually move hood down
   public static Command hoodDownManual(ShooterHood hood) {
-    return Commands.runOnce(hood::decrementTargetPosition, hood);
+    return Commands.runOnce(hood::manualDown, hood);
   }
 
   public static Command shooterHighSpeed(Shooter shooter, RollerIntake shooterIntake) {

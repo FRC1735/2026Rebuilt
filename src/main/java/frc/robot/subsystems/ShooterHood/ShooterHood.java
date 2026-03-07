@@ -8,11 +8,11 @@ public class ShooterHood extends SubsystemBase {
   private final ShooterHoodIO io;
   private final ShooterHoodIOInputsAutoLogged inputs = new ShooterHoodIOInputsAutoLogged();
 
-  private static final double MIN_ROT = 0; // TODO
-  private static final double MAX_ROT = 1; // TODO
+  private static final double MIN_ROT = 0.12; // TODO
+  private static final double MAX_ROT = 0.88; // TODO
 
-  private static final double TARGET_UP = 0.5; // TODO
-  private static final double TARGET_DOWN = 0.5; // TODO
+  private static final double TARGET_UP = 0.12; // TODO
+  private static final double TARGET_DOWN = 0.9; // TODO
 
   public ShooterHood(ShooterHoodIO io) {
     this.io = io;
@@ -37,7 +37,7 @@ public class ShooterHood extends SubsystemBase {
     setPositionRotations(TARGET_DOWN);
   }
 
-  public void incrementTargetPosition() {
+  public void manualDown() {
     double position = inputs.targetRotations;
     double incremented = position + 0.01;
     if (incremented > 1) {
@@ -46,12 +46,14 @@ public class ShooterHood extends SubsystemBase {
     io.setTarget(incremented);
   }
 
-  public void decrementTargetPosition() {
+  public void manualUp() {
     double position = inputs.targetRotations;
     double decremented = position - 0.01;
+
     if (decremented < 0) {
       decremented = 0;
     }
+    System.out.println("HOOD: " + decremented);
     io.setTarget(decremented);
   }
 

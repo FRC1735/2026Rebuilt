@@ -29,7 +29,7 @@ public final class Constants {
   // Enable / Disable Subsystems
   /// Shooter
   public static final boolean SHOOTER_ENABLED = true;
-  public static final boolean SHOOTER_HOOD_ENABLED = false;
+  public static final boolean SHOOTER_HOOD_ENABLED = true;
   public static final boolean SHOOTER_INTAKE_ENABLED = true;
   /// Left Collector
   public static final boolean LEFT_COLLECTOR_DEPLOYER_ENABLED = true;

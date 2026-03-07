@@ -22,14 +22,14 @@ public class ShooterHoodIOSparkFlex implements ShooterHoodIO {
   private double targetRotations = 0.0;
 
   private final double FORWARD_LIMIT = 0.9;
-  private final double REVERSE_LIMIT = 0.3;
+  private final double REVERSE_LIMIT = 0.1;
 
   // Tunables
-  private double kP = 4.0;
+  private double kP = 10.0;
   private double kI = 0.0;
   private double kD = 5.0;
-  private double cruiseVelocity = 500.0;
-  private double acceleration = 200.0;
+  private double cruiseVelocity = 1000.0;
+  private double acceleration = 400.0;
   private double allowedProfileError = 0.01;
 
   private double lastP, lastI, lastD;
@@ -66,6 +66,8 @@ public class ShooterHoodIOSparkFlex implements ShooterHoodIO {
     errorEntry.set(allowedProfileError);
 
     configureSpark();
+
+    targetRotations = encoder.getPosition();
   }
 
   private void configureSpark() {
@@ -73,6 +75,7 @@ public class ShooterHoodIOSparkFlex implements ShooterHoodIO {
     var config = new SparkFlexConfig();
 
     config.idleMode(IdleMode.kBrake);
+    // config.inverted(true);
     config.smartCurrentLimit(30);
 
     config
@@ -86,11 +89,13 @@ public class ShooterHoodIOSparkFlex implements ShooterHoodIO {
         .absoluteEncoder
         .positionConversionFactor(1.0)
         .velocityConversionFactor(1.0)
-        .inverted(false);
+        .zeroOffset(0.82)
+        .inverted(true);
 
     config
         .closedLoop
         .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
+        .positionWrappingEnabled(false)
         .outputRange(-1, 1)
         .p(kP)
         .i(kI)
