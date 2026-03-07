@@ -93,13 +93,13 @@ public class CollectorDeployer extends SubsystemBase {
     setTarget(decremented);
   }
 
-  double MANUAL_VOLTAGE = 2;
+  double MANUAL_VOLTAGE = 1.5;
 
   public void manualDeploy() {
-    setVoltage(-MANUAL_VOLTAGE);
+    setVoltage(-1.5);
   }
 
   public void manualRetract() {
-    setVoltage(MANUAL_VOLTAGE);
+    setVoltage(3.2);
   }
 }

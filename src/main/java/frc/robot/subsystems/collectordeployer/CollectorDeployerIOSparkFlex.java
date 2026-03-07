@@ -24,7 +24,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
   private double targetRotations = 0.5;
 
-  private static final double FORWARD_LIMIT = 0.58;
+  private static final double FORWARD_LIMIT = 0.6;
   private static final double REVERSE_LIMIT = 0.42;
 
   // Tunables
@@ -106,12 +106,17 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
     double position = encoder.getAngle();
 
-    if (position > FORWARD_LIMIT || position < REVERSE_LIMIT) {
+    inputs.encoderPosition = position;
+    inputs.velocityRPM = encoder.getVelocity();
+
+    if (position > FORWARD_LIMIT && encoder.getVelocity() > 0) {
       stop();
     }
 
-    inputs.encoderPosition = position;
-    inputs.velocityRPM = encoder.getVelocity();
+    if (position < REVERSE_LIMIT && encoder.getVelocity() < 0) {
+      stop();
+    }
+
     inputs.appliedVolts = spark.getAppliedOutput() * spark.getBusVoltage();
     inputs.currentAmps = spark.getOutputCurrent();
 
