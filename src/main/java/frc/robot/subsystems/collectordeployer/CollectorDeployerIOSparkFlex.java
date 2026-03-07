@@ -24,8 +24,8 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
   private double targetRotations = 0.5;
 
-  private static final double FORWARD_LIMIT = 0.7;
-  private static final double REVERSE_LIMIT = 0.3;
+  private static final double FORWARD_LIMIT = 0.58;
+  private static final double REVERSE_LIMIT = 0.42;
 
   // Tunables
   private final double pDeploy = 0;
@@ -106,17 +106,21 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
     double position = encoder.getAngle();
 
+    if (position > FORWARD_LIMIT || position < REVERSE_LIMIT) {
+      stop();
+    }
+
     inputs.encoderPosition = position;
     inputs.velocityRPM = encoder.getVelocity();
     inputs.appliedVolts = spark.getAppliedOutput() * spark.getBusVoltage();
     inputs.currentAmps = spark.getOutputCurrent();
 
     inputs.targetRotations = targetRotations;
-    inputs.atTarget = deploying ? pidDeploy.atSetpoint() : pidRetract.atSetpoint();
+    inputs.atTarget = false; // deploying ? pidDeploy.atSetpoint() : pidRetract.atSetpoint();
 
-    inputs.kP = deploying ? pDeploy : pRetract;
-    inputs.kI = deploying ? iDeploy : iRetract;
-    inputs.kD = deploying ? dDeploy : dRetract;
+    inputs.kP = 0; // deploying ? pDeploy : pRetract;
+    inputs.kI = 0; // deploying ? iDeploy : iRetract;
+    inputs.kD = 0; // deploying ? dDeploy : dRetract;
 
     inputs.allowedProfileError = 0;
 
