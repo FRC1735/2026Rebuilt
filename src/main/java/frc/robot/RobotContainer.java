@@ -222,6 +222,16 @@ public class RobotContainer {
 
     operatorController
         .shooter()
+        .shooterRollerIn()
+        .whileTrue(ShooterCommands.shooterIntake(shooterIntake));
+
+    operatorController
+        .shooter()
+        .shooterRollerOut()
+        .whileTrue(ShooterCommands.shooterOuttake(shooterIntake));
+
+    operatorController
+        .shooter()
         .shooterHighSpeed()
         .whileTrue(ShooterCommands.shooterHighSpeed(shooter, shooterIntake));
 

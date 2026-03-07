@@ -21,7 +21,8 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
   private final DetachedEncoder encoder;
   private final int detachedEncoderCanId;
 
-  private final PIDController pid;
+  private final PIDController pidDeploy;
+  private final PIDController pidRetract;
 
   private double targetRotations = 0.5;
 
@@ -29,11 +30,15 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
   private static final double REVERSE_LIMIT = 0.3;
 
   // Tunables
-  private final TunableNumber kP;
-  private final TunableNumber kI;
-  private final TunableNumber kD;
+  private final double pDeploy;
+  private final double iDeploy;
+  private final double dDeploy;
+  private final double pRetract;
+  private final double iRetract;
+  private final double dRetract;
   private final TunableNumber allowedProfileError;
   private final TunableNumber target;
+  private boolean deploying = true;
 
   private boolean motorInverted;
   private float encoderOffset;
@@ -44,9 +49,12 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
       int motorCanId,
       int detachedEncoderCanId,
       String name,
-      double p,
-      double i,
-      double d,
+      double pDeploy,
+      double iDeploy,
+      double dDeploy,
+      double pRetract,
+      double iRetract,
+      double dRetract,
       double kS,
       double kG,
       boolean motorInverted,
@@ -64,15 +72,20 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
     NetworkTable table = NetworkTableInstance.getDefault().getTable("Elastic").getSubTable(name);
 
-    kP = new TunableNumber(table, "kP", p);
-    kI = new TunableNumber(table, "kI", i);
-    kD = new TunableNumber(table, "kD", d);
+    this.pDeploy = pDeploy;
+    this.iDeploy = iDeploy;
+    this.dDeploy = dDeploy;
+    this.pRetract = pRetract;
+    this.iRetract = iRetract;
+    this.dRetract = dRetract;
 
     allowedProfileError = new TunableNumber(table, "allowedError", 0.02);
     target = new TunableNumber(table, "targetRotations", 0.0);
 
-    pid = new PIDController(kP.get(), kI.get(), kD.get());
-    pid.setTolerance(allowedProfileError.get());
+    pidDeploy = new PIDController(pDeploy, iDeploy, dDeploy);
+    pidRetract = new PIDController(pRetract, iRetract, dRetract);
+    pidDeploy.setTolerance(allowedProfileError.get());
+    pidRetract.setTolerance(allowedProfileError.get());
 
     configureSpark();
 
@@ -106,10 +119,10 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
   }
 
   private void updateTunables() {
+    /*
+    if (pDeploy.hasChanged(1e-6) || iDeploy.hasChanged(1e-6) || dDeploy.hasChanged(1e-6)) {
 
-    if (kP.hasChanged(1e-6) || kI.hasChanged(1e-6) || kD.hasChanged(1e-6)) {
-
-      pid.setPID(kP.get(), kI.get(), kD.get());
+      pid.setPID(pDeploy.get(), iDeploy.get(), dDeploy.get());
     }
 
     if (allowedProfileError.hasChanged(1e-6)) {
@@ -119,6 +132,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     if (target.hasChanged(1e-6)) {
       targetRotations = target.get();
     }
+      */
   }
 
   @Override
@@ -130,15 +144,32 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
     double angleRadians = position * 2 * Math.PI;
 
-    // double output = pid.calculate(position, targetRotations);
-    double pidOutput = pid.calculate(position, targetRotations);
-    double output = pidOutput + Math.copySign(kS, pidOutput) /*+ (kG * Math.cos(angleRadians))*/;
-
-    double volts = MathUtil.clamp(output, -12.0, 12.0);
-
     // TODO - I guess this is fine, but it might make more sense to use setSetpoint
-    if (!pid.atSetpoint()) {
-      spark.setVoltage(volts);
+    if (deploying) {
+      // double output = pid.calculate(position, targetRotations);
+      double pidOutput = pidDeploy.calculate(position, targetRotations);
+      double output = pidOutput + Math.copySign(kS, pidOutput) + (-kG * Math.cos(angleRadians));
+
+      double volts = MathUtil.clamp(output, -12.0, 12.0);
+      if (volts > -0.25) {
+        volts = -0.25;
+      }
+      if (!pidDeploy.atSetpoint()) {
+        spark.setVoltage(volts);
+      }
+    } else {
+
+      // double output = pid.calculate(position, targetRotations);
+      double pidOutput = pidRetract.calculate(position, targetRotations);
+      double output = pidOutput + Math.copySign(kS, pidOutput) + (-kG * Math.cos(angleRadians));
+
+      double volts = MathUtil.clamp(output, -12.0, 12.0);
+      if (volts > 1) {
+        volts = 1;
+      }
+      if (!pidRetract.atSetpoint()) {
+        spark.setVoltage(volts);
+      }
     }
 
     inputs.encoderPosition = position;
@@ -147,11 +178,11 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     inputs.currentAmps = spark.getOutputCurrent();
 
     inputs.targetRotations = targetRotations;
-    inputs.atTarget = pid.atSetpoint();
+    inputs.atTarget = deploying ? pidDeploy.atSetpoint() : pidRetract.atSetpoint();
 
-    inputs.kP = kP.get();
-    inputs.kI = kI.get();
-    inputs.kD = kD.get();
+    inputs.kP = deploying ? pDeploy : pRetract;
+    inputs.kI = deploying ? iDeploy : iRetract;
+    inputs.kD = deploying ? dDeploy : dRetract;
 
     inputs.allowedProfileError = allowedProfileError.get();
 
@@ -161,6 +192,11 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
   @Override
   public void setTarget(double rotations) {
     targetRotations = rotations;
+    if (targetRotations < encoder.getAngle()) {
+      deploying = true;
+    } else {
+      deploying = false;
+    }
   }
 
   public void setVoltage(double volts) {

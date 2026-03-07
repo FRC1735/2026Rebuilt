@@ -132,6 +132,14 @@ public class KeyboardController {
     public Trigger shooterLowSpeed() {
       return controller.button(8, 4);
     }
+
+    public Trigger shooterRollerIn() {
+      return controller.button(7, 5);
+    }
+
+    public Trigger shooterRollerOut() {
+      return controller.button(8, 5);
+    }
   }
 
   public static final record LeftCollector(KeyboardController controller) {

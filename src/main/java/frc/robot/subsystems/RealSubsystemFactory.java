@@ -58,11 +58,14 @@ public class RealSubsystemFactory {
                 Constants.LEFT_COLLECTOR_DEPLOYER_CAN_ID,
                 Constants.LEFT_COLLECTOR_DEPLOYER_ENCODER_CAN_ID,
                 "Left Collector Deployer",
-                5,
+                2.8, // deploy
+                0.2,
+                0.1,
+                3.2, // retract
                 0,
                 0,
-                1,
-                1.2,
+                0.5, // both
+                0,
                 false,
                 0.2f)
             : new CollectorDeployerIO() {},
@@ -99,9 +102,12 @@ public class RealSubsystemFactory {
                 Constants.RIGHT_COLLECTOR_DEPLOYER_CAN_ID,
                 Constants.RIGHT_COLLECTOR_DEPLOYER_ENCODER_CAN_ID,
                 "Right Collector Deployer",
-                0.7,
-                0,
+                2.8, // deploy
                 0.2,
+                0.1,
+                0, // retract
+                0,
+                0,
                 1,
                 1.2,
                 false,

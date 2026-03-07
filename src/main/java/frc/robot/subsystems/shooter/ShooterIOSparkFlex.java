@@ -107,7 +107,7 @@ public class ShooterIOSparkFlex implements ShooterIO {
 
     // double targetRadPerSec = SmartDashboard.getNumber(kPrefix + "TargetRadPerSec", 0.0);
 
-    // double ffVolts = feedforward.calculate(targetVelocity);
+    double ffVolts = feedforward.calculate(targetVelocity);
 
     // System.out.println("JTA " + targetVelocity);
 
@@ -115,7 +115,7 @@ public class ShooterIOSparkFlex implements ShooterIO {
 
     if (enablePid) {
       double pidVolts = pid.calculate(velocityRadPerSec, targetVelocity);
-      leader.setVoltage(/*ffVolts +*/ pidVolts);
+      leader.setVoltage(ffVolts + pidVolts);
     }
   }
 
