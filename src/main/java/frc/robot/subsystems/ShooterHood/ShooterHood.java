@@ -53,7 +53,6 @@ public class ShooterHood extends SubsystemBase {
     if (decremented < 0) {
       decremented = 0;
     }
-    System.out.println("HOOD: " + decremented);
     io.setTarget(decremented);
   }
 
