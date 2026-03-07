@@ -29,7 +29,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void shootAtHub() {
-    io.setTargetVelocity(400);
+    io.setTargetVelocity(600);
     // io.setVoltage(3, 3);
   }
 
@@ -39,7 +39,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void shootAcross() {
-    io.setTargetVelocity(450);
+    io.setTargetVelocity(700);
     // io.setVoltage(3, 3);
   }
 

@@ -54,22 +54,22 @@ public class ShooterIOSparkFlex implements ShooterIO {
 
     pid =
         new PIDController(
-            SmartDashboard.getNumber(kPrefix + "kP", 1),
-            SmartDashboard.getNumber(kPrefix + "kI", 0.0),
-            SmartDashboard.getNumber(kPrefix + "kD", 0.0));
+            SmartDashboard.getNumber(kPrefix + "kP", 0.01),
+            SmartDashboard.getNumber(kPrefix + "kI", 0.2),
+            SmartDashboard.getNumber(kPrefix + "kD", 0.0001));
 
     pid.setTolerance(SmartDashboard.getNumber(kPrefix + "VelocityToleranceRadPerSec", 5.0));
 
     feedforward =
         new SimpleMotorFeedforward(
-            SmartDashboard.getNumber(kPrefix + "kS", 0.15),
-            SmartDashboard.getNumber(kPrefix + "kV", 0.0),
+            SmartDashboard.getNumber(kPrefix + "kS", 0.25),
+            SmartDashboard.getNumber(kPrefix + "kV", 0.12),
             SmartDashboard.getNumber(kPrefix + "kA", 0.0));
 
     // Seed dashboard values (Elastic-friendly)
-    SmartDashboard.setDefaultNumber(kPrefix + "kP", 0.15);
-    SmartDashboard.setDefaultNumber(kPrefix + "kI", 0.0);
-    SmartDashboard.setDefaultNumber(kPrefix + "kD", 0.0);
+    SmartDashboard.setDefaultNumber(kPrefix + "kP", 0.01);
+    SmartDashboard.setDefaultNumber(kPrefix + "kI", 0.2);
+    SmartDashboard.setDefaultNumber(kPrefix + "kD", 0.0001);
     SmartDashboard.setDefaultNumber(kPrefix + "kS", 0.25);
     SmartDashboard.setDefaultNumber(kPrefix + "kV", 0.12);
     SmartDashboard.setDefaultNumber(kPrefix + "kA", 0.0);
