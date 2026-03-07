@@ -107,11 +107,12 @@ public class ShooterIOSparkFlex implements ShooterIO {
 
     // double targetRadPerSec = SmartDashboard.getNumber(kPrefix + "TargetRadPerSec", 0.0);
 
+    // System.out.println("TARGET VEL:" + targetVelocity);
     double ffVolts = feedforward.calculate(targetVelocity);
 
     if (enablePid) {
       double pidVolts = pid.calculate(velocityRadPerSec, targetVelocity);
-      leader.setVoltage(ffVolts + pidVolts);
+      leader.setVoltage(/*ffVolts + */ pidVolts);
     }
   }
 
@@ -123,14 +124,16 @@ public class ShooterIOSparkFlex implements ShooterIO {
 
   @Override
   public void setTargetVelocity(double velocity) {
-    pid.setSetpoint(velocity);
-    targetVelocity = velocity;
-    enablePid = true;
+    // pid.setSetpoint(velocity);
+    // targetVelocity = velocity;
+    enablePid = false;
+    // setVoltage(6, 6);
+    leader.set(0.6);
   }
 
   @Override
   public boolean atTargetVelocity() {
-    return pid.atSetpoint();
+    return true; // pid.atSetpoint();
   }
 
   @Override
