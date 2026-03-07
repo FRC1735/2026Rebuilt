@@ -302,15 +302,15 @@ public class RobotContainer {
         .whileTrue(
             CollectorCommands.outtake(leftCollectorInteriorRoller, leftCollectorExteriorRoller));
 
-    operatorController
+    operatorController // verified
         .leftCollector()
         .manualDeploy()
-        .onTrue(CollectorCommands.manualDeploy(leftCollectorDeployer)); // TODO - verify
+        .onTrue(CollectorCommands.manualDeploy(leftCollectorDeployer));
 
-    operatorController
+    operatorController // verfieid
         .leftCollector()
         .manualRetract()
-        .onTrue(CollectorCommands.manualRetract(leftCollectorDeployer)); // TODO - verify
+        .onTrue(CollectorCommands.manualRetract(leftCollectorDeployer));
   }
 
   private void configureDeveloperBindings() {

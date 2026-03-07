@@ -111,7 +111,7 @@ public class RealSubsystemFactory {
                 1,
                 1.2,
                 false,
-                0.48f)
+                0.53f)
             : new CollectorDeployerIO() {},
         "Right Collector Deployer");
   }
