@@ -32,7 +32,8 @@ public class ShooterCommands {
 
   public static Command shooterHighSpeed(Shooter shooter, RollerIntake shooterIntake) {
     return Commands.run(shooter::shootAtHub, shooter)
-        .until(shooter::atTargetVelocity)
+        .withTimeout(1.2)
+        // .until(shooter::atTargetVelocity)
         .andThen(Commands.run(shooterIntake::in, shooterIntake))
         .finallyDo(
             () -> {
