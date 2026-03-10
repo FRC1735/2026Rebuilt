@@ -43,6 +43,17 @@ public class DriveCommands {
 
   private DriveCommands() {}
 
+  public static Command resetPoseForAlliance(Drive drive) {
+    return Commands.runOnce(
+        () -> {
+          if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
+            drive.setPose(new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
+          } else {
+            drive.setPose(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
+          }
+        });
+  }
+
   private static Translation2d getLinearVelocityFromJoysticks(double x, double y) {
     // Apply deadband
     double linearMagnitude = MathUtil.applyDeadband(Math.hypot(x, y), DEADBAND);

@@ -14,7 +14,6 @@ import static frc.robot.subsystems.SimulatedSubsystemFactory.*;
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -126,23 +125,13 @@ public class RobotContainer {
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
         */
 
-    autoChooser.addOption(
-        "Do Nothing",
-        Commands.runOnce(
-            () -> {
-              if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
-                drive.setPose(new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
-              } else {
-                drive.setPose(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
-              }
-            }));
+    autoChooser.addOption("Do Nothing", DriveCommands.resetPoseForAlliance(drive));
     autoChooser.addOption(
         "Shoot Preloaded",
-        Commands.runOnce(
-                () -> {
-                  shooter.shootAtHub();
-                })
-            .withTimeout(12));
+        Commands.sequence(
+                DriveCommands.resetPoseForAlliance(drive),
+                ShooterCommands.shooterHighSpeed(shooter, shooterIntake))
+            .withTimeout(20));
 
     configureDriverBindings();
     configureOperatorBindings();
@@ -188,17 +177,7 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     // Set robot pose to 0, 0 which is the origin position on the Field 3D map.
-    driverController
-        .leftBumper()
-        .onTrue(
-            Commands.runOnce(
-                () -> {
-                  if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
-                    drive.setPose(new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
-                  } else {
-                    drive.setPose(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
-                  }
-                }));
+    driverController.leftBumper().onTrue(DriveCommands.resetPoseForAlliance(drive));
     // Useful for determining robot model config offsets.
     if (Constants.DEBUG) {
       driverController
