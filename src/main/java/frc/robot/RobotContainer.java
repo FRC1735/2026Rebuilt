@@ -16,7 +16,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.CollectorCommands;
 import frc.robot.commands.DriveCommands;
@@ -186,6 +185,10 @@ public class RobotContainer {
               Commands.runOnce(() -> drive.setPose(new Pose2d(0, 0, Rotation2d.kZero)), drive)
                   .ignoringDisable(true));
     }
+
+    driverController
+        .rightBumper()
+        .whileTrue(ShooterCommands.shooterHighSpeed(shooter, shooterIntake));
   }
 
   private void configureOperatorBindings() {
@@ -314,21 +317,6 @@ public class RobotContainer {
                 leftCollectorDeployer));
                 */
 
-    driverController
-        .a()
-        .whileTrue(
-            new StartEndCommand(
-                () -> rightCollectorDeployer.setVoltage(6),
-                rightCollectorDeployer::stop,
-                rightCollectorDeployer));
-
-    driverController
-        .b()
-        .whileTrue(
-            new StartEndCommand(
-                () -> rightCollectorDeployer.setVoltage(-6),
-                rightCollectorDeployer::stop,
-                rightCollectorDeployer));
   }
 
   public Command getAutonomousCommand() {
