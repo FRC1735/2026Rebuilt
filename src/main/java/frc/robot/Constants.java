@@ -31,7 +31,7 @@ public final class Constants {
   public static final boolean SHOOTER_ENABLED = true;
   public static final boolean SHOOTER_HOOD_ENABLED = true;
   public static final boolean SHOOTER_INTAKE_ENABLED = true;
-  /// Left Collector
+  /// Collector
   public static final boolean COLLECTOR_DEPLOYER_ENABLED = false;
   public static final boolean COLLECTOR_ROLLER_EXTERIOR_ENABLED = false;
   public static final boolean COLLECTOR_ROLLER_INTERIOR_ENABLED = false;
@@ -42,7 +42,7 @@ public final class Constants {
   public static final int SHOOTER_RIGHT_CAN_ID = 6;
   public static final int SHOOTER_INTAKE_CAN_ID = 7;
   public static final int SHOOTER_HOOD_CAN_ID = 8;
-  /// LEFT COLLECTOR
+  /// COLLECTOR
   public static final int COLLECTOR_DEPLOYER_CAN_ID = 17;
   public static final int COLLECTOR_DEPLOYER_ENCODER_CAN_ID = 18;
   public static final int COLLECTOR_ROLLER_EXTERIOR_CAN_ID = 15;

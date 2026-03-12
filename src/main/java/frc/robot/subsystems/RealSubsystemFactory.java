@@ -50,14 +50,14 @@ public class RealSubsystemFactory {
         "Shooter Intake");
   }
 
-  /// Left Collector
+  /// Collector
   public static CollectorDeployer createRealCollectorDeployer() {
     return new CollectorDeployer(
         Constants.COLLECTOR_DEPLOYER_ENABLED
             ? new CollectorDeployerIOSparkFlex(
                 Constants.COLLECTOR_DEPLOYER_CAN_ID,
                 Constants.COLLECTOR_DEPLOYER_ENCODER_CAN_ID,
-                "Left Collector Deployer",
+                "Collector Deployer",
                 2.8, // deploy
                 0.2,
                 0.1,
@@ -69,31 +69,24 @@ public class RealSubsystemFactory {
                 false,
                 0.2f)
             : new CollectorDeployerIO() {},
-        "Left Collector Deployer");
+        "Collector Deployer");
   }
 
   public static RollerIntake createRealCollectorExteriorRoller() {
     return new RollerIntake(
         Constants.COLLECTOR_ROLLER_EXTERIOR_ENABLED
             ? new RollerIntakeIOSparkFlex(
-                Constants.COLLECTOR_ROLLER_EXTERIOR_CAN_ID,
-                "Left Collector Exterior Roller",
-                false)
+                Constants.COLLECTOR_ROLLER_EXTERIOR_CAN_ID, "Collector Exterior Roller", false)
             : new RollerIntakeIO() {},
-        "Left Collector Exterior Roller");
+        "Collector Exterior Roller");
   }
 
   public static RollerIntake createRealCollectorInteriorRoller() {
     return new RollerIntake(
         Constants.COLLECTOR_ROLLER_INTERIOR_ENABLED
             ? new RollerIntakeIOSparkFlex(
-                Constants.COLLECTOR_ROLLER_INTERIOR_CAN_ID,
-                "Left Collector Interior Roller",
-                false)
+                Constants.COLLECTOR_ROLLER_INTERIOR_CAN_ID, "Collector Interior Roller", false)
             : new RollerIntakeIO() {},
-        "Left Collector Interior Roller");
+        "Collector Interior Roller");
   }
-
-  /// Right Collector
-
 }

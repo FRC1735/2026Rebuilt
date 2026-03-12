@@ -38,16 +38,16 @@ public class SimulatedSubsystemFactory {
     return new RollerIntake(new RollerIntakeIOSim(), "Shooter Intake");
   }
 
-  /// Left Collector
+  /// Collector
   public static CollectorDeployer createSimulatedCollectorDeployer() {
-    return new CollectorDeployer(new CollectorDeployerIOSim(), "Left Collector Deployer");
+    return new CollectorDeployer(new CollectorDeployerIOSim(), "Collector Deployer");
   }
 
   public static RollerIntake createSimulatedCollectorExteriorRoller() {
-    return new RollerIntake(new RollerIntakeIOSim(), "Left Collector Exterior Intake");
+    return new RollerIntake(new RollerIntakeIOSim(), "Collector Exterior Intake");
   }
 
   public static RollerIntake createSimulatedCollectorInteriorRoller() {
-    return new RollerIntake(new RollerIntakeIOSim(), "Left Collector Interior Intake");
+    return new RollerIntake(new RollerIntakeIOSim(), "Collector Interior Intake");
   }
 }

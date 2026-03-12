@@ -36,16 +36,16 @@ public class ReplaySubsystemFactory {
     return new RollerIntake(new RollerIntakeIO() {}, "Shooter Intake");
   }
 
-  /// Left Collector
-  public static CollectorDeployer createReplayLeftCollectorDeployer() {
-    return new CollectorDeployer(new CollectorDeployerIO() {}, "Left Collector Deployer");
+  /// Collector
+  public static CollectorDeployer createReplayCollectorDeployer() {
+    return new CollectorDeployer(new CollectorDeployerIO() {}, "Collector Deployer");
   }
 
-  public static RollerIntake createReplayLeftCollectorExteriorRoller() {
-    return new RollerIntake(new RollerIntakeIO() {}, "Left Collector Exterior Roller");
+  public static RollerIntake createReplayCollectorExteriorRoller() {
+    return new RollerIntake(new RollerIntakeIO() {}, "Collector Exterior Roller");
   }
 
-  public static RollerIntake createReplayLeftCollectorInteriorRoller() {
-    return new RollerIntake(new RollerIntakeIO() {}, "Left Collector Interior Roller");
+  public static RollerIntake createReplayCollectorInteriorRoller() {
+    return new RollerIntake(new RollerIntakeIO() {}, "Collector Interior Roller");
   }
 }

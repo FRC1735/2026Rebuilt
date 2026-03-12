@@ -14,7 +14,7 @@
             "/Collector Deployer",
             "/Collector Exterior",
             "/RealOutputs/Odometry",
-            "/Left Collector Deployer"
+            "/Collector Deployer"
           ]
         },
         "tabs": {
@@ -198,12 +198,12 @@
             },
             {
               "type": 1,
-              "title": "Left Collector Deployer",
+              "title": "Collector Deployer",
               "controller": {
                 "leftSources": [
                   {
                     "type": "stepped",
-                    "logKey": "/Left Collector Deployer/EncoderPosition",
+                    "logKey": "/Collector Deployer/EncoderPosition",
                     "logType": "Number",
                     "visible": true,
                     "options": {
@@ -213,7 +213,7 @@
                   },
                   {
                     "type": "stepped",
-                    "logKey": "/Left Collector Deployer/TargetRotations",
+                    "logKey": "/Collector Deployer/TargetRotations",
                     "logType": "Number",
                     "visible": true,
                     "options": {
@@ -226,7 +226,7 @@
                 "discreteSources": [
                   {
                     "type": "stripes",
-                    "logKey": "/Left Collector Deployer/AtTarget",
+                    "logKey": "/Collector Deployer/AtTarget",
                     "logType": "Boolean",
                     "visible": true,
                     "options": {

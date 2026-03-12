@@ -22,7 +22,7 @@ public class KeyboardController {
 
   // Group of triggers for high level subsystems
   private final Shooter shooter;
-  private final LeftCollector leftCollector;
+  private final Collector collector;
   private final RightCollector rightCollector;
 
   public KeyboardController(int port) {
@@ -35,7 +35,7 @@ public class KeyboardController {
     this.keyboardTable = inst.getTable("/AdvantageKit/DriverStation/Keyboard" + port);
 
     this.shooter = new Shooter(this);
-    this.leftCollector = new LeftCollector(this);
+    this.collector = new Collector(this);
     this.rightCollector = new RightCollector(this);
 
     buttonSubscribers = new BooleanSubscriber[this.numButtons];
@@ -100,10 +100,9 @@ public class KeyboardController {
     return shooter;
   }
 
-  public LeftCollector collector() {
-    return leftCollector;
+  public Collector collector() {
+    return collector;
   }
-
 
   public static final record Shooter(KeyboardController controller) {
     public Trigger hoodToUpPosition() {
@@ -139,7 +138,7 @@ public class KeyboardController {
     }
   }
 
-  public static final record LeftCollector(KeyboardController controller) {
+  public static final record Collector(KeyboardController controller) {
     public Trigger deploy() {
       return controller.button(2, 6).or(controller.button(2, 7));
     }

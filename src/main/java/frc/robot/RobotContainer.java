@@ -36,7 +36,7 @@ public class RobotContainer {
   private final Shooter shooter;
   private final ShooterHood shooterHood;
   private final RollerIntake shooterIntake;
-  /// Left Collector
+  /// Collector
   private final CollectorDeployer collectorDeployer;
   private final RollerIntake collectorExteriorRoller;
   private final RollerIntake collectorInteriorRoller;
@@ -218,7 +218,7 @@ public class RobotContainer {
         .shooterLowSpeed()
         .whileTrue(ShooterCommands.shooterLowSpeed(shooter, shooterIntake));
 
-    // Left Collector
+    // Collector
     operatorController
         .collector()
         .deploy()
@@ -232,14 +232,12 @@ public class RobotContainer {
     operatorController // verified
         .collector()
         .intake()
-        .whileTrue(
-            CollectorCommands.intake(collectorInteriorRoller, collectorExteriorRoller));
+        .whileTrue(CollectorCommands.intake(collectorInteriorRoller, collectorExteriorRoller));
 
     operatorController // verified
         .collector()
         .outtake()
-        .whileTrue(
-            CollectorCommands.outtake(collectorInteriorRoller, collectorExteriorRoller));
+        .whileTrue(CollectorCommands.outtake(collectorInteriorRoller, collectorExteriorRoller));
 
     operatorController // verified
         .collector()
@@ -252,29 +250,7 @@ public class RobotContainer {
         .onTrue(CollectorCommands.manualRetract(collectorDeployer));
   }
 
-  private void configureDeveloperBindings() {
-    // driverController.a().whileTrue(ShooterCommands.shooterIntake(shooterIntake));
-    // driverController.b().whileTrue(ShooterCommands.shooterOuttake(shooterIntake));
-
-    /*
-    driverController
-        .a()
-        .whileTrue(
-            new StartEndCommand(
-                () -> leftCollectorDeployer.setVoltage(6),
-                leftCollectorDeployer::stop,
-                leftCollectorDeployer));
-
-    driverController
-        .b()
-        .whileTrue(
-            new StartEndCommand(
-                () -> leftCollectorDeployer.setVoltage(-6),
-                leftCollectorDeployer::stop,
-                leftCollectorDeployer));
-                */
-
-  }
+  private void configureDeveloperBindings() {}
 
   public Command getAutonomousCommand() {
     return autoChooser.get();
