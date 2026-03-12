@@ -48,17 +48,4 @@ public class ReplaySubsystemFactory {
   public static RollerIntake createReplayLeftCollectorInteriorRoller() {
     return new RollerIntake(new RollerIntakeIO() {}, "Left Collector Interior Roller");
   }
-
-  /// Right Collector
-  public static CollectorDeployer createReplayRightCollectorDeployer() {
-    return new CollectorDeployer(new CollectorDeployerIO() {}, "Right Collector Deployer");
-  }
-
-  public static RollerIntake createReplayRightCollectorExteriorRoller() {
-    return new RollerIntake(new RollerIntakeIO() {}, "Right Collector Exterior Roller");
-  }
-
-  public static RollerIntake createReplayRightCollectorInteriorRoller() {
-    return new RollerIntake(new RollerIntakeIO() {}, "Right Collector Interior Roller");
-  }
 }

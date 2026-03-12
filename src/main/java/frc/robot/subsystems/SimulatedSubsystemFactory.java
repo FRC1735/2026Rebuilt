@@ -50,17 +50,4 @@ public class SimulatedSubsystemFactory {
   public static RollerIntake createSimulatedLeftCollectorInteriorRoller() {
     return new RollerIntake(new RollerIntakeIOSim(), "Left Collector Interior Intake");
   }
-
-  /// Right Collector
-  public static CollectorDeployer createSimulatedRightCollectorDeployer() {
-    return new CollectorDeployer(new CollectorDeployerIOSim(), "Right Collector Deployer");
-  }
-
-  public static RollerIntake createSimulatedRightCollectorExteriorRoller() {
-    return new RollerIntake(new RollerIntakeIOSim(), "Right Collector Exterior Intake");
-  }
-
-  public static RollerIntake createSimulatedRightCollectorInteriorRoller() {
-    return new RollerIntake(new RollerIntakeIOSim(), "Right Collector Interior Intake");
-  }
 }

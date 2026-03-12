@@ -95,46 +95,5 @@ public class RealSubsystemFactory {
   }
 
   /// Right Collector
-  public static CollectorDeployer createRealRightCollectorDeployer() {
-    return new CollectorDeployer(
-        Constants.RIGHT_COLLECTOR_DEPLOYER_ENABLED
-            ? new CollectorDeployerIOSparkFlex(
-                Constants.RIGHT_COLLECTOR_DEPLOYER_CAN_ID,
-                Constants.RIGHT_COLLECTOR_DEPLOYER_ENCODER_CAN_ID,
-                "Right Collector Deployer",
-                2.8, // deploy
-                0.2,
-                0.1,
-                0, // retract
-                0,
-                0,
-                1,
-                1.2,
-                false,
-                0.53f)
-            : new CollectorDeployerIO() {},
-        "Right Collector Deployer");
-  }
 
-  public static RollerIntake createRealRightCollectorExteriorRoller() {
-    return new RollerIntake(
-        Constants.RIGHT_COLLECTOR_ROLLER_EXTERIOR_ENABLED
-            ? new RollerIntakeIOSparkFlex(
-                Constants.RIGHT_COLLECTOR_ROLLER_EXTERIOR_CAN_ID,
-                "Right Collector Exterior Roller",
-                true)
-            : new RollerIntakeIO() {},
-        "Right Collector Exterior Roller");
-  }
-
-  public static RollerIntake createRealRightCollectorInteriorRoller() {
-    return new RollerIntake(
-        Constants.RIGHT_COLLECTOR_ROLLER_INTERIOR_ENABLED
-            ? new RollerIntakeIOSparkFlex(
-                Constants.RIGHT_COLLECTOR_ROLLER_INTERIOR_CAN_ID,
-                "Right Collector Interior Roller",
-                true)
-            : new RollerIntakeIO() {},
-        "Right Collector Interior Roller");
-  }
 }

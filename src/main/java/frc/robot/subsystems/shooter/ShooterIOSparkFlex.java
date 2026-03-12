@@ -130,7 +130,7 @@ public class ShooterIOSparkFlex implements ShooterIO {
     // setVoltage(6, 6);
     leader.set(.9);
 
-    // for passing 
+    // for passing
     // hood position: 0.366
     // shooter: 90%, 628 radians per sec
   }

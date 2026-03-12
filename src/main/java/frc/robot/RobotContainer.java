@@ -40,10 +40,6 @@ public class RobotContainer {
   private final CollectorDeployer leftCollectorDeployer;
   private final RollerIntake leftCollectorExteriorRoller;
   private final RollerIntake leftCollectorInteriorRoller;
-  /// Right Collector
-  private final CollectorDeployer rightCollectorDeployer;
-  private final RollerIntake rightCollectorExteriorRoller;
-  private final RollerIntake rightCollectorInteriorRoller;
 
   // Controller
   private final CommandXboxController driverController = new CommandXboxController(0);
@@ -68,9 +64,7 @@ public class RobotContainer {
         leftCollectorDeployer = createRealLeftCollectorDeployer();
         leftCollectorExteriorRoller = createRealLeftCollectorExteriorRoller();
         leftCollectorInteriorRoller = createRealLeftCollectorInteriorRoller();
-        rightCollectorDeployer = createRealRightCollectorDeployer();
-        rightCollectorExteriorRoller = createRealRightCollectorExteriorRoller();
-        rightCollectorInteriorRoller = createRealRightCollectorInteriorRoller();
+
         break;
 
       case SIM:
@@ -82,9 +76,6 @@ public class RobotContainer {
         leftCollectorDeployer = createSimulatedLeftCollectorDeployer();
         leftCollectorExteriorRoller = createSimulatedLeftCollectorExteriorRoller();
         leftCollectorInteriorRoller = createSimulatedLeftCollectorInteriorRoller();
-        rightCollectorDeployer = createSimulatedRightCollectorDeployer();
-        rightCollectorExteriorRoller = createSimulatedRightCollectorExteriorRoller();
-        rightCollectorInteriorRoller = createSimulatedRightCollectorInteriorRoller();
 
         break;
 
@@ -97,9 +88,6 @@ public class RobotContainer {
         leftCollectorDeployer = createRealLeftCollectorDeployer();
         leftCollectorExteriorRoller = createRealLeftCollectorExteriorRoller();
         leftCollectorInteriorRoller = createRealLeftCollectorInteriorRoller();
-        rightCollectorDeployer = createRealRightCollectorDeployer();
-        rightCollectorExteriorRoller = createRealRightCollectorExteriorRoller();
-        rightCollectorInteriorRoller = createRealRightCollectorInteriorRoller();
         break;
     }
 
@@ -229,37 +217,6 @@ public class RobotContainer {
         .shooter()
         .shooterLowSpeed()
         .whileTrue(ShooterCommands.shooterLowSpeed(shooter, shooterIntake));
-
-    // Right Collector
-    operatorController
-        .rightCollector()
-        .deploy()
-        .onTrue(CollectorCommands.deploy(rightCollectorDeployer)); // TODO - verify
-    operatorController
-        .rightCollector()
-        .retract()
-        .onTrue(CollectorCommands.retract(rightCollectorDeployer)); // TODO - verify
-
-    operatorController // verified
-        .rightCollector()
-        .intake()
-        .whileTrue(
-            CollectorCommands.intake(rightCollectorInteriorRoller, rightCollectorExteriorRoller));
-
-    operatorController // verified
-        .rightCollector()
-        .outtake()
-        .whileTrue(
-            CollectorCommands.outtake(rightCollectorInteriorRoller, rightCollectorExteriorRoller));
-
-    operatorController
-        .rightCollector()
-        .manualDeploy()
-        .onTrue(CollectorCommands.manualDeploy(rightCollectorDeployer)); // TODO - verify
-    operatorController
-        .rightCollector()
-        .manualRetract()
-        .onTrue(CollectorCommands.manualRetract(rightCollectorDeployer)); // TODO - verify
 
     // Left Collector
     operatorController
