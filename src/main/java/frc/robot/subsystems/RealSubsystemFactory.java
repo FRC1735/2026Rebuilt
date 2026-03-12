@@ -51,12 +51,12 @@ public class RealSubsystemFactory {
   }
 
   /// Left Collector
-  public static CollectorDeployer createRealLeftCollectorDeployer() {
+  public static CollectorDeployer createRealCollectorDeployer() {
     return new CollectorDeployer(
-        Constants.LEFT_COLLECTOR_DEPLOYER_ENABLED
+        Constants.COLLECTOR_DEPLOYER_ENABLED
             ? new CollectorDeployerIOSparkFlex(
-                Constants.LEFT_COLLECTOR_DEPLOYER_CAN_ID,
-                Constants.LEFT_COLLECTOR_DEPLOYER_ENCODER_CAN_ID,
+                Constants.COLLECTOR_DEPLOYER_CAN_ID,
+                Constants.COLLECTOR_DEPLOYER_ENCODER_CAN_ID,
                 "Left Collector Deployer",
                 2.8, // deploy
                 0.2,
@@ -72,22 +72,22 @@ public class RealSubsystemFactory {
         "Left Collector Deployer");
   }
 
-  public static RollerIntake createRealLeftCollectorExteriorRoller() {
+  public static RollerIntake createRealCollectorExteriorRoller() {
     return new RollerIntake(
-        Constants.LEFT_COLLECTOR_ROLLER_EXTERIOR_ENABLED
+        Constants.COLLECTOR_ROLLER_EXTERIOR_ENABLED
             ? new RollerIntakeIOSparkFlex(
-                Constants.LEFT_COLLECTOR_ROLLER_EXTERIOR_CAN_ID,
+                Constants.COLLECTOR_ROLLER_EXTERIOR_CAN_ID,
                 "Left Collector Exterior Roller",
                 false)
             : new RollerIntakeIO() {},
         "Left Collector Exterior Roller");
   }
 
-  public static RollerIntake createRealLeftCollectorInteriorRoller() {
+  public static RollerIntake createRealCollectorInteriorRoller() {
     return new RollerIntake(
-        Constants.LEFT_COLLECTOR_ROLLER_INTERIOR_ENABLED
+        Constants.COLLECTOR_ROLLER_INTERIOR_ENABLED
             ? new RollerIntakeIOSparkFlex(
-                Constants.LEFT_COLLECTOR_ROLLER_INTERIOR_CAN_ID,
+                Constants.COLLECTOR_ROLLER_INTERIOR_CAN_ID,
                 "Left Collector Interior Roller",
                 false)
             : new RollerIntakeIO() {},

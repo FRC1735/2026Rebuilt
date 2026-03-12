@@ -100,13 +100,10 @@ public class KeyboardController {
     return shooter;
   }
 
-  public LeftCollector leftCollector() {
+  public LeftCollector collector() {
     return leftCollector;
   }
 
-  public RightCollector rightCollector() {
-    return rightCollector;
-  }
 
   public static final record Shooter(KeyboardController controller) {
     public Trigger hoodToUpPosition() {

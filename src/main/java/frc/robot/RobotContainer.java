@@ -37,9 +37,9 @@ public class RobotContainer {
   private final ShooterHood shooterHood;
   private final RollerIntake shooterIntake;
   /// Left Collector
-  private final CollectorDeployer leftCollectorDeployer;
-  private final RollerIntake leftCollectorExteriorRoller;
-  private final RollerIntake leftCollectorInteriorRoller;
+  private final CollectorDeployer collectorDeployer;
+  private final RollerIntake collectorExteriorRoller;
+  private final RollerIntake collectorInteriorRoller;
 
   // Controller
   private final CommandXboxController driverController = new CommandXboxController(0);
@@ -61,9 +61,9 @@ public class RobotContainer {
         shooter = createRealShooter();
         shooterHood = createRealShooterHood();
         shooterIntake = createRealShooterIntake();
-        leftCollectorDeployer = createRealLeftCollectorDeployer();
-        leftCollectorExteriorRoller = createRealLeftCollectorExteriorRoller();
-        leftCollectorInteriorRoller = createRealLeftCollectorInteriorRoller();
+        collectorDeployer = createRealCollectorDeployer();
+        collectorExteriorRoller = createRealCollectorExteriorRoller();
+        collectorInteriorRoller = createRealCollectorInteriorRoller();
 
         break;
 
@@ -73,9 +73,9 @@ public class RobotContainer {
         shooter = createSimulatedShooter();
         shooterHood = createSimulatedShooterHood();
         shooterIntake = createSimulatedShooterIntake();
-        leftCollectorDeployer = createSimulatedLeftCollectorDeployer();
-        leftCollectorExteriorRoller = createSimulatedLeftCollectorExteriorRoller();
-        leftCollectorInteriorRoller = createSimulatedLeftCollectorInteriorRoller();
+        collectorDeployer = createSimulatedCollectorDeployer();
+        collectorExteriorRoller = createSimulatedCollectorExteriorRoller();
+        collectorInteriorRoller = createSimulatedCollectorInteriorRoller();
 
         break;
 
@@ -85,9 +85,9 @@ public class RobotContainer {
         shooter = createReplayShooter();
         shooterHood = createReplayShooterHood();
         shooterIntake = createReplayShooterIntake();
-        leftCollectorDeployer = createRealLeftCollectorDeployer();
-        leftCollectorExteriorRoller = createRealLeftCollectorExteriorRoller();
-        leftCollectorInteriorRoller = createRealLeftCollectorInteriorRoller();
+        collectorDeployer = createRealCollectorDeployer();
+        collectorExteriorRoller = createRealCollectorExteriorRoller();
+        collectorInteriorRoller = createRealCollectorInteriorRoller();
         break;
     }
 
@@ -220,36 +220,36 @@ public class RobotContainer {
 
     // Left Collector
     operatorController
-        .leftCollector()
+        .collector()
         .deploy()
-        .onTrue(CollectorCommands.deploy(leftCollectorDeployer)); // TODO - verify
+        .onTrue(CollectorCommands.deploy(collectorDeployer)); // TODO - verify
 
     operatorController
-        .leftCollector()
+        .collector()
         .retract()
-        .onTrue(CollectorCommands.retract(leftCollectorDeployer)); // TODO - verify
+        .onTrue(CollectorCommands.retract(collectorDeployer)); // TODO - verify
 
     operatorController // verified
-        .leftCollector()
+        .collector()
         .intake()
         .whileTrue(
-            CollectorCommands.intake(leftCollectorInteriorRoller, leftCollectorExteriorRoller));
+            CollectorCommands.intake(collectorInteriorRoller, collectorExteriorRoller));
 
     operatorController // verified
-        .leftCollector()
+        .collector()
         .outtake()
         .whileTrue(
-            CollectorCommands.outtake(leftCollectorInteriorRoller, leftCollectorExteriorRoller));
+            CollectorCommands.outtake(collectorInteriorRoller, collectorExteriorRoller));
 
     operatorController // verified
-        .leftCollector()
+        .collector()
         .manualDeploy()
-        .onTrue(CollectorCommands.manualDeploy(leftCollectorDeployer));
+        .onTrue(CollectorCommands.manualDeploy(collectorDeployer));
 
     operatorController // verfieid
-        .leftCollector()
+        .collector()
         .manualRetract()
-        .onTrue(CollectorCommands.manualRetract(leftCollectorDeployer));
+        .onTrue(CollectorCommands.manualRetract(collectorDeployer));
   }
 
   private void configureDeveloperBindings() {
