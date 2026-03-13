@@ -12,6 +12,7 @@ import static frc.robot.subsystems.ReplaySubsystemFactory.*;
 import static frc.robot.subsystems.SimulatedSubsystemFactory.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -93,7 +94,9 @@ public class RobotContainer {
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
-
+    NamedCommands.registerCommand("shooter hood up", ShooterCommands.hoodUp(shooterHood));
+    NamedCommands.registerCommand("shooter hood down", ShooterCommands.hoodDown(shooterHood));
+    NamedCommands.registerCommand("shoot high", ShooterCommands.shooterHighSpeed(shooter, shooterIntake));
     // Set up SysId routines
     /*
     autoChooser.addOption(
