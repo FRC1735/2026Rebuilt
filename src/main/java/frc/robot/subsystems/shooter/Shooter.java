@@ -24,10 +24,6 @@ public class Shooter extends SubsystemBase {
     Logger.processInputs("Shooter", inputs);
   }
 
-  public void setVoltage(double leftVolts, double rightVolts) {
-    io.setVoltage(leftVolts, rightVolts);
-  }
-
   public void shootAtHub() {
     io.setTargetVelocity(400);
     // io.setVoltage(3, 3);
@@ -51,19 +47,11 @@ public class Shooter extends SubsystemBase {
     return io.atTargetVelocity();
   }
 
+  public void shootAtVelocity(double velocity) {
+    io.setTargetVelocity(velocity);
+  }
+
   public void stop() {
     io.stop();
-  }
-
-  public double getLeftVelocityRadPerSec() {
-    return inputs.leftVelocityRadPerSec;
-  }
-
-  public double getRightVelocityRadPerSec() {
-    return inputs.rightAppliedVolts;
-  }
-
-  public boolean isConnected() {
-    return inputs.leftConnected && inputs.rightConnected;
   }
 }

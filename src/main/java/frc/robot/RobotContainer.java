@@ -96,7 +96,8 @@ public class RobotContainer {
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
     NamedCommands.registerCommand("shooter hood up", ShooterCommands.hoodUp(shooterHood));
     NamedCommands.registerCommand("shooter hood down", ShooterCommands.hoodDown(shooterHood));
-    NamedCommands.registerCommand("shoot high", ShooterCommands.shooterHighSpeed(shooter, shooterIntake));
+    NamedCommands.registerCommand(
+        "shoot high", ShooterCommands.shooterHighSpeed(shooter, shooterIntake));
     // Set up SysId routines
     /*
     autoChooser.addOption(
@@ -123,9 +124,9 @@ public class RobotContainer {
                 ShooterCommands.shooterHighSpeed(shooter, shooterIntake))
             .withTimeout(20));
 
-    configureDriverBindings();
-    configureOperatorBindings();
-    // configureDeveloperBindings();
+    // configureDriverBindings();
+    // configureOperatorBindings();
+    configureDeveloperBindings();
   }
 
   public void logLimelights() {
@@ -253,7 +254,10 @@ public class RobotContainer {
         .onTrue(CollectorCommands.manualRetract(collectorDeployer));
   }
 
-  private void configureDeveloperBindings() {}
+  private void configureDeveloperBindings() {
+
+    driverController.a().whileTrue(ShooterCommands.newShoot(shooter, shooterIntake));
+  }
 
   public Command getAutonomousCommand() {
     return autoChooser.get();

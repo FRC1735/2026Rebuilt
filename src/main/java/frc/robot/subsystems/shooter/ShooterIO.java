@@ -6,22 +6,11 @@ public interface ShooterIO {
 
   @AutoLog
   class ShooterIOInputs {
-    public double leftVelocityRadPerSec = 0.0;
-    public double rightVelocityRadPerSec = 0.0;
-
-    public double leftAppliedVolts = 0.0;
-    public double rightAppliedVolts = 0.0;
-
-    public double leftCurrentAmps = 0.0;
-    public double rightCurrentAmps = 0.0;
-
-    public boolean leftConnected = true;
-    public boolean rightConnected = true;
+    public double encoderVelocity = 0;
+    public double targetVelocity = 0;
   }
 
   default void updateInputs(ShooterIOInputs inputs) {}
-
-  default void setVoltage(double leftVolts, double rightVolts) {}
 
   default void setTargetVelocity(double velocity) {}
 
@@ -29,7 +18,5 @@ public interface ShooterIO {
     return false;
   }
 
-  default void stop() {
-    setVoltage(0.0, 0.0);
-  }
+  default void stop() {}
 }

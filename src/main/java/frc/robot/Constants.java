@@ -29,7 +29,7 @@ public final class Constants {
   // Enable / Disable Subsystems
   /// Shooter
   public static final boolean SHOOTER_ENABLED = true;
-  public static final boolean SHOOTER_HOOD_ENABLED = true;
+  public static final boolean SHOOTER_HOOD_ENABLED = false;
   public static final boolean SHOOTER_INTAKE_ENABLED = true;
   /// Collector
   public static final boolean COLLECTOR_DEPLOYER_ENABLED = false;
@@ -38,8 +38,8 @@ public final class Constants {
 
   // CAN ID's
   /// Shooter
-  public static final int SHOOTER_LEFT_CAN_ID = 5;
-  public static final int SHOOTER_RIGHT_CAN_ID = 6;
+  public static final int SHOOTER_LEADER_CAN_ID = 5;
+  public static final int SHOOTER_FOLLOWER_CAN_ID = 6;
   public static final int SHOOTER_INTAKE_CAN_ID = 7;
   public static final int SHOOTER_HOOD_CAN_ID = 8;
   /// COLLECTOR

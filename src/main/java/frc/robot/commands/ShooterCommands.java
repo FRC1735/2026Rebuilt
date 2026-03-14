@@ -42,6 +42,18 @@ public class ShooterCommands {
             });
   }
 
+  public static Command newShoot(Shooter shooter, RollerIntake shooterIntake) {
+    return Commands.run(() -> shooter.shootAtVelocity(1000), shooter)
+        // .withTimeout(1.2)
+        // .until(shooter::atTargetVelocity)
+        // .andThen(Commands.run(shooterIntake::in, shooterIntake))
+        .finallyDo(
+            () -> {
+              shooter.stop();
+              shooterIntake.stop();
+            });
+  }
+
   public static Command shooterLowSpeed(Shooter shooter, RollerIntake shooterIntake) {
     return Commands.run(shooter::shootAcross, shooter)
         .until(shooter::atTargetVelocity)

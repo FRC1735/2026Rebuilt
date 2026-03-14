@@ -31,7 +31,8 @@ public class RealSubsystemFactory {
   public static Shooter createRealShooter() {
     return new Shooter(
         Constants.SHOOTER_ENABLED
-            ? new ShooterIOSparkFlex(Constants.SHOOTER_LEFT_CAN_ID, Constants.SHOOTER_RIGHT_CAN_ID)
+            ? new ShooterIOSparkFlex(
+                Constants.SHOOTER_LEADER_CAN_ID, Constants.SHOOTER_FOLLOWER_CAN_ID)
             : new ShooterIO() {});
   }
 

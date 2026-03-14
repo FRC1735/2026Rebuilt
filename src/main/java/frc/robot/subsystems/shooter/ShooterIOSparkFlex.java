@@ -1,150 +1,85 @@
 package frc.robot.subsystems.shooter;
 
 import com.revrobotics.PersistMode;
-import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
+import com.revrobotics.spark.FeedbackSensor;
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.Constants;
 
 public class ShooterIOSparkFlex implements ShooterIO {
 
   private final SparkFlex leader;
   private final SparkFlex follower;
-  private final RelativeEncoder leaderEncoder;
-
-  private final PIDController pid;
-  private final SimpleMotorFeedforward feedforward;
+  private final RelativeEncoder encoder;
+  private final SparkClosedLoopController pid;
 
   private double targetVelocity = 0;
-  private boolean enablePid = false;
 
   // Dashboard keys
   private static final String kPrefix = "Shooter/";
 
   public ShooterIOSparkFlex(int leaderCanId, int followerCanId) {
-
     leader = new SparkFlex(leaderCanId, MotorType.kBrushless);
     follower = new SparkFlex(followerCanId, MotorType.kBrushless);
+    encoder = leader.getEncoder();
+    pid = leader.getClosedLoopController();
 
-    SparkFlexConfig leaderConfig = new SparkFlexConfig();
-    SparkFlexConfig followerConfig = new SparkFlexConfig();
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("Elastic").getSubTable(kPrefix);
 
-    leaderConfig
-        .inverted(false)
-        .idleMode(IdleMode.kCoast)
-        .voltageCompensation(12.0)
-        .smartCurrentLimit(80);
+    configureMotors();
+  }
 
-    followerConfig.follow(leader, true).voltageCompensation(12.0).smartCurrentLimit(80);
+  private void configureMotors() {
+    var leadConfig = new SparkFlexConfig();
 
-    leader.configure(leaderConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    leadConfig.idleMode(IdleMode.kCoast);
+    leadConfig.smartCurrentLimit(60);
 
+    leadConfig.encoder.velocityConversionFactor(1);
+
+    leadConfig
+        .closedLoop
+        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        .p(0.1)
+        .i(0)
+        .d(0)
+        .outputRange(-1, 1)
+        .feedForward
+        .kV(12 / 5767);
+
+    var followerConfig = new SparkFlexConfig();
+    followerConfig.follow(Constants.SHOOTER_LEADER_CAN_ID, true);
     follower.configure(
         followerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-    leaderEncoder = leader.getEncoder();
-
-    // ---------------- CONTROL ----------------
-
-    pid =
-        new PIDController(
-            SmartDashboard.getNumber(kPrefix + "kP", 0.01),
-            SmartDashboard.getNumber(kPrefix + "kI", 0.2),
-            SmartDashboard.getNumber(kPrefix + "kD", 0.0001));
-
-    pid.setTolerance(SmartDashboard.getNumber(kPrefix + "VelocityToleranceRadPerSec", 5.0));
-
-    feedforward =
-        new SimpleMotorFeedforward(
-            SmartDashboard.getNumber(kPrefix + "kS", 0.25),
-            SmartDashboard.getNumber(kPrefix + "kV", 0.12),
-            SmartDashboard.getNumber(kPrefix + "kA", 0.0));
-
-    // Seed dashboard values (Elastic-friendly)
-    SmartDashboard.setDefaultNumber(kPrefix + "kP", 0.01);
-    SmartDashboard.setDefaultNumber(kPrefix + "kI", 0.2);
-    SmartDashboard.setDefaultNumber(kPrefix + "kD", 0.0001);
-    SmartDashboard.setDefaultNumber(kPrefix + "kS", 0.25);
-    SmartDashboard.setDefaultNumber(kPrefix + "kV", 0.12);
-    SmartDashboard.setDefaultNumber(kPrefix + "kA", 0.0);
-    SmartDashboard.setDefaultNumber(kPrefix + "TargetRadPerSec", 0.0);
-    SmartDashboard.setDefaultNumber(kPrefix + "VelocityToleranceRadPerSec", 5.0);
+    leader.configure(leadConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   @Override
   public void updateInputs(ShooterIOInputs inputs) {
+    inputs.encoderVelocity = encoder.getVelocity();
+    inputs.targetVelocity = targetVelocity;
 
-    double velocityRadPerSec = leaderEncoder.getVelocity() * (2.0 * Math.PI / 60.0);
-
-    inputs.leftVelocityRadPerSec = velocityRadPerSec;
-    inputs.rightVelocityRadPerSec = velocityRadPerSec;
-
-    inputs.leftAppliedVolts = leader.getAppliedOutput() * leader.getBusVoltage();
-    inputs.rightAppliedVolts = follower.getAppliedOutput() * follower.getBusVoltage();
-
-    inputs.leftCurrentAmps = leader.getOutputCurrent();
-    inputs.rightCurrentAmps = follower.getOutputCurrent();
-
-    inputs.leftConnected = leader.getLastError() == REVLibError.kOk;
-    inputs.rightConnected = follower.getLastError() == REVLibError.kOk;
-
-    // ---------------- CONTROL UPDATE ----------------
-
-    // Pull tunables live (Elastic edits apply immediately)
-    pid.setPID(
-        SmartDashboard.getNumber(kPrefix + "kP", pid.getP()),
-        SmartDashboard.getNumber(kPrefix + "kI", pid.getI()),
-        SmartDashboard.getNumber(kPrefix + "kD", pid.getD()));
-
-    pid.setTolerance(
-        SmartDashboard.getNumber(kPrefix + "VelocityToleranceRadPerSec", pid.getErrorTolerance()));
-
-    // double targetRadPerSec = SmartDashboard.getNumber(kPrefix + "TargetRadPerSec", 0.0);
-
-    // System.out.println("TARGET VEL:" + targetVelocity);
-    double ffVolts = feedforward.calculate(targetVelocity);
-
-    if (enablePid) {
-      double pidVolts = pid.calculate(velocityRadPerSec, targetVelocity);
-      leader.setVoltage(/*ffVolts + */ pidVolts);
-    }
+    // update pid?
+    pid.setSetpoint(targetVelocity, ControlType.kVelocity);
   }
 
   @Override
-  public void setVoltage(double volts, double ignored) {
-    leader.setVoltage(volts);
-    // pid.reset();
-  }
-
-  @Override
-  public void setTargetVelocity(double velocity) {
-    // pid.setSetpoint(velocity);
-    // targetVelocity = velocity;
-    enablePid = false;
-    // setVoltage(6, 6);
-    leader.set(.9);
-
-    // for passing
-    // hood position: 0.366
-    // shooter: 90%, 628 radians per sec
-  }
-
-  @Override
-  public boolean atTargetVelocity() {
-    return true; // pid.atSetpoint();
+  public void setTargetVelocity(double targetVelocity) {
+    this.targetVelocity = targetVelocity;
   }
 
   @Override
   public void stop() {
+    this.targetVelocity = 0;
     leader.stopMotor();
-    // targetVelocity = 0;
-    enablePid = false;
-    pid.reset();
   }
 }
