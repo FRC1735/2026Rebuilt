@@ -61,9 +61,14 @@ public class ShooterIOSparkFlex implements ShooterIO {
     var leadConfig = new SparkFlexConfig();
 
     leadConfig.idleMode(IdleMode.kCoast);
-    leadConfig.smartCurrentLimit(60);
+    leadConfig.smartCurrentLimit(80);
+    // leadConfig.closedLoopRampRate(0.8);
 
-    leadConfig.encoder.velocityConversionFactor(1);
+    leadConfig
+        .encoder
+        .velocityConversionFactor(1)
+        .quadratureMeasurementPeriod(1)
+        .quadratureAverageDepth(64);
 
     leadConfig
         .closedLoop
@@ -72,6 +77,7 @@ public class ShooterIOSparkFlex implements ShooterIO {
         .i(i)
         .d(d)
         .outputRange(-1, 1)
+        // .allowedClosedLoopError(25, ClosedLoopSlot.kSlot0)
         .feedForward
         .kV((0.5 / 2722) * 10);
 
@@ -104,6 +110,8 @@ public class ShooterIOSparkFlex implements ShooterIO {
 
     inputs.encoderVelocity = encoder.getVelocity();
     inputs.targetVelocity = targetVelocity;
+    inputs.outputCurrent = leader.getOutputCurrent();
+    inputs.atTargetVelocity = atTargetVelocity();
 
     // update pid?
     if (targetVelocity == 0) {
@@ -117,6 +125,11 @@ public class ShooterIOSparkFlex implements ShooterIO {
   public void setTargetVelocity(double targetVelocity) {
     this.targetVelocity = targetVelocity;
     // leader.set(0.5);
+  }
+
+  @Override
+  public boolean atTargetVelocity() {
+    return Math.abs(targetVelocity - encoder.getVelocity()) < 50;
   }
 
   @Override

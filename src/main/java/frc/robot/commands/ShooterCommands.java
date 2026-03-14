@@ -44,14 +44,26 @@ public class ShooterCommands {
 
   // HEREHERHERHERHEHREHR
   public static Command newShoot(Shooter shooter, RollerIntake shooterIntake) {
-    return Commands.run(() -> shooter.shootAtVelocity(4500), shooter)
-        // .until(shooter::atTargetVelocity)
-        // .andThen(Commands.run(shooterIntake::in, shooterIntake))
+    return Commands.parallel(
+            Commands.run(() -> shooter.shootAtVelocity(5000), shooter),
+            Commands.waitUntil(shooter::atTargetVelocity)
+                .andThen(Commands.run(shooterIntake::in, shooterIntake)))
         .finallyDo(
             () -> {
               shooter.stop();
               shooterIntake.stop();
             });
+
+    /*
+    return Commands.run(() -> shooter.shootAtVelocity(4500), shooter)
+        .onlyIf(() -> shooter.atTargetVelocity())
+        .andThen(Commands.run(shooterIntake::in, shooterIntake))
+        .finallyDo(
+            () -> {
+              shooter.stop();
+              shooterIntake.stop();
+            });
+            */
   }
 
   public static Command shooterLowSpeed(Shooter shooter, RollerIntake shooterIntake) {

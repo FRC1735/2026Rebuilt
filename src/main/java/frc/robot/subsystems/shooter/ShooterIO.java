@@ -8,6 +8,8 @@ public interface ShooterIO {
   class ShooterIOInputs {
     public double encoderVelocity = 0;
     public double targetVelocity = 0;
+    public double outputCurrent = 0;
+    public boolean atTargetVelocity = false;
   }
 
   default void updateInputs(ShooterIOInputs inputs) {}
