@@ -48,12 +48,12 @@ public class ShooterIOSparkFlex implements ShooterIO {
     leadConfig
         .closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .p(0.1)
+        .p(0)
         .i(0)
         .d(0)
         .outputRange(-1, 1)
         .feedForward
-        .kV(12 / 5767);
+        .kV((0.5 / 2722) * 10);
 
     var followerConfig = new SparkFlexConfig();
     followerConfig.follow(Constants.SHOOTER_LEADER_CAN_ID, true);
@@ -69,12 +69,17 @@ public class ShooterIOSparkFlex implements ShooterIO {
     inputs.targetVelocity = targetVelocity;
 
     // update pid?
-    pid.setSetpoint(targetVelocity, ControlType.kVelocity);
+    if (targetVelocity == 0) {
+      leader.set(0);
+    } else {
+      pid.setSetpoint(targetVelocity, ControlType.kVelocity);
+    }
   }
 
   @Override
   public void setTargetVelocity(double targetVelocity) {
     this.targetVelocity = targetVelocity;
+    // leader.set(0.5);
   }
 
   @Override

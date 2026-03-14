@@ -42,9 +42,9 @@ public class ShooterCommands {
             });
   }
 
+  // HEREHERHERHERHEHREHR
   public static Command newShoot(Shooter shooter, RollerIntake shooterIntake) {
-    return Commands.run(() -> shooter.shootAtVelocity(1000), shooter)
-        // .withTimeout(1.2)
+    return Commands.run(() -> shooter.shootAtVelocity(4500), shooter)
         // .until(shooter::atTargetVelocity)
         // .andThen(Commands.run(shooterIntake::in, shooterIntake))
         .finallyDo(
