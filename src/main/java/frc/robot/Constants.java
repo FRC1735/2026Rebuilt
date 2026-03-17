@@ -43,7 +43,7 @@ public final class Constants {
   public static final int SHOOTER_INTAKE_CAN_ID = 7;
   public static final int SHOOTER_HOOD_CAN_ID = 8;
   /// COLLECTOR
-  public static final int COLLECTOR_DEPLOYER_CAN_ID = 17;
+  public static final int COLLECTOR_DEPLOYER_CAN_ID = 27;
   public static final int COLLECTOR_DEPLOYER_ENCODER_CAN_ID = 18;
   public static final int COLLECTOR_ROLLER_EXTERIOR_CAN_ID = 15;
   public static final int COLLECTOR_ROLLER_INTERIOR_CAN_ID = 16;

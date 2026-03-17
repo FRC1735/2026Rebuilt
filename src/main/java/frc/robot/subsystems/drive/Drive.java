@@ -63,7 +63,7 @@ public class Drive extends SubsystemBase {
           Math.max(
               Math.hypot(TunerConstants.BackLeft.LocationX, TunerConstants.BackLeft.LocationY),
               Math.hypot(TunerConstants.BackRight.LocationX, TunerConstants.BackRight.LocationY)));
-    Field2d field = new Field2d();
+  Field2d field = new Field2d();
   // PathPlanner config constants
   // TODO - Remember to update these for real robot
   private static final double ROBOT_MASS_KG = 18.144;
