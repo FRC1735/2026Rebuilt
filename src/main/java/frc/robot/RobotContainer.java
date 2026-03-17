@@ -178,9 +178,7 @@ public class RobotContainer {
                   .ignoringDisable(true));
     }
 
-    driverController
-        .rightBumper()
-        .whileTrue(ShooterCommands.shooterHighSpeed(shooter, shooterIntake));
+    driverController.rightBumper().whileTrue(ShooterCommands.newShoot(shooter, shooterIntake));
   }
 
   private void configureOperatorBindings() {
