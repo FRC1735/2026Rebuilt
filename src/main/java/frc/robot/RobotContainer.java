@@ -120,9 +120,9 @@ public class RobotContainer {
                 ShooterCommands.shooterHighSpeed(shooter, shooterIntake))
             .withTimeout(20));
 
-    configureDriverBindings();
+    // configureDriverBindings();
     // configureOperatorBindings();
-    // configureDeveloperBindings();
+    configureDeveloperBindings();
   }
 
   public void logLimelights() {
@@ -251,6 +251,9 @@ public class RobotContainer {
   private void configureDeveloperBindings() {
 
     driverController.a().whileTrue(ShooterCommands.newShoot(shooter, shooterIntake));
+
+    driverController.b().onTrue(ShooterCommands.hoodDown(shooterHood));
+    driverController.y().onTrue(ShooterCommands.hoodUp(shooterHood));
   }
 
   public Command getAutonomousCommand() {
