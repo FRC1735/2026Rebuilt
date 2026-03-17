@@ -46,7 +46,7 @@ public class RealSubsystemFactory {
   public static RollerIntake createRealShooterIntake() {
     return new RollerIntake(
         Constants.SHOOTER_INTAKE_ENABLED
-            ? new RollerIntakeIOSparkFlex(Constants.SHOOTER_INTAKE_CAN_ID, "Shooter Intake", false)
+            ? new RollerIntakeIOSparkFlex(Constants.SHOOTER_INTAKE_CAN_ID, "Shooter Intake", true)
             : new RollerIntakeIO() {},
         "Shooter Intake");
   }
