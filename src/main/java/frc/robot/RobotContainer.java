@@ -124,9 +124,9 @@ public class RobotContainer {
                 ShooterCommands.shooterHighSpeed(shooter, shooterIntake))
             .withTimeout(20));
 
-    // configureDriverBindings();
+    configureDriverBindings();
     // configureOperatorBindings();
-    configureDeveloperBindings();
+    // configureDeveloperBindings();
   }
 
   public void logLimelights() {

@@ -21,19 +21,6 @@
             }
           },
           {
-            "title": "limelight-rear",
-            "x": 768.0,
-            "y": 0.0,
-            "width": 640.0,
-            "height": 640.0,
-            "type": "Camera Stream",
-            "properties": {
-              "topic": "/CameraPublisher/limelight-rear",
-              "period": 0.06,
-              "rotation_turns": 0
-            }
-          },
-          {
             "title": "EnableVision",
             "x": 640.0,
             "y": 0.0,

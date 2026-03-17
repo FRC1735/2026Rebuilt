@@ -36,6 +36,7 @@ import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -206,9 +207,11 @@ public class Drive extends SubsystemBase {
       // Apply update
       poseEstimator.updateWithTime(sampleTimestamps[i], rawGyroRotation, modulePositions);
     }
-
+    Field2d field = new Field2d();
+    field.setRobotPose(poseEstimator.getEstimatedPosition());
+    SmartDashboard.putData("field", field);
     if (OperatorToggles.isVisionEnabled()) {
-      SmartDashboard.putNumber("jared", gyroInputs.yawPosition.getDegrees());
+
       LimelightHelpers.SetRobotOrientation(
           "limelight-front", gyroInputs.yawPosition.getDegrees(), 0, 0, 0, 0, 0);
       LimelightHelpers.SetRobotOrientation(
