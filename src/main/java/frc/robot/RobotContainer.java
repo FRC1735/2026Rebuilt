@@ -40,7 +40,6 @@ public class RobotContainer {
   /// Collector
   private final CollectorDeployer collectorDeployer;
   private final RollerIntake collectorExteriorRoller;
-  private final RollerIntake collectorInteriorRoller;
 
   // Controller
   private final CommandXboxController driverController = new CommandXboxController(0);
@@ -64,7 +63,6 @@ public class RobotContainer {
         shooterIntake = createRealShooterIntake();
         collectorDeployer = createRealCollectorDeployer();
         collectorExteriorRoller = createRealCollectorExteriorRoller();
-        collectorInteriorRoller = createRealCollectorInteriorRoller();
 
         break;
 
@@ -76,7 +74,6 @@ public class RobotContainer {
         shooterIntake = createSimulatedShooterIntake();
         collectorDeployer = createSimulatedCollectorDeployer();
         collectorExteriorRoller = createSimulatedCollectorExteriorRoller();
-        collectorInteriorRoller = createSimulatedCollectorInteriorRoller();
 
         break;
 
@@ -88,7 +85,6 @@ public class RobotContainer {
         shooterIntake = createReplayShooterIntake();
         collectorDeployer = createRealCollectorDeployer();
         collectorExteriorRoller = createRealCollectorExteriorRoller();
-        collectorInteriorRoller = createRealCollectorInteriorRoller();
         break;
     }
 
@@ -234,12 +230,12 @@ public class RobotContainer {
     operatorController // verified
         .collector()
         .intake()
-        .whileTrue(CollectorCommands.intake(collectorInteriorRoller, collectorExteriorRoller));
+        .whileTrue(CollectorCommands.intake(collectorExteriorRoller));
 
     operatorController // verified
         .collector()
         .outtake()
-        .whileTrue(CollectorCommands.outtake(collectorInteriorRoller, collectorExteriorRoller));
+        .whileTrue(CollectorCommands.outtake(collectorExteriorRoller));
 
     operatorController // verified
         .collector()

@@ -44,8 +44,4 @@ public class ReplaySubsystemFactory {
   public static RollerIntake createReplayCollectorExteriorRoller() {
     return new RollerIntake(new RollerIntakeIO() {}, "Collector Exterior Roller");
   }
-
-  public static RollerIntake createReplayCollectorInteriorRoller() {
-    return new RollerIntake(new RollerIntakeIO() {}, "Collector Interior Roller");
-  }
 }

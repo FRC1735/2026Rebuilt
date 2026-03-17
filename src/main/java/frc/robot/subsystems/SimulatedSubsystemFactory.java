@@ -46,8 +46,4 @@ public class SimulatedSubsystemFactory {
   public static RollerIntake createSimulatedCollectorExteriorRoller() {
     return new RollerIntake(new RollerIntakeIOSim(), "Collector Exterior Intake");
   }
-
-  public static RollerIntake createSimulatedCollectorInteriorRoller() {
-    return new RollerIntake(new RollerIntakeIOSim(), "Collector Interior Intake");
-  }
 }

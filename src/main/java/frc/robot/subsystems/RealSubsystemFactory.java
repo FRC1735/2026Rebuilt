@@ -81,13 +81,4 @@ public class RealSubsystemFactory {
             : new RollerIntakeIO() {},
         "Collector Exterior Roller");
   }
-
-  public static RollerIntake createRealCollectorInteriorRoller() {
-    return new RollerIntake(
-        Constants.COLLECTOR_ROLLER_INTERIOR_ENABLED
-            ? new RollerIntakeIOSparkFlex(
-                Constants.COLLECTOR_ROLLER_INTERIOR_CAN_ID, "Collector Interior Roller", false)
-            : new RollerIntakeIO() {},
-        "Collector Interior Roller");
-  }
 }

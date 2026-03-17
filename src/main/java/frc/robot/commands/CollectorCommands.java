@@ -17,21 +17,16 @@ public class CollectorCommands {
     return Commands.runOnce(collectorDeployer::retract, collectorDeployer);
   }
 
-  public static Command intake(RollerIntake interiorRoller, RollerIntake exteriorRoller) {
-    return Commands.parallel(
-        new StartEndCommand(interiorRoller::in, interiorRoller::stop, interiorRoller),
-        new StartEndCommand(exteriorRoller::in, exteriorRoller::stop, exteriorRoller));
+  public static Command intake(RollerIntake exteriorRoller) {
+    return new StartEndCommand(exteriorRoller::in, exteriorRoller::stop, exteriorRoller);
   }
 
-  public static Command outtake(RollerIntake interiorRoller, RollerIntake exteriorRoller) {
-    return Commands.parallel(
-        new StartEndCommand(interiorRoller::out, interiorRoller::stop, interiorRoller),
-        new StartEndCommand(exteriorRoller::out, exteriorRoller::stop, exteriorRoller));
+  public static Command outtake(RollerIntake exteriorRoller) {
+    return new StartEndCommand(exteriorRoller::out, exteriorRoller::stop, exteriorRoller);
   }
 
-  public static Command stopCollection(RollerIntake interiorRoller, RollerIntake exteriorRoller) {
-    return Commands.parallel(
-        Commands.runOnce(interiorRoller::stop), Commands.runOnce(exteriorRoller::stop));
+  public static Command stopCollection(RollerIntake exteriorRoller) {
+    return Commands.runOnce(exteriorRoller::stop);
   }
 
   public static Command manualDeploy(CollectorDeployer collectorDeployer) {

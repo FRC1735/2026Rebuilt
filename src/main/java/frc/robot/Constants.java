@@ -34,7 +34,6 @@ public final class Constants {
   /// Collector
   public static final boolean COLLECTOR_DEPLOYER_ENABLED = false;
   public static final boolean COLLECTOR_ROLLER_EXTERIOR_ENABLED = false;
-  public static final boolean COLLECTOR_ROLLER_INTERIOR_ENABLED = false;
 
   // CAN ID's
   /// Shooter
