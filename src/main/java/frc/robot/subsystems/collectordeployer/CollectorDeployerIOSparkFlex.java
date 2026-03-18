@@ -10,6 +10,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.networktables.DoubleEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
@@ -17,55 +18,44 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
   private final SparkFlex spark;
   private final DetachedEncoder encoder;
-  private final int detachedEncoderCanId;
+  private final PIDController pid;
 
-  private final PIDController pidDeploy = null;
-  private final PIDController pidRetract = null;
+  private double targetRotations = 0.0;
 
-  private double targetRotations = 0.5;
-
-  private static final double FORWARD_LIMIT = 0.6;
-  private static final double REVERSE_LIMIT = 0.42;
+  private static final double FORWARD_LIMIT = 0.7;
+  private static final double REVERSE_LIMIT = 0.15;
 
   // Tunables
-  private final double pDeploy = 0;
-  private final double iDeploy = 0;
-  private final double dDeploy = 0;
-  private final double pRetract = 0;
-  private final double iRetract = 0;
-  private final double dRetract = 0;
-  private final double allowedProfileError = 0;
-  private final double target = 0;
-  private boolean deploying = true;
+  private double kP = 0.0;
+  private double kI = 0.0;
+  private double kD = 0.0;
 
-  private boolean motorInverted;
-  private final double kS;
-  private final double kG;
+  private double lastP, lastI, lastD;
 
-  public CollectorDeployerIOSparkFlex(
-      int motorCanId,
-      int detachedEncoderCanId,
-      String name,
-      double pDeploy,
-      double iDeploy,
-      double dDeploy,
-      double pRetract,
-      double iRetract,
-      double dRetract,
-      double kS,
-      double kG,
-      boolean motorInverted) {
+  private final DoubleEntry kPEntry;
+  private final DoubleEntry kIEntry;
+  private final DoubleEntry kDEntry;
 
-    this.detachedEncoderCanId = detachedEncoderCanId;
-    this.motorInverted = motorInverted;
-    this.kS = kS;
-    this.kG = kG;
+  public CollectorDeployerIOSparkFlex(int motorCanId, int detachedEncoderCanId) {
 
     spark = new SparkFlex(motorCanId, MotorType.kBrushless);
 
     encoder = new DetachedEncoder(detachedEncoderCanId, Model.MAXSplineEncoder) {};
 
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("Elastic").getSubTable(name);
+    NetworkTable table =
+        NetworkTableInstance.getDefault().getTable("Elastic").getSubTable("Collector Deployer");
+
+    kPEntry = table.getDoubleTopic("kP").getEntry(kP);
+    kIEntry = table.getDoubleTopic("kI").getEntry(kI);
+    kDEntry = table.getDoubleTopic("kD").getEntry(kD);
+
+    kPEntry.set(kP);
+    kIEntry.set(kI);
+    kDEntry.set(kD);
+
+    pid = new PIDController(kP, kI, kD);
+    pid.disableContinuousInput();
+    pid.setTolerance(0.05);
 
     configureSpark();
 
@@ -79,16 +69,11 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
     config.idleMode(IdleMode.kBrake);
     config.smartCurrentLimit(40);
-    config.inverted(motorInverted);
+    config.inverted(false); // TODO - verify
 
     // NOTE: leaving this here, but these do not get applied because the motor is not aware of the
     // encoder
-    config
-        .softLimit
-        .forwardSoftLimit(FORWARD_LIMIT)
-        .forwardSoftLimitEnabled(false)
-        .reverseSoftLimit(REVERSE_LIMIT)
-        .reverseSoftLimitEnabled(false);
+    config.softLimit.forwardSoftLimitEnabled(false).reverseSoftLimitEnabled(false);
 
     DetachedEncoderConfig encoderConfig = new DetachedEncoderConfig();
     encoderConfig.dutyCycleOffset(0);
@@ -98,39 +83,51 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     spark.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
+  private void checkForChanges() {
+    kP = kPEntry.get();
+    kI = kIEntry.get();
+    kD = kDEntry.get();
+
+    if (kP != lastP || kI != lastI || kD != lastD) {
+      pid.setPID(kP, kI, kD);
+    }
+  }
+
   @Override
   public void updateInputs(CollectorDeployerIOInputs inputs) {
+
+    checkForChanges();
 
     double position = encoder.getAngle();
 
     inputs.encoderPosition = position;
     inputs.velocityRPM = encoder.getVelocity();
 
-    if (position > FORWARD_LIMIT && encoder.getVelocity() > 0) {
-      stop();
-    }
-
-    if (position < REVERSE_LIMIT && encoder.getVelocity() < 0) {
-      stop();
-    }
-
     inputs.appliedVolts = spark.getAppliedOutput() * spark.getBusVoltage();
     inputs.currentAmps = spark.getOutputCurrent();
 
     inputs.targetRotations = targetRotations;
-    inputs.atTarget = false; // deploying ? pidDeploy.atSetpoint() : pidRetract.atSetpoint();
+    inputs.atTarget = pid.atSetpoint();
 
-    inputs.kP = 0; // deploying ? pDeploy : pRetract;
-    inputs.kI = 0; // deploying ? iDeploy : iRetract;
-    inputs.kD = 0; // deploying ? dDeploy : dRetract;
+    inputs.kP = kP;
+    inputs.kI = kI;
+    inputs.kD = kD;
 
     inputs.allowedProfileError = 0;
 
     inputs.delta = position - targetRotations;
+
+    spark.set(pid.calculate(encoder.getAngle(), targetRotations));
   }
 
   @Override
-  public void setTarget(double rotations) {}
+  public void setTarget(double target) {
+    targetRotations = target;
+
+    pid.reset();
+
+    pid.setSetpoint(targetRotations);
+  }
 
   public void setVoltage(double volts) {
     spark.setVoltage(volts);
