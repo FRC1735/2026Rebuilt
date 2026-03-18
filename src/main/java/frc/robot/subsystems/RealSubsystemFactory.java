@@ -67,8 +67,7 @@ public class RealSubsystemFactory {
                 0,
                 0.5, // both
                 0,
-                false,
-                0.2f)
+                false)
             : new CollectorDeployerIO() {},
         "Collector Deployer");
   }

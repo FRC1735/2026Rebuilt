@@ -39,7 +39,6 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
   private boolean deploying = true;
 
   private boolean motorInverted;
-  private float encoderOffset;
   private final double kS;
   private final double kG;
 
@@ -55,12 +54,10 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
       double dRetract,
       double kS,
       double kG,
-      boolean motorInverted,
-      float encoderOffset) {
+      boolean motorInverted) {
 
     this.detachedEncoderCanId = detachedEncoderCanId;
     this.motorInverted = motorInverted;
-    this.encoderOffset = encoderOffset;
     this.kS = kS;
     this.kG = kG;
 
@@ -94,7 +91,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
         .reverseSoftLimitEnabled(false);
 
     DetachedEncoderConfig encoderConfig = new DetachedEncoderConfig();
-    encoderConfig.dutyCycleOffset(encoderOffset);
+    encoderConfig.dutyCycleOffset(0);
 
     encoder.configure(encoderConfig, ResetMode.kNoResetSafeParameters);
 

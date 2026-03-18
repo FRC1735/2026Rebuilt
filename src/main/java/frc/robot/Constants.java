@@ -32,7 +32,7 @@ public final class Constants {
   public static final boolean SHOOTER_HOOD_ENABLED = true;
   public static final boolean SHOOTER_INTAKE_ENABLED = true;
   /// Collector
-  public static final boolean COLLECTOR_DEPLOYER_ENABLED = false;
+  public static final boolean COLLECTOR_DEPLOYER_ENABLED = true;
   public static final boolean COLLECTOR_ROLLER_EXTERIOR_ENABLED = false;
 
   // CAN ID's
