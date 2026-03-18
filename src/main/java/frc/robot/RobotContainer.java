@@ -250,10 +250,14 @@ public class RobotContainer {
 
   private void configureDeveloperBindings() {
 
-    driverController.a().whileTrue(ShooterCommands.newShoot(shooter, shooterIntake));
+    // driverController.a().whileTrue(ShooterCommands.newShoot(shooter, shooterIntake));
 
-    driverController.b().onTrue(ShooterCommands.hoodDown(shooterHood));
-    driverController.y().onTrue(ShooterCommands.hoodUp(shooterHood));
+    // driverController.b().onTrue(ShooterCommands.hoodDown(shooterHood));
+    // driverController.y().onTrue(ShooterCommands.hoodUp(shooterHood));
+
+    driverController.a().whileTrue(CollectorCommands.intake(collectorExteriorRoller));
+
+    driverController.b().whileTrue(CollectorCommands.outtake(collectorExteriorRoller));
   }
 
   public Command getAutonomousCommand() {

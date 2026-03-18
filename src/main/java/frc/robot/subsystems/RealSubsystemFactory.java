@@ -65,7 +65,7 @@ public class RealSubsystemFactory {
     return new RollerIntake(
         Constants.COLLECTOR_ROLLER_EXTERIOR_ENABLED
             ? new RollerIntakeIOSparkFlex(
-                Constants.COLLECTOR_ROLLER_EXTERIOR_CAN_ID, "Collector Exterior Roller", false)
+                Constants.COLLECTOR_ROLLER_EXTERIOR_CAN_ID, "Collector Exterior Roller", true)
             : new RollerIntakeIO() {},
         "Collector Exterior Roller");
   }
