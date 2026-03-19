@@ -44,7 +44,7 @@ public class ShooterCommands {
   public static Command shootAtVelocity(
       double velocity, Shooter shooter, RollerIntake shooterIntake) {
     return Commands.parallel(
-            Commands.run(() -> shooter.shootAtVelocity(5000), shooter),
+            Commands.run(() -> shooter.shootAtVelocity(velocity), shooter),
             Commands.waitUntil(shooter::atTargetVelocity)
                 .andThen(Commands.run(shooterIntake::in, shooterIntake)))
         .finallyDo(

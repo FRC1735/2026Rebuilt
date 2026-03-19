@@ -121,8 +121,8 @@ public class RobotContainer {
             .withTimeout(20));
 
     // configureDriverBindings();
-    // configureOperatorBindings();
-    configureDeveloperBindings();
+    configureOperatorBindings();
+    // configureDeveloperBindings();
   }
 
   public void logLimelights() {
@@ -177,77 +177,74 @@ public class RobotContainer {
 
   private void configureOperatorBindings() {
     ///// Shooter
-    operatorController
-        .shooter()
-        .hoodToUpPosition()
-        .onTrue(ShooterCommands.hoodUp(shooterHood)); // TODO - verify
-    operatorController
-        .shooter()
-        .manualMoveHoodUp()
-        .onTrue(ShooterCommands.hoodUpManual(shooterHood)); // TODO - verify
+    operatorController.shooter().hoodToUpPosition().onTrue(ShooterCommands.hoodUp(shooterHood));
+
+    operatorController.shooter().hoodToDownPosition().onTrue(ShooterCommands.hoodDown(shooterHood));
 
     operatorController
         .shooter()
         .shooterRollerIn()
-        .whileTrue(ShooterCommands.shooterIntake(shooterIntake)); // TODO - verify
+        .whileTrue(ShooterCommands.shooterIntake(shooterIntake));
 
     operatorController
         .shooter()
         .shooterRollerOut()
-        .whileTrue(ShooterCommands.shooterOuttake(shooterIntake)); // TODO - verify
+        .whileTrue(ShooterCommands.shooterOuttake(shooterIntake));
 
     operatorController
         .shooter()
         .shooterHighSpeed()
-        .whileTrue(ShooterCommands.shootHighSpeed(shooter, shooterIntake)); // TODO - verify
+        .whileTrue(ShooterCommands.shootHighSpeed(shooter, shooterIntake));
 
     operatorController
         .shooter()
-        .hoodToDownPosition()
-        .onTrue(ShooterCommands.hoodDown(shooterHood)); // TODO - verify
+        .manualMoveHoodUp()
+        .onTrue(ShooterCommands.hoodUpManual(shooterHood));
+
     operatorController
         .shooter()
         .manualMoveHoodDown()
-        .onTrue(ShooterCommands.hoodDownManual(shooterHood)); // TODO - verify
+        .onTrue(ShooterCommands.hoodDownManual(shooterHood));
+
     operatorController
         .shooter()
         .shooterLowSpeed()
-        .whileTrue(ShooterCommands.shootLowSpeed(shooter, shooterIntake)); // TODO - verify
+        .whileTrue(ShooterCommands.shootLowSpeed(shooter, shooterIntake));
 
     operatorController
         .shooter()
         .shoot5000()
-        .whileTrue(ShooterCommands.shootAtVelocity(5000, shooter, shooterIntake)); // TODO - verify
+        .whileTrue(ShooterCommands.shootAtVelocity(5000, shooter, shooterIntake));
 
     operatorController
         .shooter()
         .shoot4500()
-        .whileTrue(ShooterCommands.shootAtVelocity(4500, shooter, shooterIntake)); // TODO - verify
+        .whileTrue(ShooterCommands.shootAtVelocity(4500, shooter, shooterIntake));
 
     operatorController
         .shooter()
         .shoot4000()
-        .whileTrue(ShooterCommands.shootAtVelocity(4000, shooter, shooterIntake)); // TODO - verify
+        .whileTrue(ShooterCommands.shootAtVelocity(4000, shooter, shooterIntake));
 
     operatorController
         .shooter()
         .shoot3500()
-        .whileTrue(ShooterCommands.shootAtVelocity(3500, shooter, shooterIntake)); // TODO - verify
+        .whileTrue(ShooterCommands.shootAtVelocity(3500, shooter, shooterIntake));
 
     operatorController
         .shooter()
         .shoot3000()
-        .whileTrue(ShooterCommands.shootAtVelocity(3000, shooter, shooterIntake)); // TODO - verify
+        .whileTrue(ShooterCommands.shootAtVelocity(3000, shooter, shooterIntake));
 
     operatorController
         .shooter()
         .shoot2500()
-        .whileTrue(ShooterCommands.shootAtVelocity(2500, shooter, shooterIntake)); // TODO - verify
+        .whileTrue(ShooterCommands.shootAtVelocity(2500, shooter, shooterIntake));
 
     operatorController
         .shooter()
         .shoot2000()
-        .whileTrue(ShooterCommands.shootAtVelocity(2000, shooter, shooterIntake)); // TODO - verify
+        .whileTrue(ShooterCommands.shootAtVelocity(2000, shooter, shooterIntake));
 
     // Collector
     operatorController
@@ -260,25 +257,25 @@ public class RobotContainer {
         .retract()
         .onTrue(CollectorCommands.retract(collectorDeployer)); // TODO - verify
 
-    operatorController // verified
+    operatorController
         .collector()
         .intake()
-        .whileTrue(CollectorCommands.intake(collectorExteriorRoller));
+        .whileTrue(CollectorCommands.intake(collectorExteriorRoller)); // TODO - verify
 
-    operatorController // verified
+    operatorController
         .collector()
         .outtake()
-        .whileTrue(CollectorCommands.outtake(collectorExteriorRoller));
+        .whileTrue(CollectorCommands.outtake(collectorExteriorRoller)); // TODO - verify
 
-    operatorController // verified
+    operatorController
         .collector()
         .manualDeploy()
-        .onTrue(CollectorCommands.manualDeploy(collectorDeployer));
+        .onTrue(CollectorCommands.manualDeploy(collectorDeployer)); // TODO - verify
 
-    operatorController // verfieid
+    operatorController
         .collector()
         .manualRetract()
-        .onTrue(CollectorCommands.manualRetract(collectorDeployer));
+        .onTrue(CollectorCommands.manualRetract(collectorDeployer)); // TODO - verify
   }
 
   private void configureDeveloperBindings() {}
