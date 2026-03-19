@@ -93,7 +93,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("shooter hood up", ShooterCommands.hoodUp(shooterHood));
     NamedCommands.registerCommand("shooter hood down", ShooterCommands.hoodDown(shooterHood));
     NamedCommands.registerCommand(
-        "shoot high", ShooterCommands.shooterHighSpeed(shooter, shooterIntake));
+        "shoot high", ShooterCommands.shootHighSpeed(shooter, shooterIntake));
     // Set up SysId routines
     /*
     autoChooser.addOption(
@@ -117,7 +117,7 @@ public class RobotContainer {
         "Shoot Preloaded",
         Commands.sequence(
                 DriveCommands.resetPoseForAlliance(drive),
-                ShooterCommands.shooterHighSpeed(shooter, shooterIntake))
+                ShooterCommands.shootHighSpeed(shooter, shooterIntake))
             .withTimeout(20));
 
     // configureDriverBindings();
@@ -173,8 +173,6 @@ public class RobotContainer {
               Commands.runOnce(() -> drive.setPose(new Pose2d(0, 0, Rotation2d.kZero)), drive)
                   .ignoringDisable(true));
     }
-
-    driverController.rightBumper().whileTrue(ShooterCommands.newShoot(shooter, shooterIntake));
   }
 
   private void configureOperatorBindings() {
@@ -201,7 +199,7 @@ public class RobotContainer {
     operatorController
         .shooter()
         .shooterHighSpeed()
-        .whileTrue(ShooterCommands.shooterHighSpeed(shooter, shooterIntake));
+        .whileTrue(ShooterCommands.shootHighSpeed(shooter, shooterIntake));
 
     operatorController
         .shooter()
@@ -214,7 +212,7 @@ public class RobotContainer {
     operatorController
         .shooter()
         .shooterLowSpeed()
-        .whileTrue(ShooterCommands.shooterLowSpeed(shooter, shooterIntake));
+        .whileTrue(ShooterCommands.shootLowSpeed(shooter, shooterIntake));
 
     // Collector
     operatorController
@@ -248,17 +246,7 @@ public class RobotContainer {
         .onTrue(CollectorCommands.manualRetract(collectorDeployer));
   }
 
-  private void configureDeveloperBindings() {
-
-    // driverController.a().whileTrue(ShooterCommands.newShoot(shooter, shooterIntake));
-
-    // driverController.b().onTrue(ShooterCommands.hoodDown(shooterHood));
-    // driverController.y().onTrue(ShooterCommands.hoodUp(shooterHood));
-
-    driverController.a().whileTrue(CollectorCommands.intake(collectorExteriorRoller));
-
-    driverController.b().whileTrue(CollectorCommands.outtake(collectorExteriorRoller));
-  }
+  private void configureDeveloperBindings() {}
 
   public Command getAutonomousCommand() {
     return autoChooser.get();

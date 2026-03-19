@@ -30,46 +30,23 @@ public class ShooterCommands {
     return Commands.runOnce(hood::manualDown, hood);
   }
 
-  public static Command shooterHighSpeed(Shooter shooter, RollerIntake shooterIntake) {
-    return Commands.run(shooter::shootAtHub, shooter)
-        .withTimeout(1.2)
-        // .until(shooter::atTargetVelocity)
-        .andThen(Commands.run(shooterIntake::in, shooterIntake))
-        .finallyDo(
-            () -> {
-              shooter.stop();
-              shooterIntake.stop();
-            });
+  // Shoot at High Speed
+  public static Command shootHighSpeed(Shooter shooter, RollerIntake shooterIntake) {
+    return shootAtVelocity(5000, shooter, shooterIntake);
   }
 
-  // HEREHERHERHERHEHREHR
-  public static Command newShoot(Shooter shooter, RollerIntake shooterIntake) {
+  // Shoot at Low Speed
+  public static Command shootLowSpeed(Shooter shooter, RollerIntake shooterIntake) {
+    return shootAtVelocity(3500, shooter, shooterIntake);
+  }
+
+  // Shoot at a specified speed
+  public static Command shootAtVelocity(
+      double velocity, Shooter shooter, RollerIntake shooterIntake) {
     return Commands.parallel(
             Commands.run(() -> shooter.shootAtVelocity(5000), shooter),
             Commands.waitUntil(shooter::atTargetVelocity)
                 .andThen(Commands.run(shooterIntake::in, shooterIntake)))
-        .finallyDo(
-            () -> {
-              shooter.stop();
-              shooterIntake.stop();
-            });
-
-    /*
-    return Commands.run(() -> shooter.shootAtVelocity(4500), shooter)
-        .onlyIf(() -> shooter.atTargetVelocity())
-        .andThen(Commands.run(shooterIntake::in, shooterIntake))
-        .finallyDo(
-            () -> {
-              shooter.stop();
-              shooterIntake.stop();
-            });
-            */
-  }
-
-  public static Command shooterLowSpeed(Shooter shooter, RollerIntake shooterIntake) {
-    return Commands.run(shooter::shootAcross, shooter)
-        .until(shooter::atTargetVelocity)
-        .andThen(Commands.run(shooterIntake::in, shooterIntake))
         .finallyDo(
             () -> {
               shooter.stop();
@@ -83,9 +60,5 @@ public class ShooterCommands {
 
   public static Command shooterOuttake(RollerIntake shooterIntake) {
     return new StartEndCommand(shooterIntake::out, shooterIntake::stop, shooterIntake);
-  }
-
-  public static Command shooterStop(Shooter shooter) {
-    return Commands.runOnce(shooter::stop, shooter);
   }
 }
