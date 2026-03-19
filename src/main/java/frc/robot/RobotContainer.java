@@ -121,9 +121,9 @@ public class RobotContainer {
                 ShooterCommands.shootHighSpeed(shooter, shooterIntake))
             .withTimeout(20));
 
-    // configureDriverBindings();
+    configureDriverBindings();
     configureOperatorBindings();
-    configureDeveloperBindings();
+    // configureDeveloperBindings();
   }
 
   public void logLimelights() {
@@ -277,6 +277,39 @@ public class RobotContainer {
         .collector()
         .manualClose()
         .onTrue(CollectorCommands.manualClose(collectorDeployer)); // TODO - verify
+
+    // Combos
+    /* TODO */
+    /*
+    operatorController
+        .combo()
+        .passFar()
+        .whileTrue();
+
+    operatorController
+        .combo()
+        .passShort()
+        .whileTrue();
+    */
+
+    operatorController
+        .combo()
+        .reverse()
+        .whileTrue(
+            new StartEndCommand(
+                () -> {
+                  shooter.shootAtVelocity(-5000);
+                  shooterIntake.out();
+                  collectorExteriorRoller.out();
+                },
+                () -> {
+                  shooter.stop();
+                  shooterIntake.stop();
+                  collectorExteriorRoller.stop();
+                },
+                shooter,
+                shooterIntake,
+                collectorExteriorRoller));
   }
 
   private void configureDeveloperBindings() {
