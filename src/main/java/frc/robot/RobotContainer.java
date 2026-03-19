@@ -289,6 +289,13 @@ public class RobotContainer {
                 () -> collectorDeployer.setVoltage(1),
                 () -> collectorDeployer.stop(),
                 collectorDeployer));
+    driverController
+        .b()
+        .whileTrue(
+            new StartEndCommand(
+                () -> collectorDeployer.setVoltage(-1),
+                () -> collectorDeployer.stop(),
+                collectorDeployer));
   }
 
   public Command getAutonomousCommand() {
