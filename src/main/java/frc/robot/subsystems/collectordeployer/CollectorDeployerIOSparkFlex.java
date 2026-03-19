@@ -69,7 +69,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
     config.idleMode(IdleMode.kBrake);
     config.smartCurrentLimit(40);
-    config.inverted(false); // TODO - verify
+    config.inverted(true);
 
     // NOTE: leaving this here, but these do not get applied because the motor is not aware of the
     // encoder
@@ -117,7 +117,8 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
     inputs.delta = position - targetRotations;
 
-    spark.set(pid.calculate(encoder.getAngle(), targetRotations));
+    // TODO - reenable
+    // spark.set(pid.calculate(encoder.getAngle(), targetRotations));
   }
 
   @Override

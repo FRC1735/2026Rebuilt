@@ -286,7 +286,7 @@ public class RobotContainer {
         .a()
         .whileTrue(
             new StartEndCommand(
-                () -> collectorDeployer.setVoltage(0.1),
+                () -> collectorDeployer.setVoltage(1),
                 () -> collectorDeployer.stop(),
                 collectorDeployer));
   }
