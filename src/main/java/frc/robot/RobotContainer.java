@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.CollectorCommands;
 import frc.robot.commands.DriveCommands;
@@ -122,7 +123,7 @@ public class RobotContainer {
 
     // configureDriverBindings();
     configureOperatorBindings();
-    // configureDeveloperBindings();
+    configureDeveloperBindings();
   }
 
   public void logLimelights() {
@@ -260,12 +261,12 @@ public class RobotContainer {
     operatorController
         .collector()
         .intake()
-        .whileTrue(CollectorCommands.intake(collectorExteriorRoller)); // TODO - verify
+        .whileTrue(CollectorCommands.intake(collectorExteriorRoller));
 
     operatorController
         .collector()
         .outtake()
-        .whileTrue(CollectorCommands.outtake(collectorExteriorRoller)); // TODO - verify
+        .whileTrue(CollectorCommands.outtake(collectorExteriorRoller));
 
     operatorController
         .collector()
@@ -278,7 +279,17 @@ public class RobotContainer {
         .onTrue(CollectorCommands.manualClose(collectorDeployer)); // TODO - verify
   }
 
-  private void configureDeveloperBindings() {}
+  private void configureDeveloperBindings() {
+    // verify direction of encoder / motor for collector
+    // we want positive output to move the enocoder towards the deployed state
+    driverController
+        .a()
+        .whileTrue(
+            new StartEndCommand(
+                () -> collectorDeployer.setVoltage(0.1),
+                () -> collectorDeployer.stop(),
+                collectorDeployer));
+  }
 
   public Command getAutonomousCommand() {
     return autoChooser.get();
