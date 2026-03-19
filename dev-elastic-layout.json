@@ -263,48 +263,6 @@
         "layouts": [],
         "containers": [
           {
-            "title": "acceleration",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/Elastic/Collector Deployer/acceleration",
-              "period": 0.06,
-              "data_type": "double",
-              "show_submit_button": true
-            }
-          },
-          {
-            "title": "allowedProfileError",
-            "x": 0.0,
-            "y": 128.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/Elastic/Collector Deployer/allowedProfileError",
-              "period": 0.06,
-              "data_type": "double",
-              "show_submit_button": true
-            }
-          },
-          {
-            "title": "cruiseVelocity",
-            "x": 0.0,
-            "y": 256.0,
-            "width": 128.0,
-            "height": 128.0,
-            "type": "Text Display",
-            "properties": {
-              "topic": "/Elastic/Collector Deployer/cruiseVelocity",
-              "period": 0.06,
-              "data_type": "double",
-              "show_submit_button": true
-            }
-          },
-          {
             "title": "kD",
             "x": 128.0,
             "y": 256.0,
@@ -341,6 +299,20 @@
             "type": "Text Display",
             "properties": {
               "topic": "/Elastic/Collector Deployer/kP",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": true
+            }
+          },
+          {
+            "title": "kG",
+            "x": 128.0,
+            "y": 384.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Elastic/Collector Deployer/kG",
               "period": 0.06,
               "data_type": "double",
               "show_submit_button": true
