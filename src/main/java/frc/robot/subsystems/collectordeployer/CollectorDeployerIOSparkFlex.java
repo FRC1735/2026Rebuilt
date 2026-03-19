@@ -31,12 +31,14 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
   private double kP = 0.0;
   private double kI = 0.0;
   private double kD = 0.0;
+  private double kG = 0.0;
 
-  private double lastP, lastI, lastD;
+  private double lastP, lastI, lastD, lastG;
 
   private final DoubleEntry kPEntry;
   private final DoubleEntry kIEntry;
   private final DoubleEntry kDEntry;
+  private final DoubleEntry kGEntry;
 
   public CollectorDeployerIOSparkFlex(int motorCanId, int detachedEncoderCanId) {
 
@@ -50,10 +52,12 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     kPEntry = table.getDoubleTopic("kP").getEntry(kP);
     kIEntry = table.getDoubleTopic("kI").getEntry(kI);
     kDEntry = table.getDoubleTopic("kD").getEntry(kD);
+    kGEntry = table.getDoubleTopic("kG").getEntry(kG);
 
     kPEntry.set(kP);
     kIEntry.set(kI);
     kDEntry.set(kD);
+    kGEntry.set(kG);
 
     pid = new PIDController(kP, kI, kD);
     pid.disableContinuousInput();
@@ -89,6 +93,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     kP = kPEntry.get();
     kI = kIEntry.get();
     kD = kDEntry.get();
+    kG = kGEntry.get(); // this will be applied in the kG calculation in updateInputs
 
     if (kP != lastP || kI != lastI || kD != lastD) {
       pid.setPID(kP, kI, kD);
@@ -114,6 +119,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     inputs.kP = kP;
     inputs.kI = kI;
     inputs.kD = kD;
+    inputs.kG = kG;
 
     inputs.allowedProfileError = 0;
 
@@ -125,9 +131,15 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     if (error < -0.5) error += 1;
 
     double positionRadians = error * 2 * Math.PI;
+    double gravityFF = kG * Math.cos(positionRadians);
 
-    //System.out.println("radians: " + positionRadians);
-    //System.out.println("cos: " + Math.cos(positionRadians));
+    double pidOutput = pid.calculate(position, targetRotations);
+    double output = pidOutput + gravityFF;
+
+    System.out.println("output: " + output);
+
+    // System.out.println("radians: " + positionRadians);
+    // System.out.println("cos: " + Math.cos(positionRadians));
 
     // TODO - reenable
     // spark.set(pid.calculate(encoder.getAngle(), targetRotations));

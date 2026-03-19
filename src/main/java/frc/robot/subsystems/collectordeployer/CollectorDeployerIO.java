@@ -21,6 +21,7 @@ public interface CollectorDeployerIO {
     public double kP = 0.0;
     public double kI = 0.0;
     public double kD = 0.0;
+    public double kG = 0.0;
     public double cruiseVelocity = 0.0;
     public double acceleration = 0.0;
     public double allowedProfileError = 0.0;
