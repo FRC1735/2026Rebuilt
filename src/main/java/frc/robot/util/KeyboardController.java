@@ -136,6 +136,34 @@ public class KeyboardController {
     public Trigger shooterRollerOut() {
       return controller.button(8, 5);
     }
+
+    public Trigger shoot5000() {
+      return controller.button(2, 9).or(controller.button(2, 10));
+    }
+
+    public Trigger shoot4500() {
+      return controller.button(3, 9).or(controller.button(3, 10));
+    }
+
+    public Trigger shoot4000() {
+      return controller.button(4, 9).or(controller.button(4, 10));
+    }
+
+    public Trigger shoot3500() {
+      return controller.button(5, 9).or(controller.button(5, 10));
+    }
+
+    public Trigger shoot3000() {
+      return controller.button(6, 9).or(controller.button(6, 10));
+    }
+
+    public Trigger shoot2500() {
+      return controller.button(7, 9).or(controller.button(7, 10));
+    }
+
+    public Trigger shoot2000() {
+      return controller.button(8, 9).or(controller.button(8, 10));
+    }
   }
 
   public static final record Collector(KeyboardController controller) {

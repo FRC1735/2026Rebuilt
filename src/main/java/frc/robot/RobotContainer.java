@@ -176,7 +176,7 @@ public class RobotContainer {
   }
 
   private void configureOperatorBindings() {
-    // Shooter
+    ///// Shooter
     operatorController
         .shooter()
         .hoodToUpPosition()
@@ -189,17 +189,17 @@ public class RobotContainer {
     operatorController
         .shooter()
         .shooterRollerIn()
-        .whileTrue(ShooterCommands.shooterIntake(shooterIntake));
+        .whileTrue(ShooterCommands.shooterIntake(shooterIntake)); // TODO - verify
 
     operatorController
         .shooter()
         .shooterRollerOut()
-        .whileTrue(ShooterCommands.shooterOuttake(shooterIntake));
+        .whileTrue(ShooterCommands.shooterOuttake(shooterIntake)); // TODO - verify
 
     operatorController
         .shooter()
         .shooterHighSpeed()
-        .whileTrue(ShooterCommands.shootHighSpeed(shooter, shooterIntake));
+        .whileTrue(ShooterCommands.shootHighSpeed(shooter, shooterIntake)); // TODO - verify
 
     operatorController
         .shooter()
@@ -212,7 +212,42 @@ public class RobotContainer {
     operatorController
         .shooter()
         .shooterLowSpeed()
-        .whileTrue(ShooterCommands.shootLowSpeed(shooter, shooterIntake));
+        .whileTrue(ShooterCommands.shootLowSpeed(shooter, shooterIntake)); // TODO - verify
+
+    operatorController
+        .shooter()
+        .shoot5000()
+        .whileTrue(ShooterCommands.shootAtVelocity(5000, shooter, shooterIntake)); // TODO - verify
+
+    operatorController
+        .shooter()
+        .shoot4500()
+        .whileTrue(ShooterCommands.shootAtVelocity(4500, shooter, shooterIntake)); // TODO - verify
+
+    operatorController
+        .shooter()
+        .shoot4000()
+        .whileTrue(ShooterCommands.shootAtVelocity(4000, shooter, shooterIntake)); // TODO - verify
+
+    operatorController
+        .shooter()
+        .shoot3500()
+        .whileTrue(ShooterCommands.shootAtVelocity(3500, shooter, shooterIntake)); // TODO - verify
+
+    operatorController
+        .shooter()
+        .shoot3000()
+        .whileTrue(ShooterCommands.shootAtVelocity(3000, shooter, shooterIntake)); // TODO - verify
+
+    operatorController
+        .shooter()
+        .shoot2500()
+        .whileTrue(ShooterCommands.shootAtVelocity(2500, shooter, shooterIntake)); // TODO - verify
+
+    operatorController
+        .shooter()
+        .shoot2000()
+        .whileTrue(ShooterCommands.shootAtVelocity(2000, shooter, shooterIntake)); // TODO - verify
 
     // Collector
     operatorController
