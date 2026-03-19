@@ -126,8 +126,8 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
     double positionRadians = error * 2 * Math.PI;
 
-    System.out.println("radians: " + positionRadians);
-    System.out.println("cos: " + Math.cos(positionRadians));
+    //System.out.println("radians: " + positionRadians);
+    //System.out.println("cos: " + Math.cos(positionRadians));
 
     // TODO - reenable
     // spark.set(pid.calculate(encoder.getAngle(), targetRotations));
