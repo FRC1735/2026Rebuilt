@@ -6,7 +6,6 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.shooter.Shooter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +22,6 @@ public class KeyboardController {
   // Group of triggers for high level subsystems
   private final Shooter shooter;
   private final Collector collector;
-  private final RightCollector rightCollector;
 
   public KeyboardController(int port) {
     this(port, 80);
@@ -36,7 +34,6 @@ public class KeyboardController {
 
     this.shooter = new Shooter(this);
     this.collector = new Collector(this);
-    this.rightCollector = new RightCollector(this);
 
     buttonSubscribers = new BooleanSubscriber[this.numButtons];
     for (int i = 0; i < this.numButtons; i++) {
@@ -171,7 +168,7 @@ public class KeyboardController {
       return controller.button(2, 6).or(controller.button(2, 7));
     }
 
-    public Trigger retract() {
+    public Trigger close() {
       return controller.button(3, 6).or(controller.button(3, 7));
     }
 
@@ -187,34 +184,8 @@ public class KeyboardController {
       return controller.button(6, 6).or(controller.button(6, 7));
     }
 
-    public Trigger manualRetract() {
+    public Trigger manualClose() {
       return controller.button(7, 6).or(controller.button(7, 7));
-    }
-  }
-
-  public static final record RightCollector(KeyboardController controller) {
-    public Trigger deploy() {
-      return controller.button(2, 9).or(controller.button(2, 10));
-    }
-
-    public Trigger retract() {
-      return controller.button(3, 9).or(controller.button(3, 10));
-    }
-
-    public Trigger intake() {
-      return controller.button(4, 9).or(controller.button(4, 10));
-    }
-
-    public Trigger outtake() {
-      return controller.button(5, 9).or(controller.button(5, 10));
-    }
-
-    public Trigger manualDeploy() {
-      return controller.button(6, 9).or(controller.button(6, 10));
-    }
-
-    public Trigger manualRetract() {
-      return controller.button(7, 9).or(controller.button(7, 10));
     }
   }
 }

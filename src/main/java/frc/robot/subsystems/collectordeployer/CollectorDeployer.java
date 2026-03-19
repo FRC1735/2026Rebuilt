@@ -3,6 +3,8 @@ package frc.robot.subsystems.collectordeployer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
+// TODO - there is a ton of stuff in here that doesn't apply to current setup
+// TODO - the entry point methods are doing the bang-bang approach from old collector
 public class CollectorDeployer extends SubsystemBase {
 
   private final CollectorDeployerIO io;
@@ -13,13 +15,13 @@ public class CollectorDeployer extends SubsystemBase {
   private static final double MAX_ROT = 0.7; // TODO
 
   private static final double DEPLOYED_TARGET = 0.48; // TODO
-  private static final double RETRACTED_TARGET = 0.55; // TODO
+  private static final double CLOSED_TARGET = 0.55; // TODO
   private static final double RANGE = 0.02; // TODO
 
   private final String name;
 
   enum State {
-    RETRACTED,
+    CLOSED,
     DEPLOYING,
     DEPLOYED
   }
@@ -60,9 +62,9 @@ public class CollectorDeployer extends SubsystemBase {
     if ((DEPLOYED_TARGET - RANGE) <= inputs.encoderPosition
         && inputs.encoderPosition <= (RANGE + DEPLOYED_TARGET)) {
       return State.DEPLOYED;
-    } else if ((RETRACTED_TARGET - RANGE) <= inputs.encoderPosition
-        && inputs.encoderPosition <= (RANGE + RETRACTED_TARGET)) {
-      return State.RETRACTED;
+    } else if ((CLOSED_TARGET - RANGE) <= inputs.encoderPosition
+        && inputs.encoderPosition <= (RANGE + CLOSED_TARGET)) {
+      return State.CLOSED;
     }
     return State.DEPLOYING;
   }
@@ -71,8 +73,8 @@ public class CollectorDeployer extends SubsystemBase {
     setTarget(DEPLOYED_TARGET);
   }
 
-  public void retract() {
-    setTarget(RETRACTED_TARGET);
+  public void close() {
+    setTarget(CLOSED_TARGET);
   }
 
   public void incrementTargetPosition() {
@@ -99,7 +101,7 @@ public class CollectorDeployer extends SubsystemBase {
     setVoltage(-1.5);
   }
 
-  public void manualRetract() {
+  public void manualClose() {
     setVoltage(3.2);
   }
 }

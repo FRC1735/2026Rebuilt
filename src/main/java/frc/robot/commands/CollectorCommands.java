@@ -13,8 +13,8 @@ public class CollectorCommands {
     return Commands.runOnce(collectorDeployer::deploy, collectorDeployer);
   }
 
-  public static Command retract(CollectorDeployer collectorDeployer) {
-    return Commands.runOnce(collectorDeployer::retract, collectorDeployer);
+  public static Command close(CollectorDeployer collectorDeployer) {
+    return Commands.runOnce(collectorDeployer::close, collectorDeployer);
   }
 
   public static Command intake(RollerIntake exteriorRoller) {
@@ -30,14 +30,12 @@ public class CollectorCommands {
   }
 
   public static Command manualDeploy(CollectorDeployer collectorDeployer) {
-    // return Commands.runOnce(collectorDeployer::manualDeploy);
     return new StartEndCommand(
         collectorDeployer::manualDeploy, collectorDeployer::stop, collectorDeployer);
   }
 
-  public static Command manualRetract(CollectorDeployer collectorDeployer) {
-    // return Commands.runOnce(collectorDeployer::manualRetract);
+  public static Command manualClose(CollectorDeployer collectorDeployer) {
     return new StartEndCommand(
-        collectorDeployer::manualRetract, collectorDeployer::stop, collectorDeployer);
+        collectorDeployer::manualClose, collectorDeployer::stop, collectorDeployer);
   }
 }

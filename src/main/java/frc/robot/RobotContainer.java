@@ -254,8 +254,8 @@ public class RobotContainer {
 
     operatorController
         .collector()
-        .retract()
-        .onTrue(CollectorCommands.retract(collectorDeployer)); // TODO - verify
+        .close()
+        .onTrue(CollectorCommands.close(collectorDeployer)); // TODO - verify
 
     operatorController
         .collector()
@@ -274,8 +274,8 @@ public class RobotContainer {
 
     operatorController
         .collector()
-        .manualRetract()
-        .onTrue(CollectorCommands.manualRetract(collectorDeployer)); // TODO - verify
+        .manualClose()
+        .onTrue(CollectorCommands.manualClose(collectorDeployer)); // TODO - verify
   }
 
   private void configureDeveloperBindings() {}
