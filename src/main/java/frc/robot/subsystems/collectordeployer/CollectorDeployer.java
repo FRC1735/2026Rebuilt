@@ -20,12 +20,6 @@ public class CollectorDeployer extends SubsystemBase {
 
   private final String name;
 
-  enum State {
-    CLOSED,
-    DEPLOYING,
-    DEPLOYED
-  }
-
   public CollectorDeployer(CollectorDeployerIO io, String name) {
     this.io = io;
     this.name = name;
@@ -58,17 +52,6 @@ public class CollectorDeployer extends SubsystemBase {
     return inputs.encoderPosition;
   }
 
-  public State getState() {
-    if ((DEPLOYED_TARGET - RANGE) <= inputs.encoderPosition
-        && inputs.encoderPosition <= (RANGE + DEPLOYED_TARGET)) {
-      return State.DEPLOYED;
-    } else if ((CLOSED_TARGET - RANGE) <= inputs.encoderPosition
-        && inputs.encoderPosition <= (RANGE + CLOSED_TARGET)) {
-      return State.CLOSED;
-    }
-    return State.DEPLOYING;
-  }
-
   public void deploy() {
     setTarget(DEPLOYED_TARGET);
   }
@@ -77,31 +60,13 @@ public class CollectorDeployer extends SubsystemBase {
     setTarget(CLOSED_TARGET);
   }
 
-  public void incrementTargetPosition() {
-    double position = inputs.targetRotations;
-    double incremented = position + 0.01;
-    if (incremented > 1) {
-      incremented = 1;
-    }
-    setTarget(incremented);
-  }
-
-  public void decrementTargetPosition() {
-    double position = inputs.targetRotations;
-    double decremented = position - 0.01;
-    if (decremented < 0) {
-      decremented = 0;
-    }
-    setTarget(decremented);
-  }
-
   double MANUAL_VOLTAGE = 1.5;
 
   public void manualDeploy() {
-    setVoltage(-1.5);
+    // TODO
   }
 
   public void manualClose() {
-    setVoltage(3.2);
+    // TODO
   }
 }
