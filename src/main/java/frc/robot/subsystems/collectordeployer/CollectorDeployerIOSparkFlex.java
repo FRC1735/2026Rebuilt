@@ -22,8 +22,10 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
   private double targetRotations = 0.0;
 
-  private static final double FORWARD_LIMIT = 0.7;
-  private static final double REVERSE_LIMIT = 0.15;
+  private static final double HORIZONTAL_POSITION = 0.600;
+
+  private static final double FORWARD_LIMIT = 0.7; // TODO
+  private static final double REVERSE_LIMIT = 0.15; // TODO
 
   // Tunables
   private double kP = 0.0;
@@ -116,6 +118,16 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     inputs.allowedProfileError = 0;
 
     inputs.delta = position - targetRotations;
+
+    // Gravity Feed Forward
+    double error = position - HORIZONTAL_POSITION;
+    if (error > 0.5) error -= 1;
+    if (error < -0.5) error += 1;
+
+    double positionRadians = error * 2 * Math.PI;
+
+    System.out.println("radians: " + positionRadians);
+    System.out.println("cos: " + Math.cos(positionRadians));
 
     // TODO - reenable
     // spark.set(pid.calculate(encoder.getAngle(), targetRotations));
