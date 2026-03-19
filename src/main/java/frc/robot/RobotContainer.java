@@ -278,19 +278,17 @@ public class RobotContainer {
         .manualClose()
         .onTrue(CollectorCommands.manualClose(collectorDeployer)); // TODO - verify
 
-    // Combos
     /* TODO */
-    /*
+
     operatorController
         .combo()
         .passFar()
-        .whileTrue();
+        .whileTrue(ShooterCommands.shootAtVelocity(5000, shooter, shooterIntake)); // verify
 
     operatorController
         .combo()
         .passShort()
-        .whileTrue();
-    */
+        .whileTrue(ShooterCommands.shootAtVelocity(3000, shooter, shooterIntake)); // verify
 
     operatorController
         .combo()
