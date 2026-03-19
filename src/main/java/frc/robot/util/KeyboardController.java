@@ -22,6 +22,7 @@ public class KeyboardController {
   // Group of triggers for high level subsystems
   private final Shooter shooter;
   private final Collector collector;
+  private final Combo combo;
 
   public KeyboardController(int port) {
     this(port, 80);
@@ -34,6 +35,7 @@ public class KeyboardController {
 
     this.shooter = new Shooter(this);
     this.collector = new Collector(this);
+    this.combo = new Combo(this);
 
     buttonSubscribers = new BooleanSubscriber[this.numButtons];
     for (int i = 0; i < this.numButtons; i++) {
@@ -99,6 +101,10 @@ public class KeyboardController {
 
   public Collector collector() {
     return collector;
+  }
+
+  public Combo combo() {
+    return combo;
   }
 
   public static final record Shooter(KeyboardController controller) {
@@ -186,6 +192,32 @@ public class KeyboardController {
 
     public Trigger manualClose() {
       return controller.button(7, 6).or(controller.button(7, 7));
+    }
+  }
+
+  public static final record Combo(KeyboardController controller) {
+    public Trigger passFar() {
+      return controller
+          .button(2, 1)
+          .or(controller.button(2, 2))
+          .or(controller.button(2, 3))
+          .or(controller.button(2, 4));
+    }
+
+    public Trigger passShort() {
+      return controller
+          .button(3, 1)
+          .or(controller.button(3, 2))
+          .or(controller.button(3, 3))
+          .or(controller.button(3, 4));
+    }
+
+    public Trigger reverse() {
+      return controller
+          .button(4, 1)
+          .or(controller.button(4, 2))
+          .or(controller.button(4, 3))
+          .or(controller.button(4, 4));
     }
   }
 }
