@@ -28,10 +28,10 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
   private static final double REVERSE_LIMIT = 0.15; // TODO
 
   // Tunables
-  private double kP = 0.0;
+  private double kP = 06;
   private double kI = 0.0;
   private double kD = 0.0;
-  private double kG = 0.0;
+  private double kG = 0.0001;
 
   private double lastP, lastI, lastD, lastG;
 
@@ -61,7 +61,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
     pid = new PIDController(kP, kI, kD);
     pid.disableContinuousInput();
-    pid.setTolerance(0.05);
+    pid.setTolerance(0.01);
 
     configureSpark();
 
@@ -135,8 +135,9 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
     double pidOutput = pid.calculate(position, targetRotations);
     double output = pidOutput + gravityFF;
+    spark.set(output);
 
-    System.out.println("output: " + output);
+    // System.out.println("output: " + output);
 
     // System.out.println("radians: " + positionRadians);
     // System.out.println("cos: " + Math.cos(positionRadians));
