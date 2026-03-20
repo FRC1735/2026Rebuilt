@@ -296,7 +296,7 @@ public class RobotContainer {
         .combo()
         .passShort()
         .whileTrue(
-            ShooterCommands.hoodUp(shooterHood)
+            ShooterCommands.hoodDown(shooterHood)
                 .andThen(new WaitUntilCommand(() -> shooterHood.atTarget()))
                 .andThen(ShooterCommands.shootAtVelocity(3500, shooter, shooterIntake))); // verify
 
