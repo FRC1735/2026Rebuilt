@@ -14,7 +14,7 @@ public class CollectorDeployer extends SubsystemBase {
   private static final double MIN_ROT = 0.2; // TODO
   private static final double MAX_ROT = 0.7; // TODO
 
-  private static final double DEPLOYED_TARGET = 0.6; // TODO
+  private static final double DEPLOYED_TARGET = 0.62; // TODO
   private static final double CLOSED_TARGET = 0.235; // TODO
   private static final double RANGE = 0.02; // TODO
 

@@ -28,8 +28,8 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
   private static final double REVERSE_LIMIT = 0.15; // TODO
 
   // Tunables
-  private double kP = 06;
-  private double kI = 0.0;
+  private double kP = 0.7;
+  private double kI = 0.04;
   private double kD = 0.0;
   private double kG = 0.0001;
 
