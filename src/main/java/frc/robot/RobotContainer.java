@@ -298,7 +298,7 @@ public class RobotContainer {
         .whileTrue(
             ShooterCommands.hoodUp(shooterHood)
                 .andThen(new WaitUntilCommand(() -> shooterHood.atTarget()))
-                .andThen(ShooterCommands.shootAtVelocity(3000, shooter, shooterIntake))); // verify
+                .andThen(ShooterCommands.shootAtVelocity(3500, shooter, shooterIntake))); // verify
 
     operatorController
         .combo()
