@@ -67,7 +67,7 @@ public class ShooterIOSparkFlex implements ShooterIO {
     leadConfig
         .encoder
         .velocityConversionFactor(1)
-        .quadratureMeasurementPeriod(1)
+        .quadratureMeasurementPeriod(100)
         .quadratureAverageDepth(64);
 
     leadConfig
