@@ -198,26 +198,26 @@ public class KeyboardController {
   public static final record Combo(KeyboardController controller) {
     public Trigger passFar() {
       return controller
-          .button(2, 1)
-          .or(controller.button(2, 2))
-          .or(controller.button(2, 3))
-          .or(controller.button(2, 4));
-    }
-
-    public Trigger passShort() {
-      return controller
           .button(3, 1)
           .or(controller.button(3, 2))
           .or(controller.button(3, 3))
           .or(controller.button(3, 4));
     }
 
-    public Trigger reverse() {
+    public Trigger passShort() {
       return controller
           .button(4, 1)
           .or(controller.button(4, 2))
           .or(controller.button(4, 3))
           .or(controller.button(4, 4));
+    }
+
+    public Trigger reverse() {
+      return controller
+          .button(5, 1)
+          .or(controller.button(5, 2))
+          .or(controller.button(5, 3))
+          .or(controller.button(5, 4));
     }
   }
 }

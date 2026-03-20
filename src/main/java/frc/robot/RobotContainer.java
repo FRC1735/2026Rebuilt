@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.CollectorCommands;
 import frc.robot.commands.DriveCommands;
@@ -286,12 +287,18 @@ public class RobotContainer {
     operatorController
         .combo()
         .passFar()
-        .whileTrue(ShooterCommands.shootAtVelocity(5600, shooter, shooterIntake));
+        .whileTrue(
+            ShooterCommands.hoodDown(shooterHood)
+                .andThen(new WaitUntilCommand(() -> shooterHood.atTarget()))
+                .andThen(ShooterCommands.shootAtVelocity(5600, shooter, shooterIntake)));
 
     operatorController
         .combo()
         .passShort()
-        .whileTrue(ShooterCommands.shootAtVelocity(3000, shooter, shooterIntake)); // verify
+        .whileTrue(
+            ShooterCommands.hoodUp(shooterHood)
+                .andThen(new WaitUntilCommand(() -> shooterHood.atTarget()))
+                .andThen(ShooterCommands.shootAtVelocity(3000, shooter, shooterIntake))); // verify
 
     operatorController
         .combo()
