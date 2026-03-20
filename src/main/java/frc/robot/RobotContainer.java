@@ -267,18 +267,16 @@ public class RobotContainer {
         .collector()
         .outtake()
         .whileTrue(CollectorCommands.outtake(collectorExteriorRoller));
-    /*
-        operatorController
-            .collector()
-            .manualDeploy()
-            .onTrue(CollectorCommands.manualDeploy(collectorDeployer)); // TODO - verify
 
-        operatorController
-            .collector()
-            .manualClose()
-            .onTrue(CollectorCommands.manualClose(collectorDeployer)); // TODO - verify
-    */
-    /* TODO */
+    operatorController
+        .collector()
+        .manualDeploy()
+        .whileTrue(CollectorCommands.manualDeploy(collectorDeployer)); // TODO - verify
+
+    operatorController
+        .collector()
+        .manualClose()
+        .whileTrue(CollectorCommands.manualClose(collectorDeployer)); // TODO - verify
 
     operatorController
         .combo()

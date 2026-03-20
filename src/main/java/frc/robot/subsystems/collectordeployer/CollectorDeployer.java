@@ -14,8 +14,8 @@ public class CollectorDeployer extends SubsystemBase {
   private static final double MIN_ROT = 0.2; // TODO
   private static final double MAX_ROT = 0.7; // TODO
 
-  private static final double DEPLOYED_TARGET = 0.62; // TODO
-  private static final double CLOSED_TARGET = 0.235; // TODO
+  private static final double DEPLOYED_TARGET = 0.55; // TODO
+  private static final double CLOSED_TARGET = 0.25; // TODO
   private static final double RANGE = 0.02; // TODO
 
   private final String name;
@@ -63,10 +63,14 @@ public class CollectorDeployer extends SubsystemBase {
   double MANUAL_VOLTAGE = 1.5;
 
   public void manualDeploy() {
-    // TODO
+    if (getPosition() < DEPLOYED_TARGET) {
+      setVoltage(1.2);
+    }
   }
 
   public void manualClose() {
-    // TODO
+    if (getPosition() > CLOSED_TARGET) {
+      setVoltage(-1.2);
+    }
   }
 }

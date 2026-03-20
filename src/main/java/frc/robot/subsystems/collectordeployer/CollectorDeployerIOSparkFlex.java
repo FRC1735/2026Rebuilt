@@ -133,9 +133,9 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     double positionRadians = error * 2 * Math.PI;
     double gravityFF = kG * Math.cos(positionRadians);
 
-    double pidOutput = pid.calculate(position, targetRotations);
-    double output = pidOutput + gravityFF;
-    spark.set(output);
+    // double pidOutput = pid.calculate(position, targetRotations);
+    // double output = pidOutput + gravityFF;
+    // spark.set(output);
 
     // System.out.println("output: " + output);
 
