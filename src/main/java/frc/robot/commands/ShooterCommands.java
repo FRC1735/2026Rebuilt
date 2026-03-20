@@ -32,7 +32,7 @@ public class ShooterCommands {
 
   // Shoot at High Speed
   public static Command shootHighSpeed(Shooter shooter, RollerIntake shooterIntake) {
-    return shootAtVelocity(5000, shooter, shooterIntake);
+    return shootAtVelocity(5600, shooter, shooterIntake);
   }
 
   // Shoot at Low Speed

@@ -18,6 +18,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.CollectorCommands;
 import frc.robot.commands.DriveCommands;
@@ -118,7 +119,11 @@ public class RobotContainer {
         "Shoot Preloaded",
         Commands.sequence(
                 DriveCommands.resetPoseForAlliance(drive),
-                ShooterCommands.shootHighSpeed(shooter, shooterIntake))
+                Commands.parallel(
+                    ShooterCommands.shootAtVelocity(3000, shooter, shooterIntake),
+                    new WaitCommand(1)
+                        .andThen(CollectorCommands.manualDeploy(collectorDeployer).withTimeout(1)),
+                    new WaitCommand(1).andThen(CollectorCommands.intake(collectorExteriorRoller))))
             .withTimeout(20));
 
     configureDriverBindings();
@@ -245,7 +250,7 @@ public class RobotContainer {
     operatorController
         .shooter()
         .shoot2000()
-        .whileTrue(ShooterCommands.shootAtVelocity(2000, shooter, shooterIntake));
+        .whileTrue(ShooterCommands.shootAtVelocity(5600, shooter, shooterIntake));
 
     // Collector
     operatorController
@@ -281,7 +286,7 @@ public class RobotContainer {
     operatorController
         .combo()
         .passFar()
-        .whileTrue(ShooterCommands.shootAtVelocity(5000, shooter, shooterIntake)); // verify
+        .whileTrue(ShooterCommands.shootAtVelocity(5600, shooter, shooterIntake));
 
     operatorController
         .combo()
