@@ -18,9 +18,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.AutoCommands;
 import frc.robot.commands.CollectorCommands;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.ShooterCommands;
@@ -97,6 +97,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("shooter hood down", ShooterCommands.hoodDown(shooterHood));
     NamedCommands.registerCommand(
         "shoot high", ShooterCommands.shootHighSpeed(shooter, shooterIntake));
+    NamedCommands.registerCommand(
+        "shoot preloaded",
+        AutoCommands.shootPreloaded(
+            drive, shooter, shooterIntake, collectorDeployer, collectorExteriorRoller));
     // Set up SysId routines
     /*
     autoChooser.addOption(
@@ -118,15 +122,8 @@ public class RobotContainer {
     autoChooser.addOption("Do Nothing", DriveCommands.resetPoseForAlliance(drive));
     autoChooser.addOption(
         "Shoot Preloaded",
-        Commands.sequence(
-                DriveCommands.resetPoseForAlliance(drive),
-                Commands.parallel(
-                    ShooterCommands.shootAtVelocity(3000, shooter, shooterIntake),
-                    new WaitCommand(1)
-                        .andThen(CollectorCommands.manualDeploy(collectorDeployer).withTimeout(1)),
-                    new WaitCommand(1).andThen(CollectorCommands.intake(collectorExteriorRoller))))
-            .withTimeout(20));
-
+        AutoCommands.shootPreloaded(
+            drive, shooter, shooterIntake, collectorDeployer, collectorExteriorRoller));
     configureDriverBindings();
     configureOperatorBindings();
     // configureDeveloperBindings();

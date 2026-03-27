@@ -24,11 +24,11 @@ public class RollerIntake extends SubsystemBase {
   }
 
   public void in() {
-    io.setVoltage(9);
+    io.setVoltage(1);
   }
 
   public void out() {
-    io.setVoltage(-9);
+    io.setVoltage(-1);
   }
 
   public void stop() {

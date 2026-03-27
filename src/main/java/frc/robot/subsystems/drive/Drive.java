@@ -66,8 +66,8 @@ public class Drive extends SubsystemBase {
   Field2d field = new Field2d();
   // PathPlanner config constants
   // TODO - Remember to update these for real robot
-  private static final double ROBOT_MASS_KG = 18.144;
-  private static final double ROBOT_MOI = 7.904;
+  private static final double ROBOT_MASS_KG = 49.6;
+  private static final double ROBOT_MOI = 2.148;
   private static final double WHEEL_COF = 1.2;
   private static final RobotConfig PP_CONFIG =
       new RobotConfig(
@@ -128,7 +128,7 @@ public class Drive extends SubsystemBase {
         this::getChassisSpeeds,
         this::runVelocity,
         new PPHolonomicDriveController(
-            new PIDConstants(1.0, 0.0, 0.0), new PIDConstants(1.0, 0.0, 0.0)),
+            new PIDConstants(1.0, 0.1, 0.0), new PIDConstants(1.0, 0.0, 0.0)),
         PP_CONFIG,
         () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
         this);

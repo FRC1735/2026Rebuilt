@@ -109,7 +109,7 @@ public class RollerIntakeIOSparkFlex implements RollerIntakeIO {
 
   @Override
   public void setVoltage(double volts) {
-    spark.setVoltage(volts);
+    spark.set(volts);
   }
 
   @Override
