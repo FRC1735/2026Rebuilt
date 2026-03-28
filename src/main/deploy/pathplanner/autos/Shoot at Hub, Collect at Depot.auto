@@ -5,9 +5,22 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Hub to Depot"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Hub to depot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "collect"
+                }
+              }
+            ]
           }
         }
       ]

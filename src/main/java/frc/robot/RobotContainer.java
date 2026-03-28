@@ -61,12 +61,26 @@ public class RobotContainer {
 
     switch (Constants.currentMode) {
       case REAL:
-        drive = createRealDrive();
         shooter = createRealShooter();
         shooterHood = createRealShooterHood();
         shooterIntake = createRealShooterIntake();
         collectorDeployer = createRealCollectorDeployer();
         collectorExteriorRoller = createRealCollectorExteriorRoller();
+
+        NamedCommands.registerCommand("shooter hood up", ShooterCommands.hoodUp(shooterHood));
+        NamedCommands.registerCommand("shooter hood down", ShooterCommands.hoodDown(shooterHood));
+        NamedCommands.registerCommand(
+            "shoot high", ShooterCommands.shootHighSpeed(shooter, shooterIntake));
+        /*
+        NamedCommands.registerCommand(
+            "shoot preloaded",
+            AutoCommands.shootPreloaded(
+                drive, shooter, shooterIntake, collectorDeployer, collectorExteriorRoller));
+                */
+        NamedCommands.registerCommand(
+            "collect", CollectorCommands.intake(collectorExteriorRoller).withTimeout(20));
+
+        drive = createRealDrive();
 
         break;
 
@@ -94,14 +108,7 @@ public class RobotContainer {
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
-    NamedCommands.registerCommand("shooter hood up", ShooterCommands.hoodUp(shooterHood));
-    NamedCommands.registerCommand("shooter hood down", ShooterCommands.hoodDown(shooterHood));
-    NamedCommands.registerCommand(
-        "shoot high", ShooterCommands.shootHighSpeed(shooter, shooterIntake));
-    NamedCommands.registerCommand(
-        "shoot preloaded",
-        AutoCommands.shootPreloaded(
-            drive, shooter, shooterIntake, collectorDeployer, collectorExteriorRoller));
+
     // Set up SysId routines
     /*
     autoChooser.addOption(
