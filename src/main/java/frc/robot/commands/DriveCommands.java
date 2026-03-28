@@ -309,9 +309,9 @@ public class DriveCommands {
     thetaController.setTolerance(Math.toRadians(2));
 
     // SmartDashboard tuning
-    SmartDashboard.putNumber("TurnPID/P", 4.0);
+    SmartDashboard.putNumber("TurnPID/P", 10.0);
     SmartDashboard.putNumber("TurnPID/I", 0.0);
-    SmartDashboard.putNumber("TurnPID/D", 0.2);
+    SmartDashboard.putNumber("TurnPID/D", 0.3);
 
     return Commands.run(
         () -> {
@@ -338,6 +338,8 @@ public class DriveCommands {
           if (targetDeg != -1) {
             double targetRad = Math.toRadians(targetDeg);
             double currentRad = drive.getRotation().getRadians();
+            SmartDashboard.putNumber("TurnPID/targetRad", targetRad);
+            SmartDashboard.putNumber("TurnPID/currentRad", currentRad);
 
             omega = thetaController.calculate(currentRad, targetRad);
 
