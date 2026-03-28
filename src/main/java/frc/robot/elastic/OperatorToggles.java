@@ -8,7 +8,7 @@ public class OperatorToggles {
       NetworkTableInstance.getDefault()
           .getTable("Elastic")
           .getBooleanTopic("EnableVision")
-          .getEntry(false);
+          .getEntry(true);
 
   public static void init() {
     enableVision.set(false);

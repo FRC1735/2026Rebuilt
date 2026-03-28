@@ -214,17 +214,8 @@ public class Drive extends SubsystemBase {
 
       LimelightHelpers.SetRobotOrientation(
           "limelight-front", gyroInputs.yawPosition.getDegrees(), 0, 0, 0, 0, 0);
-      LimelightHelpers.SetRobotOrientation(
-          "limelight-rear", gyroInputs.yawPosition.getDegrees() + 180, 0, 0, 0, 0, 0);
 
-      var rearEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-rear");
-      if (LimelightHelpers.getTV("limelight-rear")
-          && rearEstimate.tagCount >= 2
-          // NOTE: Saw suggested online to not record vision when the robot is spinning fast.
-          && Math.abs(getChassisSpeeds().omegaRadiansPerSecond) < 2.0) {
-        poseEstimator.addVisionMeasurement(rearEstimate.pose, rearEstimate.timestampSeconds);
-      }
-      var frontEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-front");
+      var frontEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight-front");
       if (LimelightHelpers.getTV("limelight-front")
           && frontEstimate.tagCount >= 2
           && Math.abs(getChassisSpeeds().omegaRadiansPerSecond) < 2.0) {

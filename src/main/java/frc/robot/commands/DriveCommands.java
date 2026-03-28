@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -20,6 +21,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.drive.Drive;
@@ -293,6 +295,85 @@ public class DriveCommands {
                               + formatter.format(Units.metersToInches(wheelRadius))
                               + " inches");
                     })));
+  }
+
+  public static Command joystickDriveWithAutoAlign(
+      Drive drive,
+      DoubleSupplier xSupplier,
+      DoubleSupplier ySupplier,
+      DoubleSupplier omegaSupplier,
+      DoubleSupplier targetAngleDegSupplier) {
+
+    PIDController thetaController = new PIDController(4.0, 0.0, 0.2);
+    thetaController.enableContinuousInput(-Math.PI, Math.PI);
+    thetaController.setTolerance(Math.toRadians(2));
+
+    // SmartDashboard tuning
+    SmartDashboard.putNumber("TurnPID/P", 10.0);
+    SmartDashboard.putNumber("TurnPID/I", 0.0);
+    SmartDashboard.putNumber("TurnPID/D", 0.3);
+
+    return Commands.run(
+        () -> {
+          // 🔁 Update PID live
+          thetaController.setPID(
+              SmartDashboard.getNumber("TurnPID/P", 4.0),
+              SmartDashboard.getNumber("TurnPID/I", 0.0),
+              SmartDashboard.getNumber("TurnPID/D", 0.2));
+
+          // Get linear velocity (UNCHANGED)
+          Translation2d linearVelocity =
+              getLinearVelocityFromJoysticks(
+                  MathUtil.applyDeadband(xSupplier.getAsDouble(), DEADBAND),
+                  MathUtil.applyDeadband(ySupplier.getAsDouble(), DEADBAND));
+
+          // Rotation input
+          double omegaInput = MathUtil.applyDeadband(omegaSupplier.getAsDouble(), DEADBAND);
+          omegaInput = Math.copySign(omegaInput * omegaInput, omegaInput);
+
+          double omega;
+
+          double targetDeg = targetAngleDegSupplier.getAsDouble();
+
+          if (targetDeg != -1) {
+            double targetRad = Math.toRadians(targetDeg);
+            double currentRad = drive.getRotation().getRadians();
+            SmartDashboard.putNumber("TurnPID/targetRad", targetRad);
+            SmartDashboard.putNumber("TurnPID/currentRad", currentRad);
+
+            omega = thetaController.calculate(currentRad, targetRad);
+
+            // Clamp
+            omega =
+                Math.max(
+                    Math.min(omega, drive.getMaxAngularSpeedRadPerSec()),
+                    -drive.getMaxAngularSpeedRadPerSec());
+
+          } else {
+            omega = omegaInput * drive.getMaxAngularSpeedRadPerSec();
+
+            // Optional: reset PID so it doesn't jump later
+            thetaController.reset();
+          }
+
+          ChassisSpeeds speeds =
+              new ChassisSpeeds(
+                  linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
+                  linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
+                  omega);
+
+          boolean isFlipped =
+              DriverStation.getAlliance().isPresent()
+                  && DriverStation.getAlliance().get() == Alliance.Red;
+
+          drive.runVelocity(
+              ChassisSpeeds.fromFieldRelativeSpeeds(
+                  speeds,
+                  isFlipped
+                      ? drive.getRotation().plus(new Rotation2d(Math.PI))
+                      : drive.getRotation()));
+        },
+        drive);
   }
 
   private static class WheelRadiusCharacterizationState {
