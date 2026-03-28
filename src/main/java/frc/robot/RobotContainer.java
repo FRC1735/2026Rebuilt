@@ -136,12 +136,30 @@ public class RobotContainer {
 
   private void configureDriverBindings() {
     // Default command, normal field-relative drive
+    /*
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             drive,
             () -> -driverController.getLeftY(),
             () -> -driverController.getLeftX(),
             () -> -driverController.getRightX()));
+             */
+    drive.setDefaultCommand(
+        DriveCommands.joystickDriveWithAutoAlign(
+            drive,
+            () -> -driverController.getLeftY(),
+            () -> -driverController.getLeftX(),
+            () -> -driverController.getRightX(),
+            () -> {
+              int pov = driverController.getHID().getPOV();
+
+              // POV returns -1 when not pressed
+              if (pov == -1) {
+                return -1; // disables align mode
+              }
+
+              return pov; // 0, 90, 180, 270
+            }));
 
     // Lock to 0° when A button is held
     driverController
