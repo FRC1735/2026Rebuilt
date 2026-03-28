@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutoCommands;
 import frc.robot.commands.CollectorCommands;
 import frc.robot.commands.DriveCommands;
@@ -151,6 +152,17 @@ public class RobotContainer {
             () -> -driverController.getLeftX(),
             () -> -driverController.getRightX(),
             () -> {
+              Trigger rightBumper = driverController.rightBumper();
+              if (rightBumper.getAsBoolean()) {
+                // this is for bottom right red, need to adjust based on field
+                return 160;
+              } else {
+
+                return -1;
+              }
+
+              /*
+
               int pov = driverController.getHID().getPOV();
 
               // POV returns -1 when not pressed
@@ -159,6 +171,7 @@ public class RobotContainer {
               }
 
               return pov; // 0, 90, 180, 270
+              */
             }));
 
     // Lock to 0° when A button is held
