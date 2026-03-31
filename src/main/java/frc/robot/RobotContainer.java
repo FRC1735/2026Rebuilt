@@ -162,7 +162,11 @@ public class RobotContainer {
               Trigger rightBumper = driverController.rightBumper();
               if (rightBumper.getAsBoolean()) {
                 // this is for bottom right red, need to adjust based on field
-                return 160;
+                if (drive.inTopHalfOfField()) {
+                  return -160;
+                } else {
+                  return 160;
+                }
               } else {
 
                 return -1;

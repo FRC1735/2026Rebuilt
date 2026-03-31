@@ -154,6 +154,23 @@ public class Drive extends SubsystemBase {
                 (voltage) -> runCharacterization(voltage.in(Volts)), null, this));
   }
 
+  public boolean inTopHalfOfField() {
+    // Get the current estimated pose
+    Pose2d currentPose = poseEstimator.getEstimatedPosition();
+
+    // Get the Y value in meters
+    double currentY = currentPose.getY();
+
+    // Field width is typically ~8.21 meters
+    double fieldMidpointY = 8.21 / 2.0;
+
+    if (currentY > fieldMidpointY) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   @Override
   public void periodic() {
     odometryLock.lock(); // Prevents odometry updates while reading data
