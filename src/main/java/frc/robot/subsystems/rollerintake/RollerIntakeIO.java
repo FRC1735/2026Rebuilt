@@ -16,9 +16,9 @@ public interface RollerIntakeIO {
 
   default void updateInputs(RollerIntakeIOInputs inputs) {}
 
-  default void setVoltage(double volts) {}
+  default void setSpeed(double speed) {}
 
   default void stop() {
-    setVoltage(0.0);
+    setSpeed(0.0);
   }
 }

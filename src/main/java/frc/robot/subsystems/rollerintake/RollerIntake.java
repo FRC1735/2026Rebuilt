@@ -19,16 +19,16 @@ public class RollerIntake extends SubsystemBase {
     Logger.processInputs(name, inputs);
   }
 
-  public void setVoltage(double volts) {
-    io.setVoltage(volts);
+  public void setSpeed(double speed) {
+    io.setSpeed(speed);
   }
 
   public void in() {
-    io.setVoltage(1);
+    io.setSpeed(1);
   }
 
   public void out() {
-    io.setVoltage(-1);
+    io.setSpeed(-1);
   }
 
   public void stop() {
