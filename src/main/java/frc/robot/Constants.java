@@ -39,10 +39,12 @@ public final class Constants {
   /// Shooter
   public static final int SHOOTER_LEADER_CAN_ID = 5;
   public static final int SHOOTER_FOLLOWER_CAN_ID = 6;
-  public static final int SHOOTER_INTAKE_CAN_ID = 7;
+  public static final int SHOOTER_LEADER_INTAKE_CAN_ID = 7;
+  public static final int SHOOTER_FOLLOWER_INTAKE_CAN_ID = 99;
   public static final int SHOOTER_HOOD_CAN_ID = 8;
   /// COLLECTOR
   public static final int COLLECTOR_DEPLOYER_CAN_ID = 27;
   public static final int COLLECTOR_DEPLOYER_ENCODER_CAN_ID = 19;
-  public static final int COLLECTOR_ROLLER_EXTERIOR_CAN_ID = 25;
+  public static final int COLLECTOR_LEADER_ROLLER_CAN_ID = 25;
+  public static final int COLLECTOR_FOLLOWER_ROLLER_CAN_ID = 100;
 }

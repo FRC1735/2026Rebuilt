@@ -315,7 +315,7 @@ public class DriveCommands {
 
     return Commands.run(
         () -> {
-          // 🔁 Update PID live
+          // Update PID live
           thetaController.setPID(
               SmartDashboard.getNumber("TurnPID/P", 4.0),
               SmartDashboard.getNumber("TurnPID/I", 0.0),

@@ -46,7 +46,7 @@ public class AutoAlign extends Command {
 
   @Override
   public void execute() {
-    // 🔁 Update PID from SmartDashboard (live tuning)
+    // Update PID from SmartDashboard (live tuning)
     double kP = SmartDashboard.getNumber("TurnPID/P", 4.0);
     double kI = SmartDashboard.getNumber("TurnPID/I", 0.0);
     double kD = SmartDashboard.getNumber("TurnPID/D", 0.2);

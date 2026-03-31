@@ -11,7 +11,8 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class RollerIntakeIOSparkFlex implements RollerIntakeIO {
-  private final SparkFlex spark;
+  private final SparkFlex leader;
+  private final SparkFlex follower;
 
   // Tunables
   private double kP = 4.0;
@@ -33,9 +34,11 @@ public class RollerIntakeIOSparkFlex implements RollerIntakeIO {
   private final DoubleEntry accelEntry;
   private final DoubleEntry errorEntry;
 
-  public RollerIntakeIOSparkFlex(int canId, String name, boolean inverted) {
+  public RollerIntakeIOSparkFlex(
+      int leaderCanId, int followerCanId, String name, boolean inverted) {
 
-    spark = new SparkFlex(canId, MotorType.kBrushless);
+    leader = new SparkFlex(leaderCanId, MotorType.kBrushless);
+    follower = new SparkFlex(followerCanId, MotorType.kBrushless);
 
     NetworkTable table = NetworkTableInstance.getDefault().getTable("Elastic").getSubTable(name);
 
@@ -60,14 +63,19 @@ public class RollerIntakeIOSparkFlex implements RollerIntakeIO {
 
   private void configureSpark() {
 
-    var config = new SparkFlexConfig();
-    config.inverted(inverted);
-    config.idleMode(IdleMode.kCoast);
-    config.smartCurrentLimit(30);
+    var leaderconfig = new SparkFlexConfig();
+    leaderconfig.idleMode(IdleMode.kCoast);
+    leaderconfig.smartCurrentLimit(30);
 
-    config.closedLoop.outputRange(-1, 1).p(kP).i(kI).d(kD);
+    var followerConfig = new SparkFlexConfig();
+    followerConfig.follow(leader, inverted);
+    follower.configure(
+        followerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-    spark.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
+    leaderconfig.closedLoop.outputRange(-1, 1).p(kP).i(kI).d(kD);
+
+    leader.configure(
+        leaderconfig, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
 
     lastP = kP;
     lastI = kI;
@@ -102,18 +110,18 @@ public class RollerIntakeIOSparkFlex implements RollerIntakeIO {
 
     checkForChanges();
 
-    inputs.velocity = spark.getEncoder().getVelocity();
-    inputs.appliedVolts = spark.getAppliedOutput() * spark.getBusVoltage();
-    inputs.currentAmps = spark.getOutputCurrent();
+    inputs.velocity = leader.getEncoder().getVelocity();
+    inputs.appliedVolts = leader.getAppliedOutput() * leader.getBusVoltage();
+    inputs.currentAmps = leader.getOutputCurrent();
   }
 
   @Override
   public void setVoltage(double volts) {
-    spark.set(volts);
+    leader.set(volts);
   }
 
   @Override
   public void stop() {
-    spark.stopMotor();
+    leader.stopMotor();
   }
 }

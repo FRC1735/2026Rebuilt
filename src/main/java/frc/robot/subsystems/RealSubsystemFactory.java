@@ -46,7 +46,11 @@ public class RealSubsystemFactory {
   public static RollerIntake createRealShooterIntake() {
     return new RollerIntake(
         Constants.SHOOTER_INTAKE_ENABLED
-            ? new RollerIntakeIOSparkFlex(Constants.SHOOTER_INTAKE_CAN_ID, "Shooter Intake", true)
+            ? new RollerIntakeIOSparkFlex(
+                Constants.SHOOTER_LEADER_INTAKE_CAN_ID,
+                Constants.SHOOTER_FOLLOWER_INTAKE_CAN_ID,
+                "Shooter Intake",
+                true) // verify in new build
             : new RollerIntakeIO() {},
         "Shooter Intake");
   }
@@ -65,7 +69,10 @@ public class RealSubsystemFactory {
     return new RollerIntake(
         Constants.COLLECTOR_ROLLER_EXTERIOR_ENABLED
             ? new RollerIntakeIOSparkFlex(
-                Constants.COLLECTOR_ROLLER_EXTERIOR_CAN_ID, "Collector Exterior Roller", true)
+                Constants.COLLECTOR_LEADER_ROLLER_CAN_ID,
+                Constants.COLLECTOR_FOLLOWER_ROLLER_CAN_ID,
+                "Collector Roller",
+                true) // Verify in new build
             : new RollerIntakeIO() {},
         "Collector Exterior Roller");
   }
