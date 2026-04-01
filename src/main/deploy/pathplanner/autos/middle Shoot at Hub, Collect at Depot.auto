@@ -5,9 +5,15 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "shoot"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "Go Around Hub"
+            "pathName": "Hub to depot middle"
           }
         }
       ]
