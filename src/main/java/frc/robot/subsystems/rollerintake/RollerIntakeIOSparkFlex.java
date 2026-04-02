@@ -113,6 +113,12 @@ public class RollerIntakeIOSparkFlex implements RollerIntakeIO {
     inputs.velocity = leader.getEncoder().getVelocity();
     inputs.appliedVolts = leader.getAppliedOutput() * leader.getBusVoltage();
     inputs.currentAmps = leader.getOutputCurrent();
+
+    if (inputs.appliedVolts == 0) {
+      inputs.isOn = true;
+    } else {
+      inputs.isOn = false;
+    }
   }
 
   @Override

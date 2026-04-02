@@ -12,6 +12,8 @@ public interface RollerIntakeIO {
     public double currentAmps = 0.0;
 
     public boolean connected = true;
+
+    public boolean isOn = false;
   }
 
   default void updateInputs(RollerIntakeIOInputs inputs) {}
