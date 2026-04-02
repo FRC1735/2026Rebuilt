@@ -35,8 +35,8 @@
           },
           {
             "title": "xk-80",
-            "x": 896.0,
-            "y": 0.0,
+            "x": 0.0,
+            "y": 640.0,
             "width": 128.0,
             "height": 128.0,
             "type": "Boolean Box",
@@ -89,7 +89,7 @@
           {
             "title": "Collector Position",
             "x": 896.0,
-            "y": 128.0,
+            "y": 256.0,
             "width": 256.0,
             "height": 256.0,
             "type": "Radial Gauge",
@@ -122,6 +122,27 @@
               "max_value": 5600.0,
               "divisions": 2,
               "update_continuously": false
+            }
+          },
+          {
+            "title": "field",
+            "x": 896.0,
+            "y": 0.0,
+            "width": 512.0,
+            "height": 256.0,
+            "type": "Field",
+            "properties": {
+              "topic": "/SmartDashboard/field",
+              "period": 0.06,
+              "field_game": "Rebuilt",
+              "robot_width": 0.85,
+              "robot_length": 0.85,
+              "show_other_objects": true,
+              "show_trajectories": true,
+              "field_rotation": 0.0,
+              "robot_color": 4294198070,
+              "trajectory_color": 4294967295,
+              "show_robot_outside_widget": true
             }
           }
         ]
