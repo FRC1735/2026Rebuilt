@@ -17,6 +17,8 @@ public interface CollectorDeployerIO {
 
     public double delta = 0;
 
+    public boolean isOut = false;
+
     // Tunables (logged for replay)
     public double kP = 0.0;
     public double kI = 0.0;

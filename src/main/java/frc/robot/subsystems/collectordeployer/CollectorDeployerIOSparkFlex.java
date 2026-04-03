@@ -124,7 +124,11 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     inputs.allowedProfileError = 0;
 
     inputs.delta = position - targetRotations;
-
+    if (Math.cos(inputs.encoderPosition) < 0) {
+      inputs.isOut = false;
+    } else {
+      inputs.isOut = true;
+    }
     // Gravity Feed Forward
     double error = position - HORIZONTAL_POSITION;
     if (error > 0.5) error -= 1;
