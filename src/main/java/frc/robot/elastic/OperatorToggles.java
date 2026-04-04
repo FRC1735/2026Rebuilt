@@ -11,7 +11,7 @@ public class OperatorToggles {
           .getEntry(true);
 
   public static void init() {
-    enableVision.set(false);
+    enableVision.set(true);
   }
 
   public static boolean isVisionEnabled() {

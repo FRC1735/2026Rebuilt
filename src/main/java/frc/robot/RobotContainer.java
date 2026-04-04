@@ -15,6 +15,8 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -103,7 +105,8 @@ public class RobotContainer {
         AutoCommands.shootPreloaded(
                 drive, shooter, shooterIntake, collectorDeployer, collectorExteriorRoller)
             .withTimeout(5));
-    NamedCommands.registerCommand("deploy", CollectorCommands.deploy(collectorDeployer));
+    NamedCommands.registerCommand(
+        "deploy", CollectorCommands.manualDeploy(collectorDeployer).withTimeout(2.5));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -161,10 +164,19 @@ public class RobotContainer {
               Trigger rightBumper = driverController.rightBumper();
               if (rightBumper.getAsBoolean()) {
                 // todo verify
-                if (drive.inTopHalfOfField()) {
-                  return -160;
+                if (DriverStation.getAlliance().isPresent()
+                    && DriverStation.getAlliance().get() == Alliance.Red) {
+                  if (drive.inTopHalfOfField()) {
+                    return -2;
+                  } else {
+                    return 2;
+                  }
                 } else {
-                  return 160;
+                  if (drive.inTopHalfOfField()) {
+                    return -178;
+                  } else {
+                    return 178;
+                  }
                 }
               } else {
 
@@ -209,7 +221,7 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     // Set robot pose to 0, 0 which is the origin position on the Field 3D map.
-    driverController.leftBumper().onTrue(DriveCommands.resetPoseForAlliance(drive));
+    // driverController.leftBumper().onTrue(DriveCommands.resetPoseForAlliance(drive));
     // Useful for determining robot model config offsets.
     if (Constants.DEBUG) {
       driverController
