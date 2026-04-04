@@ -10,6 +10,7 @@ public interface ShooterIO {
     public double targetVelocity = 0;
     public double outputCurrent = 0;
     public boolean atTargetVelocity = false;
+    public boolean isOn = false;
   }
 
   default void updateInputs(ShooterIOInputs inputs) {}

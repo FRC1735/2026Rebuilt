@@ -61,7 +61,7 @@ public class ShooterIOSparkFlex implements ShooterIO {
     var leadConfig = new SparkFlexConfig();
 
     leadConfig.idleMode(IdleMode.kCoast);
-    leadConfig.smartCurrentLimit(80);
+    leadConfig.smartCurrentLimit(40);
     // leadConfig.closedLoopRampRate(0.8);
 
     leadConfig
@@ -112,6 +112,7 @@ public class ShooterIOSparkFlex implements ShooterIO {
     inputs.targetVelocity = targetVelocity;
     inputs.outputCurrent = leader.getOutputCurrent();
     inputs.atTargetVelocity = atTargetVelocity();
+    inputs.isOn = Math.abs(leader.get()) > 0.1;
 
     // update pid?
     if (targetVelocity == 0) {
