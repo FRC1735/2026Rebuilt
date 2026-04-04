@@ -46,5 +46,5 @@ public final class Constants {
   public static final int COLLECTOR_DEPLOYER_CAN_ID = 27;
   public static final int COLLECTOR_DEPLOYER_ENCODER_CAN_ID = 19;
   public static final int COLLECTOR_LEADER_ROLLER_CAN_ID = 25;
-  public static final int COLLECTOR_FOLLOWER_ROLLER_CAN_ID = 100;
+  public static final int COLLECTOR_FOLLOWER_ROLLER_CAN_ID = 26;
 }
