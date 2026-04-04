@@ -82,7 +82,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     config.softLimit.forwardSoftLimitEnabled(false).reverseSoftLimitEnabled(false);
 
     DetachedEncoderConfig encoderConfig = new DetachedEncoderConfig();
-    encoderConfig.dutyCycleOffset(0);
+    encoderConfig.dutyCycleOffset(0.72);
 
     encoder.configure(encoderConfig, ResetMode.kNoResetSafeParameters);
 
