@@ -61,7 +61,7 @@ public class ShooterIOSparkFlex implements ShooterIO {
     var leadConfig = new SparkFlexConfig();
 
     leadConfig.idleMode(IdleMode.kCoast);
-    leadConfig.smartCurrentLimit(40);
+    leadConfig.smartCurrentLimit(60);
     // leadConfig.closedLoopRampRate(0.8);
 
     leadConfig
