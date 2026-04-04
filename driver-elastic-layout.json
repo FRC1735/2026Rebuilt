@@ -36,7 +36,7 @@
           {
             "title": "xk-80",
             "x": 0.0,
-            "y": 640.0,
+            "y": 512.0,
             "width": 128.0,
             "height": 128.0,
             "type": "Boolean Box",
@@ -51,32 +51,11 @@
             }
           },
           {
-            "title": "Collector Position",
-            "x": 896.0,
-            "y": 512.0,
-            "width": 256.0,
-            "height": 256.0,
-            "type": "Radial Gauge",
-            "properties": {
-              "topic": "/AdvantageKit/Collector Deployer/EncoderPosition",
-              "period": 0.06,
-              "data_type": "double",
-              "start_angle": 0.0,
-              "end_angle": 180.0,
-              "min_value": 0.23,
-              "max_value": 0.63,
-              "number_of_labels": 8,
-              "wrap_value": false,
-              "show_pointer": true,
-              "show_ticks": true
-            }
-          },
-          {
             "title": "field",
-            "x": 896.0,
+            "x": 1536.0,
             "y": 0.0,
-            "width": 256.0,
-            "height": 512.0,
+            "width": 384.0,
+            "height": 896.0,
             "type": "Field",
             "properties": {
               "topic": "/SmartDashboard/field",
@@ -105,8 +84,8 @@
               "data_type": "boolean",
               "true_color": 4282149699,
               "false_color": 4294198070,
-              "true_icon": "Checkmark",
-              "false_icon": "X"
+              "true_icon": "None",
+              "false_icon": "None"
             }
           },
           {
@@ -139,8 +118,8 @@
               "data_type": "boolean",
               "true_color": 4282149699,
               "false_color": 4294198070,
-              "true_icon": "Checkmark",
-              "false_icon": "X"
+              "true_icon": "None",
+              "false_icon": "None"
             }
           },
           {
@@ -158,6 +137,43 @@
               "false_color": 4282149699,
               "true_icon": "None",
               "false_icon": "None"
+            }
+          },
+          {
+            "title": "field",
+            "x": 896.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 640.0,
+            "type": "Field",
+            "properties": {
+              "topic": "/SmartDashboard/field",
+              "period": 0.06,
+              "field_game": "Rebuilt",
+              "robot_width": 0.85,
+              "robot_length": 0.85,
+              "show_other_objects": true,
+              "show_trajectories": true,
+              "field_rotation": 90.0,
+              "robot_color": 4294198070,
+              "trajectory_color": 4294967295,
+              "show_robot_outside_widget": true
+            }
+          },
+          {
+            "title": "MatchTime",
+            "x": 1152.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "Match Time",
+            "properties": {
+              "topic": "/AdvantageKit/DriverStation/MatchTime",
+              "period": 0.06,
+              "data_type": "double",
+              "time_display_mode": "Minutes and Seconds",
+              "red_start_time": 20,
+              "yellow_start_time": 30
             }
           }
         ]
