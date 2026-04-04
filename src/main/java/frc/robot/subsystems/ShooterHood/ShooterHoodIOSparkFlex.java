@@ -89,7 +89,7 @@ public class ShooterHoodIOSparkFlex implements ShooterHoodIO {
         .absoluteEncoder
         .positionConversionFactor(1.0)
         .velocityConversionFactor(1.0)
-        .zeroOffset(0.9)
+        .zeroOffset(0.01)
         .inverted(true);
 
     config
