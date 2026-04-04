@@ -65,20 +65,6 @@ public class RobotContainer {
         shooterIntake = createRealShooterIntake();
         collectorDeployer = createRealCollectorDeployer();
         collectorExteriorRoller = createRealCollectorExteriorRoller();
-
-        NamedCommands.registerCommand("shooter hood up", ShooterCommands.hoodUp(shooterHood));
-        NamedCommands.registerCommand("shooter hood down", ShooterCommands.hoodDown(shooterHood));
-        NamedCommands.registerCommand(
-            "shoot high", ShooterCommands.shootHighSpeed(shooter, shooterIntake));
-        /*
-        NamedCommands.registerCommand(
-            "shoot preloaded",
-            AutoCommands.shootPreloaded(
-                drive, shooter, shooterIntake, collectorDeployer, collectorExteriorRoller));
-                */
-        NamedCommands.registerCommand(
-            "collect", CollectorCommands.intake(collectorExteriorRoller).withTimeout(20));
-
         drive = createRealDrive();
 
         break;
@@ -104,6 +90,14 @@ public class RobotContainer {
         collectorExteriorRoller = createRealCollectorExteriorRoller();
         break;
     }
+
+    // Register comands for PathPlanner
+    NamedCommands.registerCommand("shooter hood up", ShooterCommands.hoodUp(shooterHood));
+    NamedCommands.registerCommand("shooter hood down", ShooterCommands.hoodDown(shooterHood));
+    NamedCommands.registerCommand(
+        "shoot high", ShooterCommands.shootHighSpeed(shooter, shooterIntake));
+    NamedCommands.registerCommand(
+        "collect", CollectorCommands.intake(collectorExteriorRoller).withTimeout(20));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
