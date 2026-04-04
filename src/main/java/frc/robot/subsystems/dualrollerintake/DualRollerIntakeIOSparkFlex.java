@@ -115,9 +115,9 @@ public class DualRollerIntakeIOSparkFlex implements DualRollerIntakeIO {
     inputs.currentAmps = leader.getOutputCurrent();
 
     if (inputs.appliedVolts == 0) {
-      inputs.isOn = true;
-    } else {
       inputs.isOn = false;
+    } else {
+      inputs.isOn = true;
     }
   }
 
