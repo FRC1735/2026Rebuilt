@@ -1,4 +1,4 @@
-package frc.robot.subsystems.rollerintake;
+package frc.robot.subsystems.dualrollerintake;
 
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
@@ -10,7 +10,7 @@ import edu.wpi.first.networktables.DoubleEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
-public class RollerIntakeIOSparkFlex implements RollerIntakeIO {
+public class DualRollerIntakeIOSparkFlex implements DualRollerIntakeIO {
   private final SparkFlex leader;
   private final SparkFlex follower;
 
@@ -34,7 +34,7 @@ public class RollerIntakeIOSparkFlex implements RollerIntakeIO {
   private final DoubleEntry accelEntry;
   private final DoubleEntry errorEntry;
 
-  public RollerIntakeIOSparkFlex(
+  public DualRollerIntakeIOSparkFlex(
       int leaderCanId, int followerCanId, String name, boolean inverted) {
 
     leader = new SparkFlex(leaderCanId, MotorType.kBrushless);
@@ -106,7 +106,7 @@ public class RollerIntakeIOSparkFlex implements RollerIntakeIO {
   }
 
   @Override
-  public void updateInputs(RollerIntakeIOInputs inputs) {
+  public void updateInputs(DualRollerIntakeIOInputs inputs) {
 
     checkForChanges();
 

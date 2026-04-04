@@ -5,8 +5,8 @@ import frc.robot.subsystems.collectordeployer.CollectorDeployerIO;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.ModuleIO;
-import frc.robot.subsystems.rollerintake.RollerIntake;
-import frc.robot.subsystems.rollerintake.RollerIntakeIO;
+import frc.robot.subsystems.dualrollerintake.DualRollerIntake;
+import frc.robot.subsystems.dualrollerintake.DualRollerIntakeIO;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIO;
 import frc.robot.subsystems.shooterhood.ShooterHood;
@@ -32,8 +32,8 @@ public class ReplaySubsystemFactory {
     return new ShooterHood(new ShooterHoodIO() {});
   }
 
-  public static RollerIntake createReplayShooterIntake() {
-    return new RollerIntake(new RollerIntakeIO() {}, "Shooter Intake");
+  public static DualRollerIntake createReplayShooterIntake() {
+    return new DualRollerIntake(new DualRollerIntakeIO() {}, "Shooter Intake");
   }
 
   /// Collector
@@ -41,7 +41,7 @@ public class ReplaySubsystemFactory {
     return new CollectorDeployer(new CollectorDeployerIO() {}, "Collector Deployer");
   }
 
-  public static RollerIntake createReplayCollectorExteriorRoller() {
-    return new RollerIntake(new RollerIntakeIO() {}, "Collector Exterior Roller");
+  public static DualRollerIntake createReplayCollectorExteriorRoller() {
+    return new DualRollerIntake(new DualRollerIntakeIO() {}, "Collector Exterior Roller");
   }
 }

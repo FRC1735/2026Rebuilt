@@ -6,8 +6,8 @@ import frc.robot.subsystems.collectordeployer.CollectorDeployerIOSim;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
-import frc.robot.subsystems.rollerintake.RollerIntake;
-import frc.robot.subsystems.rollerintake.RollerIntakeIOSim;
+import frc.robot.subsystems.dualrollerintake.DualRollerIntake;
+import frc.robot.subsystems.dualrollerintake.DualRollerIntakeIOSim;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIOSim;
 import frc.robot.subsystems.shooterhood.ShooterHood;
@@ -34,8 +34,8 @@ public class SimulatedSubsystemFactory {
     return new ShooterHood(new ShooterHoodIOSim());
   }
 
-  public static RollerIntake createSimulatedShooterIntake() {
-    return new RollerIntake(new RollerIntakeIOSim(), "Shooter Intake");
+  public static DualRollerIntake createSimulatedShooterIntake() {
+    return new DualRollerIntake(new DualRollerIntakeIOSim(), "Shooter Intake");
   }
 
   /// Collector
@@ -43,7 +43,7 @@ public class SimulatedSubsystemFactory {
     return new CollectorDeployer(new CollectorDeployerIOSim(), "Collector Deployer");
   }
 
-  public static RollerIntake createSimulatedCollectorExteriorRoller() {
-    return new RollerIntake(new RollerIntakeIOSim(), "Collector Exterior Intake");
+  public static DualRollerIntake createSimulatedCollectorExteriorRoller() {
+    return new DualRollerIntake(new DualRollerIntakeIOSim(), "Collector Exterior Intake");
   }
 }

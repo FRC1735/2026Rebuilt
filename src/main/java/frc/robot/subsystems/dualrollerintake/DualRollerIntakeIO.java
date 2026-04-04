@@ -1,10 +1,10 @@
-package frc.robot.subsystems.rollerintake;
+package frc.robot.subsystems.dualrollerintake;
 
 import org.littletonrobotics.junction.AutoLog;
 
-public interface RollerIntakeIO {
+public interface DualRollerIntakeIO {
   @AutoLog
-  class RollerIntakeIOInputs {
+  class DualRollerIntakeIOInputs {
     public double velocity = 0.0;
 
     public double appliedVolts = 0.0;
@@ -16,7 +16,7 @@ public interface RollerIntakeIO {
     public boolean isOn = false;
   }
 
-  default void updateInputs(RollerIntakeIOInputs inputs) {}
+  default void updateInputs(DualRollerIntakeIOInputs inputs) {}
 
   default void setSpeed(double speed) {}
 

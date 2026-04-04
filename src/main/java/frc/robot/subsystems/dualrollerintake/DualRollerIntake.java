@@ -1,14 +1,15 @@
-package frc.robot.subsystems.rollerintake;
+package frc.robot.subsystems.dualrollerintake;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
-public class RollerIntake extends SubsystemBase {
-  private final RollerIntakeIO io;
-  private final RollerIntakeIOInputsAutoLogged inputs = new RollerIntakeIOInputsAutoLogged();
+public class DualRollerIntake extends SubsystemBase {
+  private final DualRollerIntakeIO io;
+  private final DualRollerIntakeIOInputsAutoLogged inputs =
+      new DualRollerIntakeIOInputsAutoLogged();
   private final String name;
 
-  public RollerIntake(RollerIntakeIO io, String name) {
+  public DualRollerIntake(DualRollerIntakeIO io, String name) {
     this.io = io;
     this.name = name;
   }

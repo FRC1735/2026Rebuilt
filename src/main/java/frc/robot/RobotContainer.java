@@ -28,7 +28,7 @@ import frc.robot.commands.ShooterCommands;
 import frc.robot.limelight.LimelightLogger;
 import frc.robot.subsystems.collectordeployer.CollectorDeployer;
 import frc.robot.subsystems.drive.Drive;
-import frc.robot.subsystems.rollerintake.RollerIntake;
+import frc.robot.subsystems.dualrollerintake.DualRollerIntake;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooterhood.ShooterHood;
 import frc.robot.util.KeyboardController;
@@ -40,10 +40,10 @@ public class RobotContainer {
   /// Shooter
   private final Shooter shooter;
   private final ShooterHood shooterHood;
-  private final RollerIntake shooterIntake;
+  private final DualRollerIntake shooterIntake;
   /// Collector
   private final CollectorDeployer collectorDeployer;
-  private final RollerIntake collectorExteriorRoller;
+  private final DualRollerIntake collectorExteriorRoller;
 
   // Controller
   private final CommandXboxController driverController = new CommandXboxController(0);

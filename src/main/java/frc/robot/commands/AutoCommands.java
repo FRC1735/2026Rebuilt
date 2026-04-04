@@ -5,16 +5,16 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.collectordeployer.CollectorDeployer;
 import frc.robot.subsystems.drive.Drive;
-import frc.robot.subsystems.rollerintake.RollerIntake;
+import frc.robot.subsystems.dualrollerintake.DualRollerIntake;
 import frc.robot.subsystems.shooter.Shooter;
 
 public class AutoCommands {
   public static Command shootPreloaded(
       Drive drive,
       Shooter shooter,
-      RollerIntake shooterIntake,
+      DualRollerIntake shooterIntake,
       CollectorDeployer collectorDeployer,
-      RollerIntake collectorExteriorRoller) {
+      DualRollerIntake collectorExteriorRoller) {
     return Commands.sequence(
             DriveCommands.resetPoseForAlliance(drive),
             Commands.parallel(

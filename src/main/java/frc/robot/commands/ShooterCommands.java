@@ -3,7 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import frc.robot.subsystems.rollerintake.RollerIntake;
+import frc.robot.subsystems.dualrollerintake.DualRollerIntake;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooterhood.ShooterHood;
 
@@ -31,18 +31,18 @@ public class ShooterCommands {
   }
 
   // Shoot at High Speed
-  public static Command shootHighSpeed(Shooter shooter, RollerIntake shooterIntake) {
+  public static Command shootHighSpeed(Shooter shooter, DualRollerIntake shooterIntake) {
     return shootAtVelocity(5600, shooter, shooterIntake);
   }
 
   // Shoot at Low Speed
-  public static Command shootLowSpeed(Shooter shooter, RollerIntake shooterIntake) {
+  public static Command shootLowSpeed(Shooter shooter, DualRollerIntake shooterIntake) {
     return shootAtVelocity(3500, shooter, shooterIntake);
   }
 
   // Shoot at a specified speed
   public static Command shootAtVelocity(
-      double velocity, Shooter shooter, RollerIntake shooterIntake) {
+      double velocity, Shooter shooter, DualRollerIntake shooterIntake) {
     return Commands.parallel(
             Commands.run(() -> shooter.shootAtVelocity(velocity), shooter),
             Commands.waitUntil(shooter::atTargetVelocity)
@@ -54,11 +54,11 @@ public class ShooterCommands {
             });
   }
 
-  public static Command shooterIntake(RollerIntake shooterIntake) {
+  public static Command shooterIntake(DualRollerIntake shooterIntake) {
     return new StartEndCommand(shooterIntake::in, shooterIntake::stop, shooterIntake);
   }
 
-  public static Command shooterOuttake(RollerIntake shooterIntake) {
+  public static Command shooterOuttake(DualRollerIntake shooterIntake) {
     return new StartEndCommand(shooterIntake::out, shooterIntake::stop, shooterIntake);
   }
 }

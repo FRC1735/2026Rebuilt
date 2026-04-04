@@ -6,9 +6,9 @@ import frc.robot.subsystems.collectordeployer.CollectorDeployer;
 import frc.robot.subsystems.collectordeployer.CollectorDeployerIO;
 import frc.robot.subsystems.collectordeployer.CollectorDeployerIOSparkFlex;
 import frc.robot.subsystems.drive.*;
-import frc.robot.subsystems.rollerintake.RollerIntake;
-import frc.robot.subsystems.rollerintake.RollerIntakeIO;
-import frc.robot.subsystems.rollerintake.RollerIntakeIOSparkFlex;
+import frc.robot.subsystems.dualrollerintake.DualRollerIntake;
+import frc.robot.subsystems.dualrollerintake.DualRollerIntakeIO;
+import frc.robot.subsystems.dualrollerintake.DualRollerIntakeIOSparkFlex;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIO;
 import frc.robot.subsystems.shooter.ShooterIOSparkFlex;
@@ -43,15 +43,15 @@ public class RealSubsystemFactory {
             : new ShooterHoodIO() {});
   }
 
-  public static RollerIntake createRealShooterIntake() {
-    return new RollerIntake(
+  public static DualRollerIntake createRealShooterIntake() {
+    return new DualRollerIntake(
         Constants.SHOOTER_INTAKE_ENABLED
-            ? new RollerIntakeIOSparkFlex(
+            ? new DualRollerIntakeIOSparkFlex(
                 Constants.SHOOTER_LEADER_INTAKE_CAN_ID,
                 Constants.SHOOTER_FOLLOWER_INTAKE_CAN_ID,
                 "Shooter Intake",
                 true) // verify in new build
-            : new RollerIntakeIO() {},
+            : new DualRollerIntakeIO() {},
         "Shooter Intake");
   }
 
@@ -65,15 +65,15 @@ public class RealSubsystemFactory {
         "Collector Deployer");
   }
 
-  public static RollerIntake createRealCollectorExteriorRoller() {
-    return new RollerIntake(
+  public static DualRollerIntake createRealCollectorExteriorRoller() {
+    return new DualRollerIntake(
         Constants.COLLECTOR_ROLLER_EXTERIOR_ENABLED
-            ? new RollerIntakeIOSparkFlex(
+            ? new DualRollerIntakeIOSparkFlex(
                 Constants.COLLECTOR_LEADER_ROLLER_CAN_ID,
                 Constants.COLLECTOR_FOLLOWER_ROLLER_CAN_ID,
                 "Collector Roller",
                 true) // Verify in new build
-            : new RollerIntakeIO() {},
+            : new DualRollerIntakeIO() {},
         "Collector Exterior Roller");
   }
 }
