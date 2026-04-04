@@ -20,7 +20,7 @@
         "y": 4.694
       },
       "prevControl": {
-        "x": 0.45899999999999996,
+        "x": 0.4589999999999999,
         "y": 5.458463054215417
       },
       "nextControl": null,
@@ -31,7 +31,20 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "deploy",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "collect",
+      "waypointRelativePos": 0.31777378815080765,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
