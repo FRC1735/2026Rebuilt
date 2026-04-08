@@ -38,8 +38,6 @@ public class AutoTargetCommand extends Command {
     theta = SidsSmartCommand.getTargetAngle(xrobot, xtarget, yrobot, ytarget);
     // rotate robot
 
-    speed = SidsSmartCommand.getSpeedFromHoodAngle(distance, hoodAngle, speed, 9.81) * 60;
-
     // spin shooter at speed
 
   }
