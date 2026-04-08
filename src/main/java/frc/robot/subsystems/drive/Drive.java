@@ -171,6 +171,22 @@ public class Drive extends SubsystemBase {
     }
   }
 
+  public double getXPosition() {
+    Pose2d currentPose = poseEstimator.getEstimatedPosition();
+
+    // Get the Y value in meters
+    double currentX = currentPose.getX();
+    return currentX;
+  }
+
+  public double getYPosition() {
+    Pose2d currentPose = poseEstimator.getEstimatedPosition();
+
+    // Get the Y value in meters
+    double currentY = currentPose.getY();
+    return currentY;
+  }
+
   @Override
   public void periodic() {
     odometryLock.lock(); // Prevents odometry updates while reading data
