@@ -27,7 +27,6 @@ import frc.robot.commands.AutoCommands;
 import frc.robot.commands.CollectorCommands;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.ShooterCommands;
-import frc.robot.commands.SidsSmartCommand;
 import frc.robot.limelight.LimelightLogger;
 import frc.robot.subsystems.collectordeployer.CollectorDeployer;
 import frc.robot.subsystems.drive.Drive;
@@ -180,15 +179,6 @@ public class RobotContainer {
                   } else {
                     return 178;
                   }
-                }
-              } else if (rightTrigger.getAsBoolean()) {
-                if (DriverStation.getAlliance().isPresent()
-                    && DriverStation.getAlliance().get() == Alliance.Red) {
-                  return SidsSmartCommand.getTargetAngle(
-                      drive.getXPosition(), 4.67, drive.getYPosition(), 4.07);
-                } else {
-                  return SidsSmartCommand.getTargetAngle(
-                      drive.getXPosition(), 12.03, drive.getYPosition(), 4.07);
                 }
               } else {
                 return -1;
