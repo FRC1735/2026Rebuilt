@@ -17,24 +17,40 @@ public class SidsSmartCommand {
     return angle;
   }
 
-  public static double getSpeedFromHoodAngle(
-      double distance, double circumfrence, double hoodAngle, double gravity) {
-    double speed = Math.sqrt((distance * gravity) / (circumfrence * Math.sin(2 * hoodAngle)));
-    return speed;
+  public static double getHoodAngle(
+      double xrobot,
+      double xtarget,
+      double yrobot,
+      double ytarget,
+      double height,
+      double circumfrence,
+      double rps,
+      double gravity) {
+    double distance = getTargetDistance(xrobot, xtarget, yrobot, ytarget);
+    double linearSpeed = rps * circumfrence;
+    double theta = calculateProjectileMotion(distance, height, linearSpeed, gravity);
+    return theta;
   }
 
-  public static double getHoodAnglefromSpeed(
-      double distance, double circumfrence, double speed, double gravity) {
-    double angle =
-        0.5 * Math.asin((distance * gravity) / (circumfrence * circumfrence * speed * speed));
-    return angle;
+  public static double calculateProjectileMotion(double d, double h, double u, double g) {
+    double discriminant = Math.pow(u, 4) - g * (g * d * d + 2 * h * u * u);
+    if (discriminant < 0) {
+      return -1;
+    }
+    double theta1 = Math.atan((u * u + Math.sqrt(discriminant)) / (g * d));
+    double theta2 = Math.atan((u * u - Math.sqrt(discriminant)) / (g * d));
+    if (theta1 < Math.PI / 6 || theta1 > Math.PI / 2) {
+      return -1;
+    }
+    return theta1;
   }
 
-  public static boolean verifySpeedAndHoodAngle(
-      double circumfrence, double hoodAngle, double speed, double gravity, double height) {
-    double maxHeight =
-        (circumfrence * circumfrence * speed * speed * Math.sin(hoodAngle) * Math.sin(hoodAngle))
-            / (2 * gravity);
-    return height >= maxHeight;
+  public static double radiansToEncoder(double radians, double a, double b) {
+    if (radians == -1) {
+      return 0;
+    }
+    double dis = b - a;
+    double dec = (radians - (Math.PI / 6)) / (Math.PI / 3);
+    return (dis * dec + a);
   }
 }

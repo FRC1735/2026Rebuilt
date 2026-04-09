@@ -297,6 +297,16 @@ public class DriveCommands {
                     })));
   }
 
+  // public static Command joystickDiveWithSidShoot(
+  //     Drive drive,
+  //     DoubleSupplier xSupplier,
+  //     DoubleSupplier ySupplier,
+  //     Shooter shooter,
+  //     ShooterHood hood
+  // ) {
+  //   return Commands.none();
+  // }
+
   public static Command joystickDriveWithAutoAlign(
       Drive drive,
       DoubleSupplier xSupplier,
