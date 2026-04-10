@@ -2,7 +2,6 @@ package frc.robot.subsystems.collectordeployer;
 
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
-import com.revrobotics.encoder.DetachedEncoder;
 import com.revrobotics.encoder.SplineEncoder;
 import com.revrobotics.encoder.config.DetachedEncoderConfig;
 import com.revrobotics.spark.SparkFlex;
@@ -17,7 +16,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
   private final SparkFlex spark;
-  private final DetachedEncoder encoder;
+  private final SplineEncoder encoder;
   private final PIDController pid;
 
   private double targetRotations = 0.0;
