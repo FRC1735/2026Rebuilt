@@ -366,10 +366,11 @@ public class DriveCommands {
             thetaController.reset();
           }
 
+          // TODO - here
           ChassisSpeeds speeds =
               new ChassisSpeeds(
-                  linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
-                  linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
+                  linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec() * 1,
+                  linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec() * 1,
                   omega);
 
           boolean isFlipped =
