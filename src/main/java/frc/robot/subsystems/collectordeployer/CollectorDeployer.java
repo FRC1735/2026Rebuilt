@@ -18,6 +18,12 @@ public class CollectorDeployer extends SubsystemBase {
   private static final double CLOSED_TARGET = 0.30; // TODO
   private static final double RANGE = 0.02; // TODO
 
+  public enum CollectorState {
+    DEPLOYED,
+    CLOSED,
+    MOVING
+  }
+
   private final String name;
 
   public CollectorDeployer(CollectorDeployerIO io, String name) {
@@ -29,6 +35,16 @@ public class CollectorDeployer extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
     Logger.processInputs(name, inputs);
+  }
+
+  public CollectorState getCollectorState() {
+    if (inputs.encoderPosition > DEPLOYED_TARGET - 0.01) {
+      return CollectorState.DEPLOYED;
+    } else if (inputs.encoderPosition < CLOSED_TARGET + 0.01) {
+      return CollectorState.CLOSED;
+    } else {
+      return CollectorState.MOVING;
+    }
   }
 
   public void setTarget(double rotations) {
