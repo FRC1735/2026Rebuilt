@@ -297,6 +297,16 @@ public class DriveCommands {
                     })));
   }
 
+  // public static Command joystickDiveWithSidShoot(
+  //     Drive drive,
+  //     DoubleSupplier xSupplier,
+  //     DoubleSupplier ySupplier,
+  //     Shooter shooter,
+  //     ShooterHood hood
+  // ) {
+  //   return Commands.none();
+  // }
+
   public static Command joystickDriveWithAutoAlign(
       Drive drive,
       DoubleSupplier xSupplier,
@@ -356,10 +366,11 @@ public class DriveCommands {
             thetaController.reset();
           }
 
+          // TODO - here
           ChassisSpeeds speeds =
               new ChassisSpeeds(
-                  linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
-                  linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
+                  linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec() * 1,
+                  linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec() * 1,
                   omega);
 
           boolean isFlipped =

@@ -24,9 +24,12 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutoCommands;
+import frc.robot.commands.CloseCollector;
 import frc.robot.commands.CollectorCommands;
+import frc.robot.commands.DeployCollector;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.ShooterCommands;
+import frc.robot.commands.SidsSmartCommand;
 import frc.robot.limelight.LimelightLogger;
 import frc.robot.subsystems.collectordeployer.CollectorDeployer;
 import frc.robot.subsystems.drive.Drive;
@@ -154,6 +157,12 @@ public class RobotContainer {
             () -> -driverController.getLeftX(),
             () -> -driverController.getRightX()));
              */
+
+    // driverController.rightTrigger().whileTrue(
+    //     DriveCommands.joystickDiveWithSidShoot(drive, () -> -driverController.getLeftY(),
+    //         () -> -driverController.getLeftX(), shooter, shooterIntake, shooterHood)
+    // );
+
     drive.setDefaultCommand(
         DriveCommands.joystickDriveWithAutoAlign(
             drive,
@@ -180,6 +189,27 @@ public class RobotContainer {
                     return 178;
                   }
                 }
+              } else if (rightTrigger.getAsBoolean()) {
+                if (DriverStation.getAlliance().isPresent()
+                    && DriverStation.getAlliance().get() == Alliance.Red) {
+                  double hoodAngle =
+                      SidsSmartCommand.getHoodAngle(
+                          drive.getXPosition(),
+                          4.67,
+                          drive.getYPosition(),
+                          4.07,
+                          1.85,
+                          0.322,
+                          50,
+                          9.81);
+                  return SidsSmartCommand.getTargetAngle(
+                      drive.getXPosition(), 4.67, drive.getYPosition(), 4.07);
+
+                } else {
+                  return SidsSmartCommand.getTargetAngle(
+                      drive.getXPosition(), 12.03, drive.getYPosition(), 4.07);
+                }
+
               } else {
                 return -1;
               }
@@ -325,15 +355,11 @@ public class RobotContainer {
         .outtake()
         .whileTrue(CollectorCommands.outtake(collectorExteriorRoller));
 
-    operatorController
-        .collector()
-        .manualDeploy()
-        .whileTrue(CollectorCommands.manualDeploy(collectorDeployer)); // TODO - verify
+    operatorController.collector().manualDeploy().whileTrue(new DeployCollector(collectorDeployer));
+    // .whileTrue(CollectorCommands.manualDeploy(collectorDeployer)); // TODO - verify
 
-    operatorController
-        .collector()
-        .manualClose()
-        .whileTrue(CollectorCommands.manualClose(collectorDeployer)); // TODO - verify
+    operatorController.collector().manualClose().whileTrue(new CloseCollector(collectorDeployer));
+    // .whileTrue(CollectorCommands.manualClose(collectorDeployer)); // TODO - verify
 
     operatorController
         .combo()

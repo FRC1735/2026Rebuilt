@@ -2,8 +2,7 @@ package frc.robot.subsystems.collectordeployer;
 
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
-import com.revrobotics.encoder.DetachedEncoder;
-import com.revrobotics.encoder.DetachedEncoder.Model;
+import com.revrobotics.encoder.SplineEncoder;
 import com.revrobotics.encoder.config.DetachedEncoderConfig;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -17,7 +16,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
   private final SparkFlex spark;
-  private final DetachedEncoder encoder;
+  private final SplineEncoder encoder;
   private final PIDController pid;
 
   private double targetRotations = 0.0;
@@ -44,7 +43,8 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
     spark = new SparkFlex(motorCanId, MotorType.kBrushless);
 
-    encoder = new DetachedEncoder(detachedEncoderCanId, Model.MAXSplineEncoder) {};
+    // encoder = new DetachedEncoder(detachedEncoderCanId, Model.MAXSplineEncoder) {};
+    encoder = new SplineEncoder(detachedEncoderCanId);
 
     NetworkTable table =
         NetworkTableInstance.getDefault().getTable("Elastic").getSubTable("Collector Deployer");
