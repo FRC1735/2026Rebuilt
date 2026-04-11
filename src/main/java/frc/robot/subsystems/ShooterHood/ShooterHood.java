@@ -39,6 +39,10 @@ public class ShooterHood extends SubsystemBase {
     setPositionRotations(TARGET_DOWN);
   }
 
+  public void setPosition(double position) {
+    setPositionRotations(position);
+  }
+
   public void manualDown() {
     double position = inputs.targetRotations;
     double incremented = position + 0.01;
