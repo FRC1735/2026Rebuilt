@@ -28,16 +28,21 @@ public class CloseCollector extends Command {
     double position = collectorDeployer.getPosition();
 
     // slow
-    boolean goSlow =
-        position > CollectorDeployer.CLOSED_TARGET
-            && position < CollectorDeployer.CLOSED_TARGET + 0.15;
-    if (goSlow) {
-      collectorDeployer.setVoltage(-1);
-    } else if (position > CollectorDeployer.CLOSED_TARGET) {
-      collectorDeployer.setVoltage(-7.5);
-    }
+    //   boolean goSlow =
+    //       position > CollectorDeployer.CLOSED_TARGET
+    //           && position < CollectorDeployer.CLOSED_TARGET + 0.15;
+    //   if (goSlow) {
+    //     collectorDeployer.setVoltage(-1);
+    //   } else if (position > CollectorDeployer.CLOSED_TARGET) {
+    //     collectorDeployer.setVoltage(-7.5);
+    //   }
+    // }
+    double t =
+        (position - CollectorDeployer.CLOSED_TARGET)
+            / (CollectorDeployer.DEPLOYED_TARGET - CollectorDeployer.CLOSED_TARGET);
+    double voltage = -(t * 6.5 + 1);
+    collectorDeployer.setVoltage(voltage);
   }
-
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
