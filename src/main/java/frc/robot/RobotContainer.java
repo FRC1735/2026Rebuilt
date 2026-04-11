@@ -199,11 +199,15 @@ public class RobotContainer {
                     && DriverStation.getAlliance().get() == Alliance.Red) {
 
                   return SidsSmartCommand.getTargetAngle(
-                      drive.getXPosition(), 4.67, drive.getYPosition(), 4.07);
+                          drive.getXPosition(), 11.915, drive.getYPosition(), 4.034)
+                      * 180
+                      / Math.PI;
 
                 } else {
                   return SidsSmartCommand.getTargetAngle(
-                      drive.getXPosition(), 12.03, drive.getYPosition(), 4.07);
+                          drive.getXPosition(), 4.626, drive.getYPosition(), 4.034)
+                      * 180
+                      / Math.PI;
                 }
 
               } else {
