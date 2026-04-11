@@ -197,16 +197,7 @@ public class RobotContainer {
               } else if (rightTrigger.getAsBoolean()) {
                 if (DriverStation.getAlliance().isPresent()
                     && DriverStation.getAlliance().get() == Alliance.Red) {
-                  double hoodAngle =
-                      SidsSmartCommand.getHoodAngle(
-                          drive.getXPosition(),
-                          4.67,
-                          drive.getYPosition(),
-                          4.07,
-                          1.85,
-                          0.322,
-                          50,
-                          9.81);
+
                   return SidsSmartCommand.getTargetAngle(
                       drive.getXPosition(), 4.67, drive.getYPosition(), 4.07);
 
