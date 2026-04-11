@@ -27,10 +27,7 @@ public class AutoCommands {
 
   public static Command shootAtDepot(
       Shooter shooter, DualRollerIntake shooterIntake, ShooterHood shooterHood) {
-    return Commands.sequence(
-            ShooterCommands.hoodDepot(shooterHood),
-            new WaitCommand(1),
-            ShooterCommands.shootAtVelocity(3500, shooter, shooterIntake))
+    return Commands.sequence(ShooterCommands.shootAtVelocity(3250, shooter, shooterIntake))
         .withTimeout(20);
   }
 }
