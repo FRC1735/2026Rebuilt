@@ -36,7 +36,7 @@ public class DeployCollector extends Command {
     } else if (position < CollectorDeployer.DEPLOYED_TARGET) {
       collectorDeployer.setVoltage(7.5);
     }
-/*     double t =
+    /*     double t =
         1
             - (position - CollectorDeployer.CLOSED_TARGET)
                 / (CollectorDeployer.DEPLOYED_TARGET - CollectorDeployer.CLOSED_TARGET);

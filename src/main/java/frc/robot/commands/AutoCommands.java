@@ -17,13 +17,12 @@ public class AutoCommands {
       CollectorDeployer collectorDeployer,
       DualRollerIntake collectorExteriorRoller) {
     return Commands.sequence(
-            DriveCommands.resetPoseForAlliance(drive),
             Commands.parallel(
                 ShooterCommands.shootAtVelocity(3000, shooter, shooterIntake),
                 new WaitCommand(1)
                     .andThen(CollectorCommands.manualDeploy(collectorDeployer).withTimeout(1)),
                 new WaitCommand(1).andThen(CollectorCommands.intake(collectorExteriorRoller))))
-        .withTimeout(20);
+        .withTimeout(3.5);
   }
 
   public static Command shootAtDepot(

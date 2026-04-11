@@ -105,17 +105,16 @@ public class RobotContainer {
     NamedCommands.registerCommand("shooter hood down", ShooterCommands.hoodDown(shooterHood));
     NamedCommands.registerCommand(
         "shoot high", ShooterCommands.shootHighSpeed(shooter, shooterIntake));
-    NamedCommands.registerCommand(
-        "collect", CollectorCommands.intake(collectorExteriorRoller).withTimeout(20));
+    NamedCommands.registerCommand("collect", CollectorCommands.intake(collectorExteriorRoller));
     NamedCommands.registerCommand(
         "shoot preloaded",
         AutoCommands.shootPreloaded(
-                drive, shooter, shooterIntake, collectorDeployer, collectorExteriorRoller)
-            .withTimeout(5));
+            drive, shooter, shooterIntake, collectorDeployer, collectorExteriorRoller));
     NamedCommands.registerCommand(
         "shoot at depot",
         AutoCommands.shootAtDepot(shooter, shooterIntake, shooterHood).withTimeout(5));
-    NamedCommands.registerCommand("deploy", new DeployCollector(collectorDeployer));
+
+    NamedCommands.registerCommand("hood to depot", ShooterCommands.hoodDepot(shooterHood));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
