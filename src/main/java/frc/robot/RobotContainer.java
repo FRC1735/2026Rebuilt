@@ -113,10 +113,9 @@ public class RobotContainer {
                 drive, shooter, shooterIntake, collectorDeployer, collectorExteriorRoller)
             .withTimeout(5));
     NamedCommands.registerCommand(
-        "deploy", CollectorCommands.manualDeploy(collectorDeployer).withTimeout(2.5));
-    NamedCommands.registerCommand(
         "shoot at depot",
         AutoCommands.shootAtDepot(shooter, shooterIntake, shooterHood).withTimeout(5));
+    NamedCommands.registerCommand("deploy", new DeployCollector(collectorDeployer));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
