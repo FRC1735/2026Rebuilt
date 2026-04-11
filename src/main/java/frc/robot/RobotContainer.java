@@ -96,6 +96,10 @@ public class RobotContainer {
         break;
     }
 
+    /*
+     *
+     * hood 0.41 and speed 3500
+     */
     // Register comands for PathPlanner
     NamedCommands.registerCommand("shooter hood up", ShooterCommands.hoodUp(shooterHood));
     NamedCommands.registerCommand("shooter hood down", ShooterCommands.hoodDown(shooterHood));
@@ -110,6 +114,9 @@ public class RobotContainer {
             .withTimeout(5));
     NamedCommands.registerCommand(
         "deploy", CollectorCommands.manualDeploy(collectorDeployer).withTimeout(2.5));
+    NamedCommands.registerCommand(
+        "shoot at depot",
+        AutoCommands.shootAtDepot(shooter, shooterIntake, shooterHood).withTimeout(5));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -361,21 +368,32 @@ public class RobotContainer {
     operatorController.collector().manualClose().whileTrue(new CloseCollector(collectorDeployer));
     // .whileTrue(CollectorCommands.manualClose(collectorDeployer)); // TODO - verify
 
+    /*
+     * put hood down
+     * shoot at 5600 and run collector intake at the same time
+     *
+     */
     operatorController
         .combo()
         .passFar()
         .whileTrue(
-            ShooterCommands.hoodDown(shooterHood)
-                .andThen(new WaitUntilCommand(() -> shooterHood.atTarget()))
-                .andThen(ShooterCommands.shootAtVelocity(5600, shooter, shooterIntake)));
+            Commands.sequence(
+                ShooterCommands.hoodDown(shooterHood),
+                new WaitUntilCommand(() -> shooterHood.atTarget()),
+                Commands.parallel(
+                    ShooterCommands.shootAtVelocity(5600, shooter, shooterIntake),
+                    CollectorCommands.intake(collectorExteriorRoller))));
 
     operatorController
         .combo()
         .passShort()
         .whileTrue(
-            ShooterCommands.hoodDown(shooterHood)
-                .andThen(new WaitUntilCommand(() -> shooterHood.atTarget()))
-                .andThen(ShooterCommands.shootAtVelocity(3500, shooter, shooterIntake))); // verify
+            Commands.sequence(
+                ShooterCommands.hoodDown(shooterHood),
+                new WaitUntilCommand(() -> shooterHood.atTarget()),
+                Commands.parallel(
+                    ShooterCommands.shootAtVelocity(3500, shooter, shooterIntake),
+                    CollectorCommands.intake(collectorExteriorRoller)))); // verify
 
     operatorController
         .combo()

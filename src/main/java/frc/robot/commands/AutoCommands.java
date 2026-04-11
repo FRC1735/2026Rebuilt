@@ -7,6 +7,7 @@ import frc.robot.subsystems.collectordeployer.CollectorDeployer;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.dualrollerintake.DualRollerIntake;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooterhood.ShooterHood;
 
 public class AutoCommands {
   public static Command shootPreloaded(
@@ -22,6 +23,15 @@ public class AutoCommands {
                 new WaitCommand(1)
                     .andThen(CollectorCommands.manualDeploy(collectorDeployer).withTimeout(1)),
                 new WaitCommand(1).andThen(CollectorCommands.intake(collectorExteriorRoller))))
+        .withTimeout(20);
+  }
+
+  public static Command shootAtDepot(
+      Shooter shooter, DualRollerIntake shooterIntake, ShooterHood shooterHood) {
+    return Commands.sequence(
+            ShooterCommands.hoodDepot(shooterHood),
+            new WaitCommand(1),
+            ShooterCommands.shootAtVelocity(3500, shooter, shooterIntake))
         .withTimeout(20);
   }
 }

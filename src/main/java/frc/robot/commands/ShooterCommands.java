@@ -20,6 +20,10 @@ public class ShooterCommands {
     return Commands.runOnce(hood::setPositionDown, hood);
   }
 
+  public static Command hoodDepot(ShooterHood hood) {
+    return Commands.runOnce(hood::setPositionDepot, hood);
+  }
+
   // Manually move hood up
   public static Command hoodUpManual(ShooterHood hood) {
     return Commands.runOnce(hood::manualUp, hood);
