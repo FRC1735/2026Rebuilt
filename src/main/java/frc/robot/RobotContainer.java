@@ -24,7 +24,9 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutoCommands;
+import frc.robot.commands.CloseCollector;
 import frc.robot.commands.CollectorCommands;
+import frc.robot.commands.DeployCollector;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.ShooterCommands;
 import frc.robot.commands.SidsSmartCommand;
@@ -353,15 +355,11 @@ public class RobotContainer {
         .outtake()
         .whileTrue(CollectorCommands.outtake(collectorExteriorRoller));
 
-    operatorController
-        .collector()
-        .manualDeploy()
-        .whileTrue(CollectorCommands.manualDeploy(collectorDeployer)); // TODO - verify
+    operatorController.collector().manualDeploy().whileTrue(new DeployCollector(collectorDeployer));
+    // .whileTrue(CollectorCommands.manualDeploy(collectorDeployer)); // TODO - verify
 
-    operatorController
-        .collector()
-        .manualClose()
-        .whileTrue(CollectorCommands.manualClose(collectorDeployer)); // TODO - verify
+    operatorController.collector().manualClose().whileTrue(new CloseCollector(collectorDeployer));
+    // .whileTrue(CollectorCommands.manualClose(collectorDeployer)); // TODO - verify
 
     operatorController
         .combo()
