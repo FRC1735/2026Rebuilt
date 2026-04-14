@@ -3,6 +3,12 @@ package frc.robot.subsystems.collectordeployer;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface CollectorDeployerIO {
+  public enum CollectorState {
+    DEPLOYED,
+    CLOSED,
+    MANUAL
+  }
+
 
   @AutoLog
   class CollectorDeployerIOInputs {
@@ -19,6 +25,8 @@ public interface CollectorDeployerIO {
 
     public boolean isOut = false;
 
+    public CollectorState state = CollectorState.CLOSED;
+
     // Tunables (logged for replay)
     public double kP = 0.0;
     public double kI = 0.0;
@@ -34,6 +42,8 @@ public interface CollectorDeployerIO {
   default void setTarget(double target) {}
 
   default void setVoltage(double volts) {}
+
+  default void setState(CollectorState state) {}
 
   default void stop() {}
 }
