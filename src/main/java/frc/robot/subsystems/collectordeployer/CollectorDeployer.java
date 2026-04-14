@@ -18,7 +18,6 @@ public class CollectorDeployer extends SubsystemBase {
   public static final double CLOSED_TARGET = 0.26; // TODO
   private static final double RANGE = 0.02; // TODO
 
-
   private final String name;
 
   public CollectorDeployer(CollectorDeployerIO io, String name) {
@@ -77,33 +76,49 @@ public class CollectorDeployer extends SubsystemBase {
   static double DEPLOY_SLOW_RANGE = DEPLOYED_TARGET - 0.1;
   static double DEPLOY_FULL_RANGE = CLOSED_TARGET;
 
+  static double CLOSE_EXTRA_SLOW_RANGE = CLOSED_TARGET + 0.05;
+  static double CLOSE_SLOW_RANGE = CLOSED_TARGET + 0.1;
+  static double CLOSE_FULL_RANGE = DEPLOYED_TARGET;
+
   public void manualDeploy() {
-    setVoltage(SLOW_VOLTAGE);
+    double position = getPosition();
+    if (position < DEPLOYED_TARGET) {
+      setVoltage(SLOW_VOLTAGE);
+    }
   }
 
   public void manualClose() {
-    setVoltage(-SLOW_VOLTAGE);
+    double position = getPosition();
+    if (position > CLOSED_TARGET) {
+      setVoltage(-SLOW_VOLTAGE);
+    }
   }
 
-  // TODO - this logic already exists in the Close/Deploy commands, need to harmonize
   public void scaledDeploy() {
     double position = getPosition();
 
-    if (position >= DEPLOY_EXTRA_SLOW_RANGE && position <= DEPLOYED_TARGET) {
-      setVoltage(EXTRA_SLOW_VOLTAGE);
-    } else if (position >= DEPLOY_SLOW_RANGE && position <= DEPLOYED_TARGET) {
-      setVoltage(SLOW_VOLTAGE);
-    } else if (position >= DEPLOY_FULL_RANGE) {
-      setVoltage(MANUAL_VOLTAGE);
+    // slow
+    boolean goSlow =
+        position < CollectorDeployer.DEPLOYED_TARGET
+            && position > CollectorDeployer.DEPLOYED_TARGET - 0.125;
+    if (goSlow) {
+      setVoltage(1);
+    } else if (position < CollectorDeployer.DEPLOYED_TARGET) {
+      setVoltage(7.5);
     }
-
   }
 
   public void scaleClose() {
-    if (getPosition() < (CLOSED_TARGET + 0.5)) {
-      setVoltage(-SLOW_VOLTAGE);
-    } else if (getPosition() > CLOSED_TARGET) {
-      setVoltage(-MANUAL_VOLTAGE);
+    double position = getPosition();
+
+    // go slow
+    boolean goSlow =
+        position > CollectorDeployer.CLOSED_TARGET
+            && position < CollectorDeployer.CLOSED_TARGET + 0.15;
+    if (goSlow) {
+      setVoltage(-1);
+    } else if (position > CollectorDeployer.CLOSED_TARGET) {
+      setVoltage(-7.5);
     }
   }
 }

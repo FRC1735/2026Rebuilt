@@ -25,23 +25,7 @@ public class DeployCollector extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double position = collectorDeployer.getPosition();
-
-    // slow
-    boolean goSlow =
-        position < CollectorDeployer.DEPLOYED_TARGET
-            && position > CollectorDeployer.DEPLOYED_TARGET - 0.125;
-    if (goSlow) {
-      collectorDeployer.setVoltage(1);
-    } else if (position < CollectorDeployer.DEPLOYED_TARGET) {
-      collectorDeployer.setVoltage(7.5);
-    }
-    /*     double t =
-        1
-            - (position - CollectorDeployer.CLOSED_TARGET)
-                / (CollectorDeployer.DEPLOYED_TARGET - CollectorDeployer.CLOSED_TARGET);
-    double voltage = t * 6.5 + 1;
-    collectorDeployer.setVoltage(voltage); */
+    collectorDeployer.scaledDeploy();
   }
 
   // Called once the command ends or is interrupted.

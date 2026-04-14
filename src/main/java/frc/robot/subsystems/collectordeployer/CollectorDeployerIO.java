@@ -9,7 +9,6 @@ public interface CollectorDeployerIO {
     MANUAL
   }
 
-
   @AutoLog
   class CollectorDeployerIOInputs {
     public double encoderPosition = 0.0;

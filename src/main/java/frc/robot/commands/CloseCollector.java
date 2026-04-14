@@ -25,23 +25,8 @@ public class CloseCollector extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double position = collectorDeployer.getPosition();
-
-    // go slow
-    boolean goSlow =
-        position > CollectorDeployer.CLOSED_TARGET
-            && position < CollectorDeployer.CLOSED_TARGET + 0.15;
-    if (goSlow) {
-      collectorDeployer.setVoltage(-1);
-    } else if (position > CollectorDeployer.CLOSED_TARGET) {
-      collectorDeployer.setVoltage(-7.5);
-    }
+    collectorDeployer.scaleClose();
   }
-  /*     double t =
-      (position - CollectorDeployer.CLOSED_TARGET)
-          / (CollectorDeployer.DEPLOYED_TARGET - CollectorDeployer.CLOSED_TARGET);
-  double voltage = -(t * 6.5 + 1);
-  collectorDeployer.setVoltage(voltage); */
 
   // Called once the command ends or is interrupted.
   @Override
