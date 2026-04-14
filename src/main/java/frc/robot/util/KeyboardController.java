@@ -192,10 +192,10 @@ public class KeyboardController {
 
     public Trigger storage() {
       return controller
-              .button(4, 5)
-              .or(controller.button(4, 6))
-              .or(controller.button(4, 7))
-              .or(controller.button(4, 8));
+          .button(4, 5)
+          .or(controller.button(4, 6))
+          .or(controller.button(4, 7))
+          .or(controller.button(4, 8));
     }
   }
 

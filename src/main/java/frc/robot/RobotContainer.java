@@ -22,11 +22,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.AutoCommands;
-import frc.robot.commands.CollectorCommands;
-import frc.robot.commands.DriveCommands;
-import frc.robot.commands.ShooterCommands;
-import frc.robot.commands.SidsSmartCommand;
+import frc.robot.commands.*;
 import frc.robot.limelight.LimelightLogger;
 import frc.robot.subsystems.collectordeployer.CollectorDeployer;
 import frc.robot.subsystems.drive.Drive;
@@ -261,145 +257,64 @@ public class RobotContainer {
   }
 
   private void configureOperatorBindings() {
-    /*
-    ///// Shooter
-    operatorController.shooter().hoodToUpPosition().onTrue(ShooterCommands.hoodUp(shooterHood));
+    // Combo Commands
 
-    operatorController.shooter().hoodToDownPosition().onTrue(ShooterCommands.hoodDown(shooterHood));
+    // Hood
+    operatorController.hood().hoodToUpPosition().onTrue(ShooterCommands.hoodUp(shooterHood));
+    operatorController.hood().hoodToDownPosition().onTrue(ShooterCommands.hoodDown(shooterHood));
 
+    // Hood Override
+    operatorController.hood().manualMoveHoodUp().onTrue(ShooterCommands.hoodUpManual(shooterHood));
     operatorController
-        .shooter()
-        .shooterRollerIn()
-        .whileTrue(ShooterCommands.shooterIntake(shooterIntake));
-
-    operatorController
-        .shooter()
-        .shooterRollerOut()
-        .whileTrue(ShooterCommands.shooterOuttake(shooterIntake));
-
-    operatorController
-        .shooter()
-        .shooterHighSpeed()
-        .whileTrue(ShooterCommands.shootHighSpeed(shooter, shooterIntake));
-
-    operatorController
-        .shooter()
-        .manualMoveHoodUp()
-        .onTrue(ShooterCommands.hoodUpManual(shooterHood));
-
-    operatorController
-        .shooter()
+        .hood()
         .manualMoveHoodDown()
         .onTrue(ShooterCommands.hoodDownManual(shooterHood));
-
-    operatorController
-        .shooter()
-        .shooterLowSpeed()
-        .whileTrue(ShooterCommands.shootLowSpeed(shooter, shooterIntake));
-
-    operatorController
-        .shooter()
-        .shoot5000()
-        .whileTrue(ShooterCommands.shootAtVelocity(5000, shooter, shooterIntake));
-
-    operatorController
-        .shooter()
-        .shoot4500()
-        .whileTrue(ShooterCommands.shootAtVelocity(4500, shooter, shooterIntake));
-
-    operatorController
-        .shooter()
-        .shoot4000()
-        .whileTrue(ShooterCommands.shootAtVelocity(4000, shooter, shooterIntake));
-
-    operatorController
-        .shooter()
-        .shoot3500()
-        .whileTrue(ShooterCommands.shootAtVelocity(3500, shooter, shooterIntake));
-
-    operatorController
-        .shooter()
-        .shoot3000()
-        .whileTrue(ShooterCommands.shootAtVelocity(3000, shooter, shooterIntake));
-
-    operatorController
-        .shooter()
-        .shoot2500()
-        .whileTrue(ShooterCommands.shootAtVelocity(2500, shooter, shooterIntake));
-
-    operatorController
-        .shooter()
-        .shoot2000()
-        .whileTrue(ShooterCommands.shootAtVelocity(5600, shooter, shooterIntake));
 
     // Collector
     operatorController
         .collector()
-        .deploy()
-        .onTrue(CollectorCommands.deploy(collectorDeployer)); // TODO - verify
-
-    operatorController
-        .collector()
-        .close()
-        .onTrue(CollectorCommands.close(collectorDeployer)); // TODO - verify
-
-    operatorController
-        .collector()
-        .intake()
+        .in()
         .whileTrue(CollectorCommands.intake(collectorExteriorRoller));
-
     operatorController
         .collector()
-        .outtake()
+        .out()
         .whileTrue(CollectorCommands.outtake(collectorExteriorRoller));
+    // TODO - keep collector up
+    // TODO - keep collector down
 
-    operatorController.collector().manualDeploy().whileTrue(new DeployCollector(collectorDeployer));
-    // .whileTrue(CollectorCommands.manualDeploy(collectorDeployer)); // TODO - verify
+    // Collector Override
+    operatorController.collector().manualUp().whileTrue(new CloseCollector(collectorDeployer));
+    operatorController.collector().manualDown().whileTrue(new DeployCollector(collectorDeployer));
 
-    operatorController.collector().manualClose().whileTrue(new CloseCollector(collectorDeployer));
-    // .whileTrue(CollectorCommands.manualClose(collectorDeployer)); // TODO - verify
-
+    // Shooter Override
     operatorController
-        .combo()
-        .passFar()
-        .whileTrue(
-            Commands.sequence(
-                ShooterCommands.hoodDown(shooterHood),
-                new WaitUntilCommand(() -> shooterHood.atTarget()),
-                Commands.parallel(
-                    ShooterCommands.shootAtVelocity(5600, shooter, shooterIntake),
-                    CollectorCommands.intake(collectorExteriorRoller))));
-
+        .shooter()
+        .shoot5600()
+        .whileTrue(ShooterCommands.shootAtVelocity(5600, shooter, shooterIntake));
     operatorController
-        .combo()
-        .passShort()
-        .whileTrue(
-            Commands.sequence(
-                ShooterCommands.hoodDown(shooterHood),
-                new WaitUntilCommand(() -> shooterHood.atTarget()),
-                Commands.parallel(
-                    ShooterCommands.shootAtVelocity(3500, shooter, shooterIntake),
-                    CollectorCommands.intake(collectorExteriorRoller)))); // verify
-
+        .shooter()
+        .shoot5000()
+        .whileTrue(ShooterCommands.shootAtVelocity(5000, shooter, shooterIntake));
     operatorController
-        .combo()
-        .reverse()
-        .whileTrue(
-            new StartEndCommand(
-                () -> {
-                  shooter.shootAtVelocity(-5000);
-                  shooterIntake.out();
-                  collectorExteriorRoller.out();
-                },
-                () -> {
-                  shooter.stop();
-                  shooterIntake.stop();
-                  collectorExteriorRoller.stop();
-                },
-                shooter,
-                shooterIntake,
-                collectorExteriorRoller));
-    */
+        .shooter()
+        .shoot4500()
+        .whileTrue(ShooterCommands.shootAtVelocity(4500, shooter, shooterIntake));
+    operatorController
+        .shooter()
+        .shoot4000()
+        .whileTrue(ShooterCommands.shootAtVelocity(4000, shooter, shooterIntake));
+    operatorController
+        .shooter()
+        .shoot3500()
+        .whileTrue(ShooterCommands.shootAtVelocity(3500, shooter, shooterIntake));
+    operatorController
+        .shooter()
+        .shoot3000()
+        .whileTrue(ShooterCommands.shootAtVelocity(3000, shooter, shooterIntake));
+    operatorController
+        .shooter()
+        .shoot2500()
+        .whileTrue(ShooterCommands.shootAtVelocity(2500, shooter, shooterIntake));
   }
 
   private void configureDeveloperBindings() {
