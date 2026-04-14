@@ -32,12 +32,12 @@ public class CollectorCommands {
   public static Command manualDeploy(CollectorDeployer collectorDeployer) {
     return Commands.repeatingSequence(
         new StartEndCommand(
-            collectorDeployer::manualDeploy, collectorDeployer::stop, collectorDeployer));
+            collectorDeployer::scaledDeploy, collectorDeployer::stop, collectorDeployer));
   }
 
   public static Command manualClose(CollectorDeployer collectorDeployer) {
     return Commands.repeatingSequence(
         new StartEndCommand(
-            collectorDeployer::manualClose, collectorDeployer::stop, collectorDeployer));
+            collectorDeployer::scaleClose, collectorDeployer::stop, collectorDeployer));
   }
 }
