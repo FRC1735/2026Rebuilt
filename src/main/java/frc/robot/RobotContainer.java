@@ -223,22 +223,12 @@ public class RobotContainer {
               */
             }));
 
-    // Lock to 0° when A button is held
-    driverController
-        .a()
-        .whileTrue(
-            DriveCommands.joystickDriveAtAngle(
-                drive,
-                () -> -driverController.getLeftY(),
-                () -> -driverController.getLeftX(),
-                () -> Rotation2d.kZero));
-
     // Switch to X pattern when X button is pressed
     driverController.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
     // Reset gyro to 0° when B button is pressed
     driverController
-        .b()
+        .a()
         .onTrue(
             Commands.runOnce(
                     () ->
@@ -246,17 +236,6 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
                 .ignoringDisable(true));
-
-    // Set robot pose to 0, 0 which is the origin position on the Field 3D map.
-    // driverController.leftBumper().onTrue(DriveCommands.resetPoseForAlliance(drive));
-    // Useful for determining robot model config offsets.
-    if (Constants.DEBUG) {
-      driverController
-          .y()
-          .onTrue(
-              Commands.runOnce(() -> drive.setPose(new Pose2d(0, 0, Rotation2d.kZero)), drive)
-                  .ignoringDisable(true));
-    }
   }
 
   private void configureOperatorBindings() {
