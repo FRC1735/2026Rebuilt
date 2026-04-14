@@ -22,6 +22,7 @@ public class KeyboardController {
   // Group of triggers for high level subsystems
   private final Shooter shooter;
   private final Collector collector;
+  private final Hood hood;
   private final Combo combo;
 
   public KeyboardController(int port) {
@@ -36,6 +37,7 @@ public class KeyboardController {
     this.shooter = new Shooter(this);
     this.collector = new Collector(this);
     this.combo = new Combo(this);
+    this.hood = new Hood(this);
 
     buttonSubscribers = new BooleanSubscriber[this.numButtons];
     for (int i = 0; i < this.numButtons; i++) {
@@ -103,121 +105,119 @@ public class KeyboardController {
     return collector;
   }
 
+  public Hood hood() {
+    return hood;
+  }
+
   public Combo combo() {
     return combo;
   }
 
-  public static final record Shooter(KeyboardController controller) {
+  public static final record Hood(KeyboardController controller) {
     public Trigger hoodToUpPosition() {
-      return controller.button(7, 1).or(controller.button(7, 2));
-    }
-
-    public Trigger manualMoveHoodUp() {
-      return controller.button(7, 3);
-    }
-
-    public Trigger shooterHighSpeed() {
-      return controller.button(7, 4);
-    }
-
-    public Trigger hoodToDownPosition() {
-      return controller.button(8, 1).or(controller.button(8, 2));
-    }
-
-    public Trigger manualMoveHoodDown() {
-      return controller.button(8, 3);
-    }
-
-    public Trigger shooterLowSpeed() {
-      return controller.button(8, 4);
-    }
-
-    public Trigger shooterRollerIn() {
       return controller.button(7, 5);
     }
 
-    public Trigger shooterRollerOut() {
-      return controller.button(8, 5);
+    public Trigger hoodToDownPosition() {
+      return controller.button(7, 6);
     }
 
-    public Trigger shoot5000() {
-      return controller.button(2, 9).or(controller.button(2, 10));
+    public Trigger manualMoveHoodUp() {
+      return controller.button(2, 5);
     }
 
-    public Trigger shoot4500() {
-      return controller.button(3, 9).or(controller.button(3, 10));
-    }
-
-    public Trigger shoot4000() {
-      return controller.button(4, 9).or(controller.button(4, 10));
-    }
-
-    public Trigger shoot3500() {
-      return controller.button(5, 9).or(controller.button(5, 10));
-    }
-
-    public Trigger shoot3000() {
-      return controller.button(6, 9).or(controller.button(6, 10));
-    }
-
-    public Trigger shoot2500() {
-      return controller.button(7, 9).or(controller.button(7, 10));
-    }
-
-    public Trigger shoot2000() {
-      return controller.button(8, 9).or(controller.button(8, 10));
+    public Trigger manualMoveHoodDown() {
+      return controller.button(2, 6);
     }
   }
 
   public static final record Collector(KeyboardController controller) {
-    public Trigger deploy() {
-      return controller.button(2, 6).or(controller.button(2, 7));
+    public Trigger up() {
+      return controller.button(7, 7);
     }
 
-    public Trigger close() {
-      return controller.button(3, 6).or(controller.button(3, 7));
+    public Trigger down() {
+      return controller.button(7, 8);
     }
 
-    public Trigger intake() {
-      return controller.button(4, 6).or(controller.button(4, 7));
+    public Trigger manualUp() {
+      return controller.button(2, 7);
     }
 
-    public Trigger outtake() {
-      return controller.button(5, 6).or(controller.button(5, 7));
+    public Trigger manualDown() {
+      return controller.button(2, 8);
     }
 
-    public Trigger manualDeploy() {
-      return controller.button(6, 6).or(controller.button(6, 7));
+    public Trigger in() {
+      return controller.button(8, 7);
     }
 
-    public Trigger manualClose() {
-      return controller.button(7, 6).or(controller.button(7, 7));
+    public Trigger out() {
+      return controller.button(8, 8);
     }
   }
 
   public static final record Combo(KeyboardController controller) {
-    public Trigger passFar() {
+    public Trigger shootIntoHubAndCollect() {
       return controller
-          .button(3, 1)
-          .or(controller.button(3, 2))
+          .button(1, 2)
+          .or(controller.button(1, 3))
+          .or(controller.button(2, 2))
+          .or(controller.button(2, 3));
+    }
+
+    public Trigger shootIntoHub() {
+      return controller
+          .button(3, 2)
           .or(controller.button(3, 3))
-          .or(controller.button(3, 4));
-    }
-
-    public Trigger passShort() {
-      return controller
-          .button(4, 1)
           .or(controller.button(4, 2))
-          .or(controller.button(4, 3))
-          .or(controller.button(4, 4));
+          .or(controller.button(4, 3));
     }
 
-    public Trigger reverse() {
+    public Trigger passAndCollect() {
       return controller
-          .button(5, 1)
-          .or(controller.button(5, 2))
+          .button(5, 2)
           .or(controller.button(5, 3))
-          .or(controller.button(5, 4));
+          .or(controller.button(6, 2))
+          .or(controller.button(6, 3));
+    }
+
+    public Trigger collect() {
+      return controller
+          .button(7, 2)
+          .or(controller.button(7, 3))
+          .or(controller.button(8, 2))
+          .or(controller.button(8, 3));
+    }
+  }
+
+  public static final record Shooter(KeyboardController controller) {
+    public Trigger shoot5600() {
+      return controller.button(2, 10);
+    }
+
+    public Trigger shoot5000() {
+      return controller.button(3, 10);
+    }
+
+    public Trigger shoot4500() {
+      return controller.button(4, 10);
+    }
+
+    public Trigger shoot4000() {
+      return controller.button(5, 10);
+    }
+
+    public Trigger shoot3500() {
+      return controller.button(6, 10);
+    }
+
+    public Trigger shoot3000() {
+      return controller.button(10, 9);
+    }
+
+    public Trigger shoot2500() {
+      return controller.button(7, 10);
     }
   }
 }

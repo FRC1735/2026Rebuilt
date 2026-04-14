@@ -20,13 +20,10 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutoCommands;
-import frc.robot.commands.CloseCollector;
 import frc.robot.commands.CollectorCommands;
-import frc.robot.commands.DeployCollector;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.ShooterCommands;
 import frc.robot.commands.SidsSmartCommand;
@@ -264,6 +261,7 @@ public class RobotContainer {
   }
 
   private void configureOperatorBindings() {
+    /*
     ///// Shooter
     operatorController.shooter().hoodToUpPosition().onTrue(ShooterCommands.hoodUp(shooterHood));
 
@@ -361,11 +359,6 @@ public class RobotContainer {
     operatorController.collector().manualClose().whileTrue(new CloseCollector(collectorDeployer));
     // .whileTrue(CollectorCommands.manualClose(collectorDeployer)); // TODO - verify
 
-    /*
-     * put hood down
-     * shoot at 5600 and run collector intake at the same time
-     *
-     */
     operatorController
         .combo()
         .passFar()
@@ -406,6 +399,7 @@ public class RobotContainer {
                 shooter,
                 shooterIntake,
                 collectorExteriorRoller));
+    */
   }
 
   private void configureDeveloperBindings() {
