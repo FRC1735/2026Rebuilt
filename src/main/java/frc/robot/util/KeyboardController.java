@@ -189,6 +189,14 @@ public class KeyboardController {
           .or(controller.button(8, 2))
           .or(controller.button(8, 3));
     }
+
+    public Trigger storage() {
+      return controller
+              .button(4, 5)
+              .or(controller.button(4, 6))
+              .or(controller.button(4, 7))
+              .or(controller.button(4, 8));
+    }
   }
 
   public static final record Shooter(KeyboardController controller) {
