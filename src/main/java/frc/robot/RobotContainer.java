@@ -115,6 +115,8 @@ public class RobotContainer {
         AutoCommands.shootAtDepot(shooter, shooterIntake, shooterHood).withTimeout(5));
 
     NamedCommands.registerCommand("hood to depot", ShooterCommands.hoodDepot(shooterHood));
+    NamedCommands.registerCommand(
+        "aim at hub", DriveCommands.joystickDriveAtAngle(drive, () -> 0, () -> 0, null));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -195,21 +197,7 @@ public class RobotContainer {
                   }
                 }
               } else if (rightTrigger.getAsBoolean()) {
-                if (DriverStation.getAlliance().isPresent()
-                    && DriverStation.getAlliance().get() == Alliance.Red) {
-
-                  return SidsSmartCommand.getTargetAngle(
-                          drive.getXPosition(), 11.915, drive.getYPosition(), 4.034)
-                      * 180
-                      / Math.PI;
-
-                } else {
-                  return SidsSmartCommand.getTargetAngle(
-                          drive.getXPosition(), 4.626, drive.getYPosition(), 4.034)
-                      * 180
-                      / Math.PI;
-                }
-
+                return SidsSmartCommand.getDegreesToAimAtHub(drive);
               } else {
                 return -1;
               }

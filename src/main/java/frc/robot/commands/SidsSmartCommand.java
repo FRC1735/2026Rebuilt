@@ -1,5 +1,9 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.subsystems.drive.Drive;
+
 public class SidsSmartCommand {
   public static double getTargetDistance(
       double xrobot, double xtarget, double yrobot, double ytarget) {
@@ -52,5 +56,22 @@ public class SidsSmartCommand {
     double dis = b - a;
     double dec = (radians - (Math.PI / 6)) / (Math.PI / 3);
     return (dis * dec + a);
+  }
+
+  public static double getDegreesToAimAtHub(Drive drive) {
+    if (DriverStation.getAlliance().isPresent()
+        && DriverStation.getAlliance().get() == Alliance.Red) {
+
+      return SidsSmartCommand.getTargetAngle(
+              drive.getXPosition(), 11.915, drive.getYPosition(), 4.034)
+          * 180
+          / Math.PI;
+
+    } else {
+      return SidsSmartCommand.getTargetAngle(
+              drive.getXPosition(), 4.626, drive.getYPosition(), 4.034)
+          * 180
+          / Math.PI;
+    }
   }
 }
