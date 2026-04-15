@@ -112,7 +112,7 @@ public class ShooterIOSparkFlex implements ShooterIO {
     inputs.targetVelocity = targetVelocity;
     inputs.outputCurrent = leader.getOutputCurrent();
     inputs.atTargetVelocity = atTargetVelocity();
-    inputs.isOn = Math.abs(leader.get()) > 0.1;
+    inputs.isOn = Math.abs(leader.get()) > 0.01;
 
     // update pid?
     if (targetVelocity == 0) {

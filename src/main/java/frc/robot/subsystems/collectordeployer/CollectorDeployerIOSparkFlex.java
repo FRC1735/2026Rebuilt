@@ -124,7 +124,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     inputs.allowedProfileError = 0;
 
     inputs.delta = position - targetRotations;
-    if (Math.cos(inputs.encoderPosition) < 0) {
+    if (inputs.encoderPosition < CollectorDeployer.DEPLOYED_TARGET - 0.03) {
       inputs.isOut = false;
     } else {
       inputs.isOut = true;
