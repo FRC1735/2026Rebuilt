@@ -19,14 +19,33 @@
                 "data": {
                   "name": "Deploy Collector"
                 }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "hood to depot"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "shoot at depot"
+                      }
+                    }
+                  ]
+                }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "shoot at depot"
           }
         },
         {
@@ -36,32 +55,26 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "hood to depot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
                   "name": "collect"
                 }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "point in front of the depot to shoot"
-                }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "shoot at depot"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "point in front of the depot to shoot"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "shoot at depot"
+                      }
+                    }
+                  ]
                 }
               }
             ]
