@@ -221,11 +221,11 @@ public class KeyboardController {
     }
 
     public Trigger shoot3000() {
-      return controller.button(10, 9);
+      return controller.button(7, 10);
     }
 
     public Trigger shoot2500() {
-      return controller.button(7, 10);
+      return controller.button(8, 10);
     }
   }
 }

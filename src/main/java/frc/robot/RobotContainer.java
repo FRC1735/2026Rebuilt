@@ -261,6 +261,7 @@ public class RobotContainer {
         .combo()
         .collect()
         .whileTrue(CollectorCommands.intake(collectorExteriorRoller));
+
     // Hood
     operatorController.hood().hoodToUpPosition().onTrue(ShooterCommands.hoodUp(shooterHood));
     operatorController.hood().hoodToDownPosition().onTrue(ShooterCommands.hoodDown(shooterHood));
