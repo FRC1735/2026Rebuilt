@@ -136,8 +136,10 @@ public class RobotContainer {
     autoChooser.addOption("Do Nothing", DriveCommands.resetPoseForAlliance(drive));
     autoChooser.addOption(
         "Shoot Preloaded",
-        AutoCommands.shootPreloaded(
-            drive, shooter, shooterIntake, collectorDeployer, collectorExteriorRoller));
+        Commands.sequence(
+            DriveCommands.resetPoseForAlliance(drive),
+            AutoCommands.shootPreloaded(
+                drive, shooter, shooterIntake, collectorDeployer, collectorExteriorRoller)));
     configureDriverBindings();
     configureOperatorBindings();
     // configureDeveloperBindings();
