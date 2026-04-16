@@ -15,7 +15,7 @@ public class CollectorDeployer extends SubsystemBase {
   private static final double MAX_ROT = 0.7; // TODO
 
   public static final double DEPLOYED_TARGET = 0.55; // TODO
-  public static final double CLOSED_TARGET = 0.26; // TODO
+  public static final double CLOSED_TARGET = 0.27; // TODO
   private static final double RANGE = 0.02; // TODO
 
   private final String name;
@@ -32,6 +32,7 @@ public class CollectorDeployer extends SubsystemBase {
   }
 
   public CollectorDeployerIO.CollectorState getCollectorState() {
+    System.out.println("JTA state: " + inputs.state);
     return inputs.state;
   }
 
@@ -95,6 +96,7 @@ public class CollectorDeployer extends SubsystemBase {
   }
 
   public void scaledDeploy() {
+    // todo - not good
     double position = getPosition();
 
     // slow
@@ -111,7 +113,12 @@ public class CollectorDeployer extends SubsystemBase {
   }
 
   public void scaleClose() {
+    // this seems to be good
     double position = getPosition();
+
+    if (position < CLOSED_TARGET) {
+      setVoltage(0);
+    }
 
     // go slow
     boolean goSlow =

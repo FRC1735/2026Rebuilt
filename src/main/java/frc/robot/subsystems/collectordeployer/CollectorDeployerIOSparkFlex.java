@@ -20,6 +20,7 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
   private final PIDController pid;
 
   private double targetRotations = 0.0;
+  private CollectorState state = CollectorState.CLOSED;
 
   private static final double HORIZONTAL_POSITION = 0.600;
 
@@ -116,6 +117,8 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     inputs.targetRotations = targetRotations;
     inputs.atTarget = pid.atSetpoint();
 
+    inputs.state = state;
+
     inputs.kP = kP;
     inputs.kI = kI;
     inputs.kD = kD;
@@ -161,6 +164,11 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
   public void setVoltage(double volts) {
     spark.setVoltage(volts);
+  }
+
+  @Override
+  public void setState(CollectorState state) {
+    this.state = state;
   }
 
   @Override

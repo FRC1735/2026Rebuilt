@@ -59,6 +59,74 @@
             }
           },
           {
+            "title": "Shooter Intake On",
+            "x": 640.0,
+            "y": 128.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/AdvantageKit/Shooter Intake/IsOn",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4282149699,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Collector Intake On",
+            "x": 640.0,
+            "y": 384.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/AdvantageKit/Collector Exterior Roller/IsOn",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Shooter Velocity On",
+            "x": 640.0,
+            "y": 256.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/AdvantageKit/Shooter/AtTargetVelocity",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4282149699,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Collector In",
+            "x": 640.0,
+            "y": 512.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/AdvantageKit/Collector Deployer/IsOut",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4282149699,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
             "title": "field",
             "x": 896.0,
             "y": 0.0,
@@ -109,37 +177,17 @@
             }
           },
           {
-            "title": "Shooter Intake On",
-            "x": 640.0,
-            "y": 128.0,
+            "title": "Collector",
+            "x": 384.0,
+            "y": 512.0,
             "width": 256.0,
             "height": 128.0,
-            "type": "Boolean Box",
+            "type": "Text Display",
             "properties": {
-              "topic": "/AdvantageKit/Shooter Intake/IsOn",
+              "topic": "/AdvantageKit/Collector Deployer/State",
               "period": 0.06,
-              "data_type": "boolean",
-              "true_color": 4283215696,
-              "false_color": 4294198070,
-              "true_icon": "None",
-              "false_icon": "None"
-            }
-          },
-          {
-            "title": "Collector Intake On",
-            "x": 640.0,
-            "y": 384.0,
-            "width": 256.0,
-            "height": 128.0,
-            "type": "Boolean Box",
-            "properties": {
-              "topic": "/AdvantageKit/Collector Exterior Roller/IsOn",
-              "period": 0.06,
-              "data_type": "boolean",
-              "true_color": 4283215696,
-              "false_color": 4294198070,
-              "true_icon": "None",
-              "false_icon": "None"
+              "data_type": "string",
+              "show_submit_button": false
             }
           },
           {
@@ -153,40 +201,6 @@
               "topic": "/CameraPublisher/USB Camera 0",
               "period": 0.06,
               "rotation_turns": 0
-            }
-          },
-          {
-            "title": "Collector Out",
-            "x": 640.0,
-            "y": 512.0,
-            "width": 256.0,
-            "height": 128.0,
-            "type": "Boolean Box",
-            "properties": {
-              "topic": "/AdvantageKit/Collector Deployer/IsOut",
-              "period": 0.06,
-              "data_type": "boolean",
-              "true_color": 4283215696,
-              "false_color": 4294198070,
-              "true_icon": "None",
-              "false_icon": "None"
-            }
-          },
-          {
-            "title": "Shooter On",
-            "x": 640.0,
-            "y": 256.0,
-            "width": 256.0,
-            "height": 128.0,
-            "type": "Boolean Box",
-            "properties": {
-              "topic": "/AdvantageKit/Shooter/IsOn",
-              "period": 0.06,
-              "data_type": "boolean",
-              "true_color": 4283215696,
-              "false_color": 4294198070,
-              "true_icon": "None",
-              "false_icon": "None"
             }
           }
         ]
