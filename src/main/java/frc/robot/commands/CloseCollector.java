@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.collectordeployer.CollectorDeployer;
+import frc.robot.subsystems.collectordeployer.CollectorDeployerIO;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class CloseCollector extends Command {
@@ -25,6 +26,7 @@ public class CloseCollector extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    collectorDeployer.setState(CollectorDeployerIO.CollectorState.MANUAL);
     collectorDeployer.scaleClose();
   }
 
