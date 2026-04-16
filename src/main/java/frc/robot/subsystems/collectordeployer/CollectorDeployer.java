@@ -14,7 +14,7 @@ public class CollectorDeployer extends SubsystemBase {
   private static final double MIN_ROT = 0.2; // TODO
   private static final double MAX_ROT = 0.7; // TODO
 
-  public static final double DEPLOYED_TARGET = 0.54; // TODO
+  public static final double DEPLOYED_TARGET = 0.555; // TODO
   public static final double CLOSED_TARGET = 0.27; // TODO
   private static final double RANGE = 0.02; // TODO
 
@@ -98,15 +98,17 @@ public class CollectorDeployer extends SubsystemBase {
     // todo - not good
     double position = getPosition();
 
-    if (position > DEPLOYED_TARGET) {
+    // .26
+
+    if (position >= DEPLOYED_TARGET) {
       setVoltage(0);
       return;
     }
 
     // slow
     boolean goSlow =
-        position < CollectorDeployer.DEPLOYED_TARGET
-            && position > CollectorDeployer.DEPLOYED_TARGET - 0.2; // 0.125;
+        position < CollectorDeployer.DEPLOYED_TARGET + 0.1
+            && position > CollectorDeployer.DEPLOYED_TARGET - 0.25; // 0.125;
     if (goSlow) {
       setVoltage(1);
     } else if (position < CollectorDeployer.DEPLOYED_TARGET) {

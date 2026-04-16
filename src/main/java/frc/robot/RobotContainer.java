@@ -25,6 +25,7 @@ import frc.robot.commands.*;
 import frc.robot.limelight.LimelightLogger;
 import frc.robot.subsystems.collectordeployer.CollectorDeployer;
 import frc.robot.subsystems.collectordeployer.CollectorDeployerIO;
+import frc.robot.subsystems.collectordeployer.CollectorDeployerIO.CollectorState;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.dualrollerintake.DualRollerIntake;
 import frc.robot.subsystems.shooter.Shooter;
@@ -267,30 +268,27 @@ public class RobotContainer {
         .combo()
         .passAndCollect()
         .whileTrue(
-            Commands.parallel(
-                Commands.runOnce(
-                    () -> collectorDeployer.setState(CollectorDeployerIO.CollectorState.DEPLOYED),
-                    collectorDeployer),
-                ShooterCommands.hoodDown(shooterHood),
-                CollectorCommands.intake(collectorExteriorRoller)
-                // TODO - restore
-                /* ,
-                Commands.sequence(
-                    Commands.waitSeconds(1),
-                    ShooterCommands.shootAtVelocity(
-                        () -> ShooterCommands.velocityForPose(drive.getXPosition()),
-                        shooter,
-                        shooterIntake))))*/ ));
+            Commands.runOnce(
+                    () -> collectorDeployer.setState(CollectorDeployerIO.CollectorState.DEPLOYED))
+                .andThen(
+                    Commands.parallel(
+                        ShooterCommands.hoodDown(shooterHood),
+                        CollectorCommands.intake(collectorExteriorRoller)
+                        // TODO - restore
+                        /* ,
+                        Commands.sequence(
+                            Commands.waitSeconds(1),
+                            ShooterCommands.shootAtVelocity(
+                                () -> ShooterCommands.velocityForPose(drive.getXPosition()),
+                                shooter,
+                                shooterIntake))))*/ )));
 
     operatorController // TODO - needs to be tappee d twice to work.
         .combo()
         .collect()
         .whileTrue(
-            Commands.parallel(
-                Commands.runOnce(
-                    () -> collectorDeployer.setState(CollectorDeployerIO.CollectorState.DEPLOYED),
-                    collectorDeployer),
-                CollectorCommands.intake(collectorExteriorRoller)));
+            Commands.runOnce(() -> collectorDeployer.setState(CollectorState.DEPLOYED))
+                .andThen(CollectorCommands.intake(collectorExteriorRoller)));
 
     operatorController // TODO - verify
         .combo()
