@@ -335,8 +335,14 @@ public class RobotContainer {
                 collectorDeployer));
 
     // Collector Override
-    operatorController.collector().manualUp().whileTrue(new CloseCollector(collectorDeployer));
-    operatorController.collector().manualDown().whileTrue(new DeployCollector(collectorDeployer));
+    operatorController
+        .collector()
+        .manualUp()
+        .whileTrue(new ManualCloseCollector(collectorDeployer));
+    operatorController
+        .collector()
+        .manualDown()
+        .whileTrue(new ManualDeployCollector(collectorDeployer));
 
     // Shooter Override
     operatorController

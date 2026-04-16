@@ -9,11 +9,11 @@ import frc.robot.subsystems.collectordeployer.CollectorDeployer;
 import frc.robot.subsystems.collectordeployer.CollectorDeployerIO;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class DeployCollector extends Command {
+public class ManualDeployCollector extends Command {
   private final CollectorDeployer collectorDeployer;
 
   /** Creates a new DeployCollector. */
-  public DeployCollector(CollectorDeployer collectorDeployer) {
+  public ManualDeployCollector(CollectorDeployer collectorDeployer) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.collectorDeployer = collectorDeployer;
     addRequirements(collectorDeployer);
