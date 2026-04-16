@@ -310,7 +310,7 @@ public class RobotContainer {
         .storage()
         .whileTrue(
             Commands.runOnce(
-                () -> collectorDeployer.setState(CollectorDeployerIO.CollectorState.DEPLOYED),
+                () -> collectorDeployer.setState(CollectorDeployerIO.CollectorState.CLOSED),
                 collectorDeployer));
 
     // Hood
