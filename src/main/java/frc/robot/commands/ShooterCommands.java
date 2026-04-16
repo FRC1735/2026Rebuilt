@@ -74,6 +74,14 @@ public class ShooterCommands {
             });
   }
 
+  public static Command reverse(Shooter shooter) {
+    return Commands.parallel(Commands.run(() -> shooter.shootAtVelocity(-3000), shooter))
+        .finallyDo(
+            () -> {
+              shooter.stop();
+            });
+  }
+
   public static Command shooterIntake(DualRollerIntake shooterIntake) {
     return new StartEndCommand(shooterIntake::in, shooterIntake::stop, shooterIntake);
   }

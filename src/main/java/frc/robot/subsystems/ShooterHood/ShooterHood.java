@@ -10,7 +10,7 @@ public class ShooterHood extends SubsystemBase {
 
   private static final double TARGET_UP = 0.13; // 0.33; // REAL VALUE: 0.13;
   private static final double TARGET_DOWN = 0.85; // 0.7; // REAL VALUE: 0.9;
-  private static final double TARGET_DEPOT = 0.41; // 0.7; // REAL VALUE: 0.9;
+  private static final double TARGET_DEPOT = 0.241; // 0.7; // REAL VALUE: 0.9;
 
   public ShooterHood(ShooterHoodIO io) {
     this.io = io;

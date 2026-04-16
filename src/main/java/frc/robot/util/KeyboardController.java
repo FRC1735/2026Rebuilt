@@ -231,5 +231,21 @@ public class KeyboardController {
     public Trigger shootAtDepot() {
       return controller.button(8, 9);
     }
+
+    public Trigger reverseShooterAndShooterIntake() {
+      return controller
+          .button(1, 1)
+          .or(controller.button(2, 1))
+          .or(controller.button(3, 1))
+          .or(controller.button(4, 1));
+    }
+
+    public Trigger reverseShooterIntake() {
+      return controller
+          .button(5, 1)
+          .or(controller.button(6, 1))
+          .or(controller.button(7, 1))
+          .or(controller.button(8, 1));
+    }
   }
 }
