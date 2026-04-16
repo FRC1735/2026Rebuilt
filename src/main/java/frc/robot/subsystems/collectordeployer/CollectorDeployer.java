@@ -105,6 +105,8 @@ public class CollectorDeployer extends SubsystemBase {
       setVoltage(1);
     } else if (position < CollectorDeployer.DEPLOYED_TARGET) {
       setVoltage(7.5);
+    } else {
+      setVoltage(0);
     }
   }
 
@@ -119,6 +121,8 @@ public class CollectorDeployer extends SubsystemBase {
       setVoltage(-1);
     } else if (position > CollectorDeployer.CLOSED_TARGET) {
       setVoltage(-7.5);
+    } else {
+      setVoltage(0);
     }
   }
 }
