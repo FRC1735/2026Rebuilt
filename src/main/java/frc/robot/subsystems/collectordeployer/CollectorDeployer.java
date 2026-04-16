@@ -100,7 +100,7 @@ public class CollectorDeployer extends SubsystemBase {
 
     // .26
 
-    if (position >= DEPLOYED_TARGET) {
+    if (position > DEPLOYED_TARGET) {
       setVoltage(0);
       return;
     }
@@ -108,7 +108,7 @@ public class CollectorDeployer extends SubsystemBase {
     // slow
     boolean goSlow =
         position < CollectorDeployer.DEPLOYED_TARGET + 0.1
-            && position > CollectorDeployer.DEPLOYED_TARGET - 0.25; // 0.125;
+            && position > CollectorDeployer.DEPLOYED_TARGET - 0.3; // 0.125;
     if (goSlow) {
       setVoltage(1);
     } else if (position < CollectorDeployer.DEPLOYED_TARGET) {
@@ -122,7 +122,7 @@ public class CollectorDeployer extends SubsystemBase {
     // this seems to be good
     double position = getPosition();
 
-    if (position < CLOSED_TARGET) {
+    if (position < CLOSED_TARGET + 0.04) {
       setVoltage(0);
       return;
     }
