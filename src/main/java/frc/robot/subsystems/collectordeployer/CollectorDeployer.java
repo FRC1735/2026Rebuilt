@@ -32,7 +32,6 @@ public class CollectorDeployer extends SubsystemBase {
   }
 
   public CollectorDeployerIO.CollectorState getCollectorState() {
-    System.out.println("JTA state: " + inputs.state);
     return inputs.state;
   }
 

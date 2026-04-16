@@ -247,34 +247,21 @@ public class RobotContainer {
 
   private void configureOperatorBindings() {
     // Combo Commands
-    operatorController // TODO - verify
+    operatorController
         .combo()
         .shootIntoHubAndCollect()
         .whileTrue(
             ShooterCommands.hoodUp(shooterHood)
                 .andThen(
-                    Commands.runOnce(
-                        () ->
-                            collectorDeployer.setState(CollectorDeployerIO.CollectorState.DEPLOYED),
-                        collectorDeployer))
-                .andThen(
                     Commands.parallel(
-                        ShooterCommands.shootAtVelocity(
-                            ShooterCommands.velocityForPose(drive.getXPosition()),
-                            shooter,
-                            shooterIntake),
+                        ShooterCommands.shootAtVelocity(3000, shooter, shooterIntake),
                         CollectorCommands.intake(collectorExteriorRoller))));
 
-    operatorController // TODO - verify
+    operatorController
         .combo()
         .shootIntoHub()
         .whileTrue(
             ShooterCommands.hoodUp(shooterHood)
-                .andThen(
-                    Commands.runOnce(
-                        () ->
-                            collectorDeployer.setState(CollectorDeployerIO.CollectorState.DEPLOYED),
-                        collectorDeployer))
                 .andThen(ShooterCommands.shootAtVelocity(3000, shooter, shooterIntake)));
 
     operatorController // TODO - verify
