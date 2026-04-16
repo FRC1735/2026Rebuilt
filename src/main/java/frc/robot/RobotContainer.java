@@ -140,6 +140,10 @@ public class RobotContainer {
             DriveCommands.resetPoseForAlliance(drive),
             AutoCommands.shootPreloaded(
                 drive, shooter, shooterIntake, collectorDeployer, collectorExteriorRoller)));
+
+    // TODO - verify
+    collectorDeployer.setDefaultCommand(new MaintainCollectorPositionCommand(collectorDeployer));
+
     configureDriverBindings();
     configureOperatorBindings();
     // configureDeveloperBindings();
