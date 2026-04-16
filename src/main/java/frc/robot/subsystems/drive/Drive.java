@@ -243,6 +243,10 @@ public class Drive extends SubsystemBase {
 
     field.setRobotPose(poseEstimator.getEstimatedPosition());
     SmartDashboard.putData("field", field);
+
+    // TODO - remove
+    SmartDashboard.putNumber("x pos", getXPosition());
+
     if (OperatorToggles.isVisionEnabled()) {
 
       LimelightHelpers.SetRobotOrientation(

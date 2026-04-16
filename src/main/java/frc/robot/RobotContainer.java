@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
@@ -273,24 +272,25 @@ public class RobotContainer {
                     () -> collectorDeployer.setState(CollectorDeployerIO.CollectorState.DEPLOYED),
                     collectorDeployer),
                 ShooterCommands.hoodDown(shooterHood),
-                CollectorCommands.intake(collectorExteriorRoller),
+                CollectorCommands.intake(collectorExteriorRoller)
+                // TODO - restore
+                /* ,
                 Commands.sequence(
                     Commands.waitSeconds(1),
                     ShooterCommands.shootAtVelocity(
-                        5000,
+                        () -> ShooterCommands.velocityForPose(drive.getXPosition()),
                         shooter,
-                        shooterIntake) // TODO - use pose based speed                             //
-                    // TODO - dynamic speed adjustment
-                    )));
+                        shooterIntake))))*/ ));
 
-    operatorController // TODO - verify
+    operatorController // TODO - needs to be tappee d twice to work.
         .combo()
         .collect()
         .whileTrue(
-            Commands.runOnce(
+            Commands.parallel(
+                Commands.runOnce(
                     () -> collectorDeployer.setState(CollectorDeployerIO.CollectorState.DEPLOYED),
-                    collectorDeployer)
-                .andThen(CollectorCommands.intake(collectorExteriorRoller)));
+                    collectorDeployer),
+                CollectorCommands.intake(collectorExteriorRoller)));
 
     operatorController // TODO - verify
         .combo()
@@ -368,11 +368,19 @@ public class RobotContainer {
         .shooter()
         .shoot2500()
         .whileTrue(ShooterCommands.shootAtVelocity(2500, shooter, shooterIntake));
+    operatorController
+        .shooter()
+        .shootAtDepot()
+        .whileTrue(
+            Commands.parallel(
+                ShooterCommands.hoodDepot(shooterHood),
+                AutoCommands.shootAtDepot(shooter, shooterIntake, shooterHood)));
   }
 
   private void configureDeveloperBindings() {
     // verify direction of encoder / motor for collector
     // we want positive output to move the enocoder towards the deployed state
+    /*
     driverController
         .a()
         .whileTrue(
@@ -387,6 +395,7 @@ public class RobotContainer {
                 () -> collectorDeployer.setVoltage(-1),
                 () -> collectorDeployer.stop(),
                 collectorDeployer));
+                */
 
     // increment x position to test pose velocity
     driverController
@@ -396,6 +405,14 @@ public class RobotContainer {
                 () -> {
                   drive.setPose(
                       new Pose2d(drive.getXPosition() + 1, 0, Rotation2d.fromDegrees(180)));
+                }));
+
+    driverController
+        .y()
+        .onTrue(
+            Commands.runOnce(
+                () -> {
+                  drive.setPose(new Pose2d(0, 0, Rotation2d.fromDegrees(180)));
                 }));
   }
 

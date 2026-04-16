@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.dualrollerintake.DualRollerIntake;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooterhood.ShooterHood;
@@ -52,6 +53,11 @@ public class ShooterCommands {
   // Shoot at Low Speed
   public static Command shootLowSpeed(Shooter shooter, DualRollerIntake shooterIntake) {
     return shootAtVelocity(3500, shooter, shooterIntake);
+  }
+
+  public static Command shootAtVelocity(
+      Drive drive, Shooter shooter, DualRollerIntake shooterIntake) {
+    return shootAtVelocity(drive.getXPosition(), shooter, shooterIntake);
   }
 
   // Shoot at a specified speed

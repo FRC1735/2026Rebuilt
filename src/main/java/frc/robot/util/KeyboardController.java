@@ -227,5 +227,9 @@ public class KeyboardController {
     public Trigger shoot2500() {
       return controller.button(8, 10);
     }
+
+    public Trigger shootAtDepot() {
+      return controller.button(8, 9);
+    }
   }
 }
