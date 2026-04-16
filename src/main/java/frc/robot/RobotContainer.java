@@ -109,7 +109,8 @@ public class RobotContainer {
         AutoCommands.shootAtDepot(shooter, shooterIntake, shooterHood).withTimeout(4));
 
     NamedCommands.registerCommand(
-        "Deploy Collector", CollectorCommands.manualDeploy(collectorDeployer).withTimeout(1));
+        "Deploy Collector",
+        Commands.runOnce(() -> collectorDeployer.setState(CollectorState.DEPLOYED)));
 
     NamedCommands.registerCommand("hood to depot", ShooterCommands.hoodDepot(shooterHood));
 

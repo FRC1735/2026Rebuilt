@@ -108,7 +108,7 @@ public class CollectorDeployer extends SubsystemBase {
     // slow
     boolean goSlow =
         position < CollectorDeployer.DEPLOYED_TARGET + 0.1
-            && position > CollectorDeployer.DEPLOYED_TARGET - 0.3; // 0.125;
+            && position > CollectorDeployer.DEPLOYED_TARGET - 0.28; // 0.125;
     if (goSlow) {
       setVoltage(1);
     } else if (position < CollectorDeployer.DEPLOYED_TARGET) {
