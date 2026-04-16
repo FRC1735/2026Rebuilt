@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.limelight.LimelightLogger;
 import frc.robot.subsystems.collectordeployer.CollectorDeployer;
+import frc.robot.subsystems.collectordeployer.CollectorDeployerIO;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.dualrollerintake.DualRollerIntake;
 import frc.robot.subsystems.shooter.Shooter;
@@ -246,27 +247,68 @@ public class RobotContainer {
 
   private void configureOperatorBindings() {
     // Combo Commands
-    operatorController
+    operatorController // TODO - verify
         .combo()
         .shootIntoHubAndCollect()
         .whileTrue(
             ShooterCommands.hoodUp(shooterHood)
                 .andThen(
+                    Commands.runOnce(
+                        () ->
+                            collectorDeployer.setState(CollectorDeployerIO.CollectorState.DEPLOYED),
+                        collectorDeployer))
+                .andThen(
                     Commands.parallel(
                         ShooterCommands.shootAtVelocity(3000, shooter, shooterIntake),
                         CollectorCommands.intake(collectorExteriorRoller))));
 
-    operatorController
+    operatorController // TODO - verify
         .combo()
         .shootIntoHub()
         .whileTrue(
             ShooterCommands.hoodUp(shooterHood)
+                .andThen(
+                    Commands.runOnce(
+                        () ->
+                            collectorDeployer.setState(CollectorDeployerIO.CollectorState.DEPLOYED),
+                        collectorDeployer))
                 .andThen(ShooterCommands.shootAtVelocity(3000, shooter, shooterIntake)));
 
-    operatorController
+    operatorController // TODO - verify
+        .combo()
+        .passAndCollect()
+        .whileTrue(
+            Commands.parallel(
+                Commands.runOnce(
+                    () -> collectorDeployer.setState(CollectorDeployerIO.CollectorState.DEPLOYED),
+                    collectorDeployer),
+                ShooterCommands.hoodDown(shooterHood),
+                CollectorCommands.intake(collectorExteriorRoller),
+                Commands.sequence(
+                    Commands.waitSeconds(1),
+                    ShooterCommands.shootAtVelocity(
+                        5000,
+                        shooter,
+                        shooterIntake) // TODO - use pose based speed                             //
+                    // TODO - dynamic speed adjustment
+                    )));
+
+    operatorController // TODO - verify
         .combo()
         .collect()
-        .whileTrue(CollectorCommands.intake(collectorExteriorRoller));
+        .whileTrue(
+            Commands.runOnce(
+                    () -> collectorDeployer.setState(CollectorDeployerIO.CollectorState.DEPLOYED),
+                    collectorDeployer)
+                .andThen(CollectorCommands.intake(collectorExteriorRoller)));
+
+    operatorController // TODO - verify
+        .combo()
+        .storage()
+        .whileTrue(
+            Commands.runOnce(
+                () -> collectorDeployer.setState(CollectorDeployerIO.CollectorState.DEPLOYED),
+                collectorDeployer));
 
     // Hood
     operatorController.hood().hoodToUpPosition().onTrue(ShooterCommands.hoodUp(shooterHood));
@@ -288,8 +330,20 @@ public class RobotContainer {
         .collector()
         .out()
         .whileTrue(CollectorCommands.outtake(collectorExteriorRoller));
-    // TODO - keep collector up
-    // TODO - keep collector down
+    operatorController // TODO - verify
+        .collector()
+        .up()
+        .onTrue(
+            Commands.runOnce(
+                () -> collectorDeployer.setState(CollectorDeployerIO.CollectorState.CLOSED),
+                collectorDeployer));
+    operatorController // TODO - verify
+        .collector()
+        .down()
+        .onTrue(
+            Commands.runOnce(
+                () -> collectorDeployer.setState(CollectorDeployerIO.CollectorState.DEPLOYED),
+                collectorDeployer));
 
     // Collector Override
     operatorController.collector().manualUp().whileTrue(new CloseCollector(collectorDeployer));
