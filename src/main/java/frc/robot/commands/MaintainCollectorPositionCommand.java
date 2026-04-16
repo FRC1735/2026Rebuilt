@@ -31,9 +31,9 @@ public class MaintainCollectorPositionCommand extends Command {
     }
 
     if (state == CollectorDeployerIO.CollectorState.CLOSED) {
-      collectorDeployer.scaleClose();
+      collectorDeployer.keepClosed();
     } else if (state == CollectorDeployerIO.CollectorState.DEPLOYED) {
-      collectorDeployer.scaledDeploy();
+      collectorDeployer.keepOpen();
     }
   }
 
