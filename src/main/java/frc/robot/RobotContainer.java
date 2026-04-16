@@ -259,7 +259,10 @@ public class RobotContainer {
                         collectorDeployer))
                 .andThen(
                     Commands.parallel(
-                        ShooterCommands.shootAtVelocity(3000, shooter, shooterIntake),
+                        ShooterCommands.shootAtVelocity(
+                            ShooterCommands.velocityForPose(drive.getXPosition()),
+                            shooter,
+                            shooterIntake),
                         CollectorCommands.intake(collectorExteriorRoller))));
 
     operatorController // TODO - verify
@@ -397,6 +400,16 @@ public class RobotContainer {
                 () -> collectorDeployer.setVoltage(-1),
                 () -> collectorDeployer.stop(),
                 collectorDeployer));
+
+    // increment x position to test pose velocity
+    driverController
+        .x()
+        .onTrue(
+            Commands.runOnce(
+                () -> {
+                  drive.setPose(
+                      new Pose2d(drive.getXPosition() + 1, 0, Rotation2d.fromDegrees(180)));
+                }));
   }
 
   public Command getAutonomousCommand() {

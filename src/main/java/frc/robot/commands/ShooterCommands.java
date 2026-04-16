@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -73,5 +74,34 @@ public class ShooterCommands {
 
   public static Command shooterOuttake(DualRollerIntake shooterIntake) {
     return new StartEndCommand(shooterIntake::out, shooterIntake::stop, shooterIntake);
+  }
+
+  public static double velocityForPose(double xPosition) {
+    if (DriverStation.getAlliance().isPresent()
+        && DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
+      if (xPosition > 0 && xPosition < 2) {
+        return 5600;
+      } else if (xPosition > 2 && xPosition < 4) {
+        return 4500;
+      } else if (xPosition > 4 && xPosition < 6) {
+        return 4000;
+      } else if (xPosition > 6 && xPosition < 8) {
+        return 3500;
+      } else {
+        return 3000;
+      }
+    } else {
+      if (xPosition < 17 && xPosition > 15) {
+        return 5600;
+      } else if (xPosition < 15 && xPosition > 13) {
+        return 4500;
+      } else if (xPosition < 13 && xPosition > 11) {
+        return 4000;
+      } else if (xPosition < 11 && xPosition > 9) {
+        return 3500;
+      } else {
+        return 3000;
+      }
+    }
   }
 }
