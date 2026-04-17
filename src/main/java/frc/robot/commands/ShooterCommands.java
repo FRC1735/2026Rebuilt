@@ -66,6 +66,7 @@ public class ShooterCommands {
     return Commands.parallel(
             Commands.run(() -> shooter.shootAtVelocity(velocity), shooter),
             Commands.waitUntil(shooter::atTargetVelocity)
+                .withTimeout(1.2)
                 .andThen(Commands.run(shooterIntake::in, shooterIntake)))
         .finallyDo(
             () -> {

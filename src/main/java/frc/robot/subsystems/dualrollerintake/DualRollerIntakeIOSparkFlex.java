@@ -26,6 +26,7 @@ public class DualRollerIntakeIOSparkFlex implements DualRollerIntakeIO {
   private double lastCruise, lastAccel, lastError;
 
   private boolean inverted;
+  private boolean requestedOn;
 
   private final DoubleEntry kPEntry;
   private final DoubleEntry kIEntry;
@@ -119,11 +120,17 @@ public class DualRollerIntakeIOSparkFlex implements DualRollerIntakeIO {
     } else {
       inputs.isOn = true;
     }
+    inputs.requestedOn = requestedOn;
   }
 
   @Override
   public void setSpeed(double speed) {
     leader.set(speed);
+    if (Math.abs(speed) > 0) {
+      requestedOn = true;
+    } else {
+      requestedOn = false;
+    }
   }
 
   @Override

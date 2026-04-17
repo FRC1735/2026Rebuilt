@@ -14,6 +14,8 @@ public interface DualRollerIntakeIO {
     public boolean connected = true;
 
     public boolean isOn = false;
+
+    public boolean requestedOn = false;
   }
 
   default void updateInputs(DualRollerIntakeIOInputs inputs) {}
