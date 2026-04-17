@@ -17,4 +17,12 @@ public class OperatorToggles {
   public static boolean isVisionEnabled() {
     return enableVision.get();
   }
+
+  public static void toggleVisionEnabled() {
+    if (enableVision.get()) {
+      enableVision.set(false);
+    } else {
+      enableVision.set(true);
+    }
+  }
 }

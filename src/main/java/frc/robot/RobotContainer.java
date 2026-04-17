@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
+import frc.robot.elastic.OperatorToggles;
 import frc.robot.limelight.LimelightLogger;
 import frc.robot.subsystems.collectordeployer.CollectorDeployer;
 import frc.robot.subsystems.collectordeployer.CollectorDeployerIO.CollectorState;
@@ -245,6 +246,9 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     driverController.leftBumper().onTrue(DriveCommands.resetPoseForAlliance(drive));
+    driverController
+        .leftTrigger()
+        .onTrue(Commands.runOnce(() -> OperatorToggles.toggleVisionEnabled()));
   }
 
   private void configureOperatorBindings() {
