@@ -380,6 +380,17 @@ public class RobotContainer {
             Commands.parallel(
                 ShooterCommands.hoodDepot(shooterHood),
                 AutoCommands.shootAtDepot(shooter, shooterIntake, shooterHood)));
+
+    operatorController
+        .shooter()
+        .reverseShooterAndShooterIntake()
+        .whileTrue(
+            Commands.parallel(
+                ShooterCommands.shooterOuttake(shooterIntake), ShooterCommands.reverse(shooter)));
+    operatorController
+        .shooter()
+        .reverseShooterIntake()
+        .whileTrue(ShooterCommands.shooterOuttake(shooterIntake));
   }
 
   private void configureDeveloperBindings() {
