@@ -111,6 +111,19 @@ public class CollectorDeployer extends SubsystemBase {
     }
   }
 
+  public void hardClose() {
+    // this seems to be good
+    double position = getPosition();
+
+    if (position < CLOSED_TARGET) {
+      setVoltage(0);
+      return;
+    }
+
+    // go slow
+    setVoltage(-1);
+  }
+
   public void keepClosed() {
     // this seems to be good
     double position = getPosition();

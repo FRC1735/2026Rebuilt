@@ -318,6 +318,7 @@ public class RobotContainer {
         .whileTrue(CollectorCommands.outtake(collectorExteriorRoller));
     operatorController.collector().up().onTrue(new CloseCollector(collectorDeployer));
     operatorController.collector().down().onTrue(new DeployCollector(collectorDeployer));
+    operatorController.collector().hardClose().onTrue(new HardClose(collectorDeployer));
 
     // Collector Override
     operatorController

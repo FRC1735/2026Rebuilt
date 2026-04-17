@@ -148,6 +148,10 @@ public class KeyboardController {
       return controller.button(2, 8);
     }
 
+    public Trigger hardClose() {
+      return controller.button(3, 8);
+    }
+
     public Trigger in() {
       return controller.button(8, 7);
     }
