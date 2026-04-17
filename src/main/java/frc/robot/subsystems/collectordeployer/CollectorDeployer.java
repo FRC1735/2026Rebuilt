@@ -68,32 +68,6 @@ public class CollectorDeployer extends SubsystemBase {
     setState(CollectorDeployerIO.CollectorState.CLOSED);
   }
 
-  double MANUAL_VOLTAGE = 7.5;
-  double SLOW_VOLTAGE = 1;
-  double EXTRA_SLOW_VOLTAGE = 0.7;
-
-  static double DEPLOY_EXTRA_SLOW_RANGE = DEPLOYED_TARGET - 0.05;
-  static double DEPLOY_SLOW_RANGE = DEPLOYED_TARGET - 0.1;
-  static double DEPLOY_FULL_RANGE = CLOSED_TARGET;
-
-  static double CLOSE_EXTRA_SLOW_RANGE = CLOSED_TARGET + 0.05;
-  static double CLOSE_SLOW_RANGE = CLOSED_TARGET + 0.1;
-  static double CLOSE_FULL_RANGE = DEPLOYED_TARGET;
-
-  public void manualDeploy() {
-    double position = getPosition();
-    if (position < DEPLOYED_TARGET) {
-      setVoltage(SLOW_VOLTAGE);
-    }
-  }
-
-  public void manualClose() {
-    double position = getPosition();
-    if (position > CLOSED_TARGET) {
-      setVoltage(-SLOW_VOLTAGE);
-    }
-  }
-
   public void scaledDeploy() {
     double position = getPosition();
 
@@ -121,7 +95,7 @@ public class CollectorDeployer extends SubsystemBase {
     // this seems to be good
     double position = getPosition();
 
-    if (position < CLOSED_TARGET + 0.04) {
+    if (position < CLOSED_TARGET + 0.02) {
       setVoltage(0);
       return;
     }
@@ -149,35 +123,18 @@ public class CollectorDeployer extends SubsystemBase {
     }
 
     // go slow
-    boolean goSlow =
-        position > CollectorDeployer.CLOSED_TARGET
-            && position < CollectorDeployer.CLOSED_TARGET + 0.15; // 0.15;
-    if (goSlow) {
-      setVoltage(-1);
-    } else {
-      setVoltage(0);
-    }
+    setVoltage(-1);
   }
 
   public void keepOpen() {
-    // todo - not good
+
     double position = getPosition();
 
-    // .26
-
-    if (position > DEPLOYED_TARGET) {
+    if (position > DEPLOYED_TARGET - 0.02) {
       setVoltage(0);
       return;
     }
 
-    // slow
-    boolean goSlow =
-        position < CollectorDeployer.DEPLOYED_TARGET + 0.1
-            && position > CollectorDeployer.DEPLOYED_TARGET - 0.28; // 0.125;
-    if (goSlow) {
-      setVoltage(1);
-    } else {
-      setVoltage(0);
-    }
+    setVoltage(1);
   }
 }

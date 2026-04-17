@@ -26,7 +26,7 @@ public class CloseCollector extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    collectorDeployer.setState(CollectorDeployerIO.CollectorState.MANUAL);
+    collectorDeployer.setState(CollectorDeployerIO.CollectorState.CLOSED);
     collectorDeployer.scaleClose();
   }
 
