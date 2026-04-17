@@ -40,6 +40,6 @@ public class CloseCollector extends Command {
   @Override
   public boolean isFinished() {
     double position = collectorDeployer.getPosition();
-    return position < CollectorDeployer.CLOSED_TARGET + 0.01;
+    return position < CollectorDeployer.CLOSED_TARGET + 0.02;
   }
 }

@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.limelight.LimelightLogger;
 import frc.robot.subsystems.collectordeployer.CollectorDeployer;
-import frc.robot.subsystems.collectordeployer.CollectorDeployerIO;
 import frc.robot.subsystems.collectordeployer.CollectorDeployerIO.CollectorState;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.dualrollerintake.DualRollerIntake;
@@ -244,6 +243,8 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
                 .ignoringDisable(true));
+
+    driverController.leftBumper().onTrue(DriveCommands.resetPoseForAlliance(drive));
   }
 
   private void configureOperatorBindings() {
@@ -269,8 +270,7 @@ public class RobotContainer {
         .combo()
         .passAndCollect()
         .whileTrue(
-            Commands.runOnce(
-                    () -> collectorDeployer.setState(CollectorDeployerIO.CollectorState.DEPLOYED))
+            new DeployCollector(collectorDeployer)
                 .andThen(
                     Commands.parallel(
                         ShooterCommands.hoodDown(shooterHood),
