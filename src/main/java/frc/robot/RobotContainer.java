@@ -284,7 +284,7 @@ public class RobotContainer {
                                 shooter,
                                 shooterIntake))))*/ )));
 
-    operatorController // TODO - needs to be tappee d twice to work.
+    operatorController
         .combo()
         .collect()
         .whileTrue(
@@ -294,10 +294,7 @@ public class RobotContainer {
     operatorController // TODO - verify
         .combo()
         .storage()
-        .whileTrue(
-            Commands.runOnce(
-                () -> collectorDeployer.setState(CollectorDeployerIO.CollectorState.CLOSED),
-                collectorDeployer));
+        .onTrue(new CloseCollector(collectorDeployer));
 
     // Hood
     operatorController.hood().hoodToUpPosition().onTrue(ShooterCommands.hoodUp(shooterHood));
@@ -319,17 +316,8 @@ public class RobotContainer {
         .collector()
         .out()
         .whileTrue(CollectorCommands.outtake(collectorExteriorRoller));
-    operatorController // TODO - verify
-        .collector()
-        .up()
-        .onTrue(
-            Commands.runOnce(
-                () -> collectorDeployer.setState(CollectorDeployerIO.CollectorState.CLOSED),
-                collectorDeployer));
-    operatorController // TODO - verify
-        .collector()
-        .down()
-        .onTrue(new DeployCollector(collectorDeployer));
+    operatorController.collector().up().onTrue(new CloseCollector(collectorDeployer));
+    operatorController.collector().down().onTrue(new DeployCollector(collectorDeployer));
 
     // Collector Override
     operatorController
