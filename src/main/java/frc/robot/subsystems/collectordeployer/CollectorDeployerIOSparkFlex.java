@@ -103,7 +103,6 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
   @Override
   public void updateInputs(CollectorDeployerIOInputs inputs) {
-
     checkForChanges();
 
     double position = encoder.getAngle();

@@ -329,10 +329,7 @@ public class RobotContainer {
     operatorController // TODO - verify
         .collector()
         .down()
-        .onTrue(
-            Commands.runOnce(
-                () -> collectorDeployer.setState(CollectorDeployerIO.CollectorState.DEPLOYED),
-                collectorDeployer));
+        .onTrue(new DeployCollector(collectorDeployer));
 
     // Collector Override
     operatorController

@@ -71,8 +71,6 @@ public class CollectorDeployer extends SubsystemBase {
   public void scaledDeploy() {
     double position = getPosition();
 
-    // .26
-
     if (position > DEPLOYED_TARGET) {
       setVoltage(0);
       return;
@@ -85,7 +83,7 @@ public class CollectorDeployer extends SubsystemBase {
     if (goSlow) {
       setVoltage(1);
     } else if (position < CollectorDeployer.DEPLOYED_TARGET) {
-      setVoltage(6.5);
+      setVoltage(4);
     } else {
       setVoltage(0);
     }
