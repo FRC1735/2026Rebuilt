@@ -40,6 +40,6 @@ public class DeployCollector extends Command {
   @Override
   public boolean isFinished() {
     double position = collectorDeployer.getPosition();
-    return position > CollectorDeployer.DEPLOYED_TARGET - 0.03;
+    return position > CollectorDeployer.DEPLOYED_TARGET - 0.01;
   }
 }
