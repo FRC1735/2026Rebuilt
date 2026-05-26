@@ -233,7 +233,6 @@ public class RobotContainer {
 
     // Switch to X pattern when X button is pressed
     driverController.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
-    driverController.y().onTrue(new AutoTargetCommand(drive, shooterHood, 11.915, 4.034, 3500));
 
     // Reset gyro to 0° when B button is pressed
     driverController

@@ -6,14 +6,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drive.Drive;
-import frc.robot.subsystems.shooterhood.ShooterHood;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AutoTargetCommand extends Command {
   /** Creates a new AutoTargetCommand. */
   private final Drive drive;
-
-  private final ShooterHood hood;
 
   private double xrobot = 0;
   private double yrobot = 0;
@@ -23,17 +20,13 @@ public class AutoTargetCommand extends Command {
   private double theta = 0;
   private double speed = 0;
   private double hoodAngle = 0;
-  private double encoder = 0;
 
-  public AutoTargetCommand(
-      Drive drive, ShooterHood hood, double xtarget, double ytarget, double speed) {
+  public AutoTargetCommand(Drive drive, double xtarget, double ytarget, double speed) {
     this.drive = drive;
     this.xtarget = xtarget;
     this.ytarget = ytarget;
     this.speed = speed;
-    this.encoder = encoder;
-    this.hood = hood;
-    addRequirements(this.drive, this.hood);
+    addRequirements(this.drive);
   }
 
   // Called when the command is initially scheduled.
@@ -43,12 +36,10 @@ public class AutoTargetCommand extends Command {
     yrobot = drive.getYPosition();
     distance = SidsSmartCommand.getTargetDistance(xrobot, xtarget, yrobot, ytarget);
     theta = SidsSmartCommand.getTargetAngle(xrobot, xtarget, yrobot, ytarget);
-    encoder = SidsSmartCommand.radiansToEncoder(theta, 0.27, 0.55);
     // rotate robot
 
-    // rotate hood
-    // hood.setPositionRotations(encoder);
-    System.out.println(encoder);
+    // spin shooter at speed
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -62,6 +53,6 @@ public class AutoTargetCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }
