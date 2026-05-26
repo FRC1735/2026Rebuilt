@@ -144,7 +144,7 @@ public class RobotContainer {
                 drive, shooter, shooterIntake, collectorDeployer, collectorExteriorRoller)));
 
     // TODO - verify
-    collectorDeployer.setDefaultCommand(new MaintainCollectorPositionCommand(collectorDeployer));
+    // collectorDeployer.setDefaultCommand(new MaintainCollectorPositionCommand(collectorDeployer));
 
     configureDriverBindings();
     configureOperatorBindings();

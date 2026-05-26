@@ -76,14 +76,14 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
 
     config.idleMode(IdleMode.kBrake);
     config.smartCurrentLimit(40);
-    config.inverted(true);
+    config.inverted(false);
 
     // NOTE: leaving this here, but these do not get applied because the motor is not aware of the
     // encoder
     config.softLimit.forwardSoftLimitEnabled(false).reverseSoftLimitEnabled(false);
 
     DetachedEncoderConfig encoderConfig = new DetachedEncoderConfig();
-    encoderConfig.dutyCycleOffset(0.72);
+    encoderConfig.dutyCycleOffset(0.05);
 
     encoder.configure(encoderConfig, ResetMode.kNoResetSafeParameters);
 
