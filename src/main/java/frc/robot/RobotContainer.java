@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.elastic.OperatorToggles;
 import frc.robot.limelight.LimelightLogger;
+import frc.robot.subsystems.Lighting;
 import frc.robot.subsystems.collectordeployer.CollectorDeployer;
 import frc.robot.subsystems.collectordeployer.CollectorDeployerIO.CollectorState;
 import frc.robot.subsystems.drive.Drive;
@@ -54,6 +55,8 @@ public class RobotContainer {
   // Limelight logging
   private final LimelightLogger rearLimelightLogger = new LimelightLogger("limelight-rear");
   private final LimelightLogger fronLimelightLogger = new LimelightLogger("limelight-front");
+
+  private final Lighting lighting = new Lighting();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -148,6 +151,8 @@ public class RobotContainer {
     configureDriverBindings();
     configureOperatorBindings();
     // configureDeveloperBindings();
+
+    lighting.green();
   }
 
   public void logLimelights() {
