@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Lighting extends SubsystemBase {
@@ -19,14 +20,14 @@ public class Lighting extends SubsystemBase {
   int selectedG = 0;
   int selectedB = 0;
 
-  private int LED_COUNT = 1; // 72
+  private int LED_COUNT = 72;
 
   /** Creates a new Lighting. */
   public Lighting() {
     // ledLeft = new AddressableLED(0);
     ledRight = new AddressableLED(1);
 
-    // bufferLeft = new AddressableLEDBuffer(LED_COUNT);
+    // bufferLeft = new AddressableLEDBuffer(LED_COUNT);f
     bufferRight = new AddressableLEDBuffer(LED_COUNT);
     // ledLeft.setLength(bufferLeft.getLength());
     ledRight.setLength(bufferRight.getLength());
@@ -44,7 +45,23 @@ public class Lighting extends SubsystemBase {
 
   @Override
   public void periodic() {
-    green();
+    double matchTime = DriverStation.getMatchTime();
+
+    if (!DriverStation.isAutonomous()
+        && (matchTime < 30 && matchTime != -1)
+        && DriverStation.isEnabled()) {
+      if (lastMatchTime - matchTime > .5) {
+        flashed = !flashed;
+        lastMatchTime = matchTime;
+      }
+      if (flashed) {
+        setColor(255, 255, 255);
+      } else {
+        setColor(selectedR, selectedG, selectedB);
+      }
+    } else {
+      green();
+    }
   }
 
   public void on() {
