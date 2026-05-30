@@ -51,6 +51,6 @@ public class SidsSmartCommand {
     }
     double dis = b - a;
     double dec = (radians - (Math.PI / 6)) / (Math.PI / 3);
-    return (dis * dec + a);
+    return (b - dis * dec);
   }
 }

@@ -14,6 +14,8 @@ public class AutoTargetCommand extends Command {
   /** Creates a new AutoTargetCommand. */
   private final Drive drive;
 
+  private final ShooterHood hood;
+
   private double xrobot = 0;
   private double yrobot = 0;
   private final double xtarget;
@@ -22,11 +24,14 @@ public class AutoTargetCommand extends Command {
   private double theta = 0;
   private double speed = 0;
   private double hoodAngle = 0;
+  private double encoderPos = 0;
+  ;
 
   public AutoTargetCommand(
       Drive drive, ShooterHood hood, boolean alliance, Alliance redblue, double speed) {
 
     this.drive = drive;
+    this.hood = hood;
     if (redblue == Alliance.Red && alliance) {
       this.xtarget = 11.915;
     } else if (redblue == Alliance.Blue && alliance) {
@@ -36,7 +41,7 @@ public class AutoTargetCommand extends Command {
     }
     this.ytarget = 4.034;
     this.speed = speed;
-    addRequirements(this.drive);
+    addRequirements(this.hood);
   }
 
   // Called when the command is initially scheduled.
@@ -44,12 +49,17 @@ public class AutoTargetCommand extends Command {
   public void initialize() {
     xrobot = drive.getXPosition();
     yrobot = drive.getYPosition();
-    distance = SidsSmartCommand.getTargetDistance(xrobot, xtarget, yrobot, ytarget);
-    theta = SidsSmartCommand.getTargetAngle(xrobot, xtarget, yrobot, ytarget);
+    theta = SidsSmartCommand.getHoodAngle(xrobot, xtarget, yrobot, ytarget, 2, 0.322, 33, 10);
+    // System.out.println("angle: " + theta);
+
     // rotate robot
-
+    encoderPos =
+        SidsSmartCommand.radiansToEncoder(theta, ShooterHood.TARGET_UP, ShooterHood.TARGET_DOWN);
     // spin shooter at speed
-
+    // System.out.println(encoderPos);
+    if (encoderPos < ShooterHood.TARGET_DOWN && encoderPos > ShooterHood.TARGET_UP) {
+      hood.setPosition(encoderPos);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
