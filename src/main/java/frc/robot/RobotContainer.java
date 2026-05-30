@@ -233,7 +233,6 @@ public class RobotContainer {
 
     // Switch to X pattern when X button is pressed
     driverController.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
-    driverController.y().onTrue(new AutoTargetCommand(drive, shooterHood, 11.915, 4.034, 3500));
 
     // Reset gyro to 0° when B button is pressed
     driverController
@@ -304,6 +303,17 @@ public class RobotContainer {
     // Hood
     operatorController.hood().hoodToUpPosition().onTrue(ShooterCommands.hoodUp(shooterHood));
     operatorController.hood().hoodToDownPosition().onTrue(ShooterCommands.hoodDown(shooterHood));
+
+    operatorController
+        .hood()
+        .hoodToAutoPosition()
+        .onTrue(
+            new AutoTargetCommand(
+                drive,
+                shooterHood,
+                DriverStation.getAlliance().isPresent(),
+                DriverStation.getAlliance().get(),
+                3500));
 
     // Hood Override
     operatorController.hood().manualMoveHoodUp().onTrue(ShooterCommands.hoodUpManual(shooterHood));
