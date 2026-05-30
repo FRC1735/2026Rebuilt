@@ -373,7 +373,8 @@ public class RobotContainer {
         .whileTrue(
             Commands.parallel(
                 ShooterCommands.hoodDepot(shooterHood),
-                AutoCommands.shootAtDepot(shooter, shooterIntake, shooterHood)));
+                AutoCommands.shootAtDepot(shooter, shooterIntake, shooterHood),
+                CollectorCommands.intake(collectorExteriorRoller)));
 
     operatorController
         .shooter()
