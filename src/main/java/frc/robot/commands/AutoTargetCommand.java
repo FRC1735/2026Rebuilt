@@ -4,8 +4,10 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.shooterhood.ShooterHood;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AutoTargetCommand extends Command {
@@ -21,10 +23,18 @@ public class AutoTargetCommand extends Command {
   private double speed = 0;
   private double hoodAngle = 0;
 
-  public AutoTargetCommand(Drive drive, double xtarget, double ytarget, double speed) {
+  public AutoTargetCommand(
+      Drive drive, ShooterHood hood, boolean alliance, Alliance redblue, double speed) {
+
     this.drive = drive;
-    this.xtarget = xtarget;
-    this.ytarget = ytarget;
+    if (redblue == Alliance.Red && alliance) {
+      this.xtarget = 11.915;
+    } else if (redblue == Alliance.Blue && alliance) {
+      this.xtarget = 4.626;
+    } else {
+      this.xtarget = 0;
+    }
+    this.ytarget = 4.034;
     this.speed = speed;
     addRequirements(this.drive);
   }

@@ -308,6 +308,17 @@ public class RobotContainer {
     operatorController.hood().hoodToUpPosition().onTrue(ShooterCommands.hoodUp(shooterHood));
     operatorController.hood().hoodToDownPosition().onTrue(ShooterCommands.hoodDown(shooterHood));
 
+    operatorController
+        .hood()
+        .hoodToAutoPosition()
+        .onTrue(
+            new AutoTargetCommand(
+                drive,
+                shooterHood,
+                DriverStation.getAlliance().isPresent(),
+                DriverStation.getAlliance().get(),
+                3500));
+
     // Hood Override
     operatorController.hood().manualMoveHoodUp().onTrue(ShooterCommands.hoodUpManual(shooterHood));
     operatorController

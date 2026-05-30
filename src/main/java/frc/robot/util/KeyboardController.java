@@ -118,6 +118,10 @@ public class KeyboardController {
       return controller.button(7, 5);
     }
 
+    public Trigger hoodToAutoPosition() {
+      return controller.button(7, 5);
+    }
+
     public Trigger hoodToDownPosition() {
       return controller.button(7, 6);
     }
