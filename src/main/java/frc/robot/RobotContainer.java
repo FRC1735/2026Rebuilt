@@ -311,13 +311,27 @@ public class RobotContainer {
     operatorController
         .hood()
         .hoodToAutoPosition()
-        .onTrue(
-            new AutoTargetCommand(
-                drive,
-                shooterHood,
-                DriverStation.getAlliance().isPresent(),
-                DriverStation.getAlliance().get(),
-                3500));
+        .whileTrue(
+            Commands.parallel(
+                new AutoTargetCommand(
+                    drive,
+                    shooterHood,
+                    DriverStation.getAlliance().isPresent(),
+                    DriverStation.getAlliance().get(),
+                    3500),
+                ShooterCommands.shootAtVelocity(3500, shooter, shooterIntake)));
+    operatorController
+        .hood()
+        .hoodToAutoPositionLow()
+        .whileTrue(
+            Commands.parallel(
+                new AutoTargetCommand(
+                    drive,
+                    shooterHood,
+                    DriverStation.getAlliance().isPresent(),
+                    DriverStation.getAlliance().get(),
+                    2500),
+                ShooterCommands.shootAtVelocity(2500, shooter, shooterIntake)));
 
     // Hood Override
     operatorController.hood().manualMoveHoodUp().onTrue(ShooterCommands.hoodUpManual(shooterHood));

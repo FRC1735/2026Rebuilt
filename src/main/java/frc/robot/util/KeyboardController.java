@@ -122,6 +122,10 @@ public class KeyboardController {
       return controller.button(8, 5);
     }
 
+    public Trigger hoodToAutoPositionLow() {
+      return controller.button(8, 6);
+    }
+
     public Trigger hoodToDownPosition() {
       return controller.button(7, 6);
     }

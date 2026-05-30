@@ -49,7 +49,8 @@ public class AutoTargetCommand extends Command {
   public void initialize() {
     xrobot = drive.getXPosition();
     yrobot = drive.getYPosition();
-    theta = SidsSmartCommand.getHoodAngle(xrobot, xtarget, yrobot, ytarget, 2, 0.322, 33, 10);
+    theta =
+        SidsSmartCommand.getHoodAngle(xrobot, xtarget, yrobot, ytarget, 2, 0.322, speed / 60, 10);
     // System.out.println("angle: " + theta);
 
     // rotate robot
