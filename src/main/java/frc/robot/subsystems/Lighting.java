@@ -48,7 +48,15 @@ public class Lighting extends SubsystemBase {
   @Override
   public void periodic() {
     double matchTime = DriverStation.getMatchTime();
-
+    if (matchTime <= 30) {
+      double period = 4;
+    } else if (matchTime <= 110) {
+      double period = 3;
+    } else if (matchTime <= 120) {
+      double period = 2;
+    } else {
+      double period = 1;
+    }
     if (!DriverStation.isAutonomous()
         && (matchTime < 30 && matchTime != -1)
         && DriverStation.isEnabled()) {
@@ -183,4 +191,19 @@ public class Lighting extends SubsystemBase {
     // ledLeft.setData(bufferLeft);
     ledRight.setData(bufferRight);
   }
-}
+
+public void setColorIndex(int r, int g, int b, int i) {
+    if (!(r == 255 && g == 0 && b == 0)) {
+      selectedR = r;
+      selectedB = b;
+      selectedG = g;
+    }
+
+
+    bufferRight.setRGB(i, r, g, b);
+    
+    // ledLeft.setData(bufferLeft);
+    ledRight.setData(bufferRight);
+  }
+  
+
