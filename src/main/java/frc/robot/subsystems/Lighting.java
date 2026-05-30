@@ -21,7 +21,7 @@ public class Lighting extends SubsystemBase {
   int selectedR = 0;
   int selectedG = 0;
   int selectedB = 0;
-
+  int period = 0;
   private int LED_COUNT = 72;
 
   /** Creates a new Lighting. */
@@ -49,14 +49,37 @@ public class Lighting extends SubsystemBase {
   public void periodic() {
     double matchTime = DriverStation.getMatchTime();
     if (matchTime <= 30) {
-      double period = 4;
+      period = 4;
     } else if (matchTime <= 110) {
-      double period = 3;
+      period = 3;
     } else if (matchTime <= 120) {
-      double period = 2;
+      period = 2;
     } else {
-      double period = 1;
+      period = 1;
     }
+    if (matchTime != 1 && DriverStation.isEnabled()) {
+    if (period == 1) {
+      int light = Math.round(matchTime) / 20 * 72;
+    } else if (period == 2) {
+      green();
+    } else if (period == 3) {
+      if (isHubActive()) {
+        green();
+      } else {
+        red();
+      }
+    } else if (period == 4) {
+      if (matchTime % 2 == 0) {
+        setColor(255, 255, 255);
+      } else {
+        green();
+      }
+    } else {
+      green();
+    }
+  } else {
+    green();
+  }
     if (!DriverStation.isAutonomous()
         && (matchTime < 30 && matchTime != -1)
         && DriverStation.isEnabled()) {
@@ -204,6 +227,6 @@ public void setColorIndex(int r, int g, int b, int i) {
     
     // ledLeft.setData(bufferLeft);
     ledRight.setData(bufferRight);
-  }
+  }}
   
 
