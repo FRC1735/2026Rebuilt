@@ -5,15 +5,40 @@
     "data": {
       "commands": [
         {
-          "type": "wait",
+          "type": "parallel",
           "data": {
-            "waitTime": 2.0
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 8.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Deploy Collector"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooter hood down"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "BC Dot Outpost"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "wheels to X"
           }
         }
       ]

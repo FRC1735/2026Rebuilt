@@ -114,6 +114,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Deploy Collector", new DeployCollector(collectorDeployer));
 
     NamedCommands.registerCommand("hood to depot", ShooterCommands.hoodDepot(shooterHood));
+    NamedCommands.registerCommand("wheels to X", Commands.runOnce(drive::stopWithX, drive));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());

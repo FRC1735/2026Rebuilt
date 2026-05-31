@@ -53,6 +53,12 @@
           "data": {
             "pathName": "Depot to BC Dot"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "wheels to X"
+          }
         }
       ]
     }
