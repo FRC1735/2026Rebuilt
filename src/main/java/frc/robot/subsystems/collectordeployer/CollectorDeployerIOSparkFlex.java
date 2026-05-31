@@ -4,6 +4,7 @@ import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.encoder.SplineEncoder;
 import com.revrobotics.encoder.config.DetachedEncoderConfig;
+import com.revrobotics.encoder.config.DetachedSignalsConfig;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
@@ -85,6 +86,10 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     DetachedEncoderConfig encoderConfig = new DetachedEncoderConfig();
     encoderConfig.dutyCycleOffset(0.55);
     encoderConfig.averageDepth(32);
+    DetachedSignalsConfig signalsConfig = new DetachedSignalsConfig();
+    signalsConfig.encoderAnglePeriodMs(20);
+    signalsConfig.encoderPositionPeriodMs(20);
+    encoderConfig.apply(signalsConfig);
 
     encoder.configure(encoderConfig, ResetMode.kNoResetSafeParameters);
 
