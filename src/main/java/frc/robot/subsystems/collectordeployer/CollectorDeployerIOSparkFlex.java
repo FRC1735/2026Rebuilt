@@ -114,24 +114,25 @@ public class CollectorDeployerIOSparkFlex implements CollectorDeployerIO {
     double position = encoder.getAngle();
 
     inputs.encoderPosition = position;
+    /*
     inputs.velocityRPM = encoder.getVelocity();
 
     inputs.appliedVolts = spark.getAppliedOutput() * spark.getBusVoltage();
     inputs.currentAmps = spark.getOutputCurrent();
 
     inputs.targetRotations = targetRotations;
-    inputs.atTarget = pid.atSetpoint();
+    inputs.atTarget = pid.atSetpoint();*/
 
     inputs.state = state;
-
+    /*
     inputs.kP = kP;
     inputs.kI = kI;
     inputs.kD = kD;
     inputs.kG = kG;
 
-    inputs.allowedProfileError = 0;
+    inputs.allowedProfileError = 0;*/
 
-    inputs.delta = position - targetRotations;
+    // inputs.delta = position - targetRotations;
     if (inputs.encoderPosition < CollectorDeployer.DEPLOYED_TARGET - 0.03) {
       inputs.isOut = false;
     } else {

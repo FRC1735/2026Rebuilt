@@ -47,10 +47,10 @@ public class CollectorDeployer extends SubsystemBase {
   public void setVoltage(double volts) {
     io.setVoltage(volts);
   }
-
+  /*
   public boolean atTarget() {
     return inputs.atTarget;
-  }
+  }*/
 
   public void setState(CollectorDeployerIO.CollectorState state) {
     io.setState(state);
