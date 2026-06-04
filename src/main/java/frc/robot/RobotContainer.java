@@ -112,6 +112,7 @@ public class RobotContainer {
         AutoCommands.shootAtDepot(shooter, shooterIntake, shooterHood).withTimeout(4));
 
     NamedCommands.registerCommand("Deploy Collector", new DeployCollector(collectorDeployer));
+    NamedCommands.registerCommand("Close Collector", new CloseCollector(collectorDeployer));
 
     NamedCommands.registerCommand("hood to depot", ShooterCommands.hoodDepot(shooterHood));
     NamedCommands.registerCommand("wheels to X", Commands.runOnce(drive::stopWithX, drive));
