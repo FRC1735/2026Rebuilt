@@ -53,6 +53,12 @@
                 }
               },
               {
+                "type": "named",
+                "data": {
+                  "name": "Auto Wait"
+                }
+              },
+              {
                 "type": "path",
                 "data": {
                   "pathName": "Shoot Hub to Dot Depot"

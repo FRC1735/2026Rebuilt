@@ -17,8 +17,11 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
@@ -32,6 +35,7 @@ import frc.robot.subsystems.dualrollerintake.DualRollerIntake;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooterhood.ShooterHood;
 import frc.robot.util.KeyboardController;
+import java.util.Set;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 public class RobotContainer {
@@ -51,6 +55,7 @@ public class RobotContainer {
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
+  private final SendableChooser<Integer> autoWaitChooser;
 
   // Limelight logging
   private final LimelightLogger rearLimelightLogger = new LimelightLogger("limelight-rear");
@@ -92,6 +97,7 @@ public class RobotContainer {
         collectorExteriorRoller = createRealCollectorExteriorRoller();
         break;
     }
+    autoWaitChooser = new SendableChooser<Integer>();
 
     /*
      *
@@ -116,6 +122,18 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("hood to depot", ShooterCommands.hoodDepot(shooterHood));
     NamedCommands.registerCommand("wheels to X", Commands.runOnce(drive::stopWithX, drive));
+    NamedCommands.registerCommand(
+        "Auto Wait",
+        Commands.defer(
+            () -> {
+              int waitTime =
+                  autoWaitChooser.getSelected() != null ? autoWaitChooser.getSelected() : 8;
+              return new WaitCommand(waitTime);
+            },
+            Set.of()));
+
+    // NamedCommands.registerCommand("align hub",
+    // Commands.runOnce(DriveCommands.joystickDriveWithAutoAlign(drive));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -145,6 +163,23 @@ public class RobotContainer {
             DriveCommands.resetPoseForAlliance(drive),
             AutoCommands.shootPreloaded(
                 drive, shooter, shooterIntake, collectorDeployer, collectorExteriorRoller)));
+
+    autoWaitChooser.addOption("1", 1);
+    autoWaitChooser.addOption("2", 2);
+    autoWaitChooser.addOption("3", 3);
+    autoWaitChooser.addOption("4", 4);
+    autoWaitChooser.addOption("5", 5);
+    autoWaitChooser.addOption("6", 6);
+    autoWaitChooser.addOption("7", 7);
+    autoWaitChooser.addOption("8", 8);
+    autoWaitChooser.addOption("9", 9);
+    autoWaitChooser.addOption("10", 10);
+    autoWaitChooser.addOption("11", 11);
+    autoWaitChooser.addOption("12", 12);
+    autoWaitChooser.addOption("13", 13);
+    autoWaitChooser.addOption("14", 14);
+
+    SmartDashboard.putData("Auto Delay", autoWaitChooser);
 
     collectorDeployer.setDefaultCommand(new MaintainCollectorPositionCommand(collectorDeployer));
 
