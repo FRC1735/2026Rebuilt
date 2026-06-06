@@ -13,8 +13,10 @@ import static frc.robot.subsystems.SimulatedSubsystemFactory.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.path.PathConstraints;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -62,6 +64,10 @@ public class RobotContainer {
   private final LimelightLogger fronLimelightLogger = new LimelightLogger("limelight-front");
 
   private final Lighting lighting = new Lighting();
+
+  private final Pose2d outpostDotPose;
+  private final Pose2d depotDotPose;
+  private final Pose2d hubDotPose;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -132,6 +138,26 @@ public class RobotContainer {
             },
             Set.of()));
 
+    // depot dot
+    if (DriverStation.getAlliance().isPresent()
+        && DriverStation.getAlliance().get() == Alliance.Blue) {
+      depotDotPose = new Pose2d(8.8, 7.548, Rotation2d.fromDegrees(180));
+      outpostDotPose = new Pose2d(8.8, 0.570, Rotation2d.fromDegrees(180));
+    } else {
+      outpostDotPose = new Pose2d(8.2, 7.548, Rotation2d.fromDegrees(180));
+      depotDotPose = new Pose2d(8.2, 0.570, Rotation2d.fromDegrees(180));
+    }
+    // center dot
+    hubDotPose = new Pose2d(8.487, 4.059, Rotation2d.fromDegrees(180));
+
+    // outpost dot
+
+    PathConstraints constraints =
+        new PathConstraints(3.0, 3.0, Units.degreesToRadians(540), Units.degreesToRadians(720), 12);
+    Command pathfindingCommand =
+        AutoBuilder.pathfindToPose(
+            depotDotPose, constraints, 0.0 // Goal end velocity in meters/sec
+            );
     // NamedCommands.registerCommand("align hub",
     // Commands.runOnce(DriveCommands.joystickDriveWithAutoAlign(drive));
 
@@ -157,6 +183,7 @@ public class RobotContainer {
         */
 
     autoChooser.addOption("Do Nothing", DriveCommands.resetPoseForAlliance(drive));
+    autoChooser.addOption("Test path to Depot Dot", pathfindingCommand);
     autoChooser.addOption(
         "Shoot Preloaded",
         Commands.sequence(
