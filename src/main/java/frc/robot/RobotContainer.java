@@ -140,7 +140,7 @@ public class RobotContainer {
             },
             Set.of()));
 
-        // depot dot
+    // depot dot
     if (DriverStation.getAlliance().isPresent()
         && DriverStation.getAlliance().get() == Alliance.Blue) {
       depotDotPose = new Pose2d(8.8, 7.548, Rotation2d.fromDegrees(180));
@@ -167,32 +167,12 @@ public class RobotContainer {
     Command gotOutpostDot =
         AutoBuilder.pathfindToPose(
             outpostDotPose, constraints, 0.0 // Goal end velocity in meters/sec
-<<<<<<< Updated upstream
-            );     
-    
-=======
             );
 
->>>>>>> Stashed changes
     NamedCommands.registerCommand(
         "go to dot based on chooser",
         Commands.defer(
             () -> {
-<<<<<<< Updated upstream
-                String selectedDot = dotChooser.getSelected();
-                if (selectedDot == null || selectedDot == "") {
-                    return Commands.none();
-                } else if (selectedDot == "depot") {
-                    return goToDepotDot;
-                } else if (selectedDot == "hub") {
-                    return goToCenterDot;
-                } else if (selectedDot == "outpost")
-              return new WaitCommand(0);
-            },
-            Set.of()));
-
-
-=======
               String selectedDot = dotChooser.getSelected();
               if (selectedDot == null || selectedDot == "") {
                 return Commands.none();
@@ -200,11 +180,14 @@ public class RobotContainer {
                 return goToDepotDot;
               } else if (selectedDot == "hub") {
                 return goToCenterDot;
-              } else if (selectedDot == "outpost") return new WaitCommand(0);
+              } else if (selectedDot == "outpost") {
+                return gotOutpostDot;
+              } else {
+                return new WaitCommand(0);
+              }
             },
             Set.of()));
 
->>>>>>> Stashed changes
     // NamedCommands.registerCommand("align hub",
     // Commands.runOnce(DriveCommands.joystickDriveWithAutoAlign(drive));
 
@@ -230,11 +213,8 @@ public class RobotContainer {
         */
 
     autoChooser.addOption("Do Nothing", DriveCommands.resetPoseForAlliance(drive));
-<<<<<<< Updated upstream
-    autoChooser.addOption("Test path to Depot Dot", goToDeplotDot);
-=======
+
     autoChooser.addOption("Test path to Depot Dot", goToDepotDot);
->>>>>>> Stashed changes
     autoChooser.addOption(
         "Shoot Preloaded",
         Commands.sequence(
