@@ -58,6 +58,7 @@ public class RobotContainer {
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
   private final SendableChooser<Integer> autoWaitChooser;
+  private final SendableChooser<String> dotChooser;
 
   // Limelight logging
   private final LimelightLogger rearLimelightLogger = new LimelightLogger("limelight-rear");
@@ -104,6 +105,7 @@ public class RobotContainer {
         break;
     }
     autoWaitChooser = new SendableChooser<Integer>();
+    dotChooser = new SendableChooser<String>();
 
     /*
      *
@@ -138,7 +140,7 @@ public class RobotContainer {
             },
             Set.of()));
 
-    // depot dot
+        // depot dot
     if (DriverStation.getAlliance().isPresent()
         && DriverStation.getAlliance().get() == Alliance.Blue) {
       depotDotPose = new Pose2d(8.8, 7.548, Rotation2d.fromDegrees(180));
@@ -154,10 +156,36 @@ public class RobotContainer {
 
     PathConstraints constraints =
         new PathConstraints(3.0, 3.0, Units.degreesToRadians(540), Units.degreesToRadians(720), 12);
-    Command pathfindingCommand =
+    Command goToDepotDot =
         AutoBuilder.pathfindToPose(
             depotDotPose, constraints, 0.0 // Goal end velocity in meters/sec
             );
+    Command goToCenterDot =
+        AutoBuilder.pathfindToPose(
+            hubDotPose, constraints, 0.0 // Goal end velocity in meters/sec
+            );
+    Command gotOutpostDot =
+        AutoBuilder.pathfindToPose(
+            outpostDotPose, constraints, 0.0 // Goal end velocity in meters/sec
+            );     
+    
+    NamedCommands.registerCommand(
+        "go to dot based on chooser",
+        Commands.defer(
+            () -> {
+                String selectedDot = dotChooser.getSelected();
+                if (selectedDot == null || selectedDot == "") {
+                    return Commands.none();
+                } else if (selectedDot == "depot") {
+                    return goToDepotDot;
+                } else if (selectedDot == "hub") {
+                    return goToCenterDot;
+                } else if (selectedDot == "outpost")
+              return new WaitCommand(0);
+            },
+            Set.of()));
+
+
     // NamedCommands.registerCommand("align hub",
     // Commands.runOnce(DriveCommands.joystickDriveWithAutoAlign(drive));
 
@@ -183,7 +211,7 @@ public class RobotContainer {
         */
 
     autoChooser.addOption("Do Nothing", DriveCommands.resetPoseForAlliance(drive));
-    autoChooser.addOption("Test path to Depot Dot", pathfindingCommand);
+    autoChooser.addOption("Test path to Depot Dot", goToDeplotDot);
     autoChooser.addOption(
         "Shoot Preloaded",
         Commands.sequence(
@@ -207,6 +235,12 @@ public class RobotContainer {
     autoWaitChooser.addOption("14", 14);
 
     SmartDashboard.putData("Auto Delay", autoWaitChooser);
+
+    dotChooser.addOption("depot", "depot");
+    dotChooser.addOption("center", "center");
+    dotChooser.addOption("outpost", "outpost");
+
+    SmartDashboard.putData("Dot Chooser", dotChooser);
 
     collectorDeployer.setDefaultCommand(new MaintainCollectorPositionCommand(collectorDeployer));
 
