@@ -59,9 +59,9 @@
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Shoot Hub to Dot Depot"
+                  "name": "go to dot based on chooser"
                 }
               },
               {
@@ -76,7 +76,7 @@
       ]
     }
   },
-  "resetOdom": true,
+  "resetOdom": false,
   "folder": null,
   "choreoAuto": false
 }
